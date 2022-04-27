@@ -3,4 +3,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def mainPage():
-    return'Hello'    
+    return'Hello'
+
+@app.route('/help')
+def help():
+    return'help'
