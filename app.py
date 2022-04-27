@@ -1,3 +1,6 @@
-msg = "hello"
+from flask import Flask
+app = Flask(__name__)
 
-print(msg)  
+@app.route('/')
+def mainPage():
+    return'Hello'    
