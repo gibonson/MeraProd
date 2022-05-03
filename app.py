@@ -1,9 +1,9 @@
-from flask import Flask, template_rendered
+from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
 
 @app.route('/')
-def mainPage():
-    return'Hello'
+def hello_world():
+    return render_template('home.html')
 
 @app.route('/help')
 def help():
