@@ -17,6 +17,8 @@ db = SQLAlchemy(app)
 # Init ma
 ma = Marshmallow(app)
 
+
+# Product Class/Model
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     belegNumber = db.Column(db.String(20), unique=True)
@@ -26,14 +28,27 @@ class Product(db.Model):
     bracket = db.Column(db.Boolean)
     singleOrDouble = db.Column(db.Integer)
 
-def __init__(self, belegNumber, modelName,lenght, numberOfParts, bracket, singleOrDouble):
-    self.id = id
-    self.belegNumber = belegNumber
-    self.modelName = modelName
-    self.lenght = lenght
-    self.numberOfParts =numberOfParts
-    self.bracket = bracket
-    self.singleOrDouble = singleOrDouble
+    def __init__(self, belegNumber, modelName,lenght, numberOfParts, bracket, singleOrDouble):
+        self.id = id
+        self.belegNumber = belegNumber
+        self.modelName = modelName
+        self.lenght = lenght
+        self.numberOfParts =numberOfParts
+        self.bracket = bracket
+        self.singleOrDouble = singleOrDouble
+
+
+# Product Schema
+class ProductSchema(ma.Schema):
+    class Meta:
+        fields = ('id','belegNumber',   'modelName','lenght','numberOfParts','bracket','singleOrDouble')
+
+
+
+# Init schema
+product_schema = ProductSchema(strict=True)
+products_schema = ProductSchema(many=True, strict=True)
+
 
 
 print(baseDir)
