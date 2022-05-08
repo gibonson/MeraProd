@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, jsonify ,redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-import os
 from flask_marshmallow import Marshmallow 
+import os
 
 
 
@@ -52,6 +52,7 @@ class ProductSchema(ma.Schema):
 # Init schema
 product_schema = ProductSchema()
 #products_schema = ProductSchema(strict=True, many=True)
+products_schema = ProductSchema(many=True)
 
 
 
@@ -73,14 +74,33 @@ def addProduct():
     return product_schema.jsonify(newProduct)
 
 
+#API Get All Products
+@app.route('/product', methods=['GET'])
+def get_products():
+    all_products = Product.query.all()
+    result = products_schema.dump(all_products)
+    return jsonify(result)
+
+
+#API Get Product
+@app.route('/product/<id>', methods=['GET'])
+def get_product(id):
+    product = Product.query.get(id)
+    return product_schema.jsonify(product)
+
+
+
+
 #GUI
 @app.route('/')
 def hello_world():
     return render_template('home.html')
 
+
 @app.route('/help')
 def help():
     return'help'
+
 
 @app.errorhandler(404)
 def not_found(e):
