@@ -3,16 +3,21 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from flask_marshmallow import Marshmallow 
 
+
+
 # Init app
 app = Flask(__name__)
 baseDir = os.path.abspath(os.path.dirname(__file__))
+
 
 # DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(baseDir, 'db.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+
 # Init db
 db = SQLAlchemy(app)
+
 
 # Init ma
 ma = Marshmallow(app)
@@ -29,7 +34,6 @@ class Product(db.Model):
     singleOrDouble = db.Column(db.Integer)
 
     def __init__(self, belegNumber, modelName,lenght, numberOfParts, bracket, singleOrDouble):
-        self.id = id
         self.belegNumber = belegNumber
         self.modelName = modelName
         self.lenght = lenght
@@ -40,19 +44,36 @@ class Product(db.Model):
 
 # Product Schema
 class ProductSchema(ma.Schema):
-    class Meta:
-        fields = ('id','belegNumber',   'modelName','lenght','numberOfParts','bracket','singleOrDouble')
+  class Meta:
+        fields = ('id','belegNumber','modelName','lenght','numberOfParts','bracket','singleOrDouble')
 
 
 
 # Init schema
-product_schema = ProductSchema(strict=True)
-products_schema = ProductSchema(many=True, strict=True)
+product_schema = ProductSchema()
+#products_schema = ProductSchema(strict=True, many=True)
 
 
 
-print(baseDir)
 
+#API Create a Product
+@app.route('/product', methods = ['POST'])
+def addProduct():
+    belegNumber = request.json['belegNumber']
+    modelName = request.json['modelName']
+    lenght = request.json['lenght']
+    numberOfParts = request.json['numberOfParts']
+    bracket = request.json['bracket']
+    singleOrDouble = request.json['singleOrDouble']
+
+    newProduct = Product(belegNumber, modelName, lenght, numberOfParts, bracket, singleOrDouble)
+    db.session.add(newProduct)
+    db.session.commit()
+
+    return product_schema.jsonify(newProduct)
+
+
+#GUI
 @app.route('/')
 def hello_world():
     return render_template('home.html')
@@ -64,3 +85,6 @@ def help():
 @app.errorhandler(404)
 def not_found(e):
     return '404'
+
+
+print(baseDir)
