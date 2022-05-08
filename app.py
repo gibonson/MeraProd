@@ -1,5 +1,42 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+import os
+from flask_marshmallow import Marshmallow 
+
+# Init app
 app = Flask(__name__)
+baseDir = os.path.abspath(os.path.dirname(__file__))
+
+# DB
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(baseDir, 'db.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Init db
+db = SQLAlchemy(app)
+
+# Init ma
+ma = Marshmallow(app)
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    belegNumber = db.Column(db.String(20), unique=True)
+    modelName = db.Column(db.String(20))
+    lenght = db.Column(db.Integer)
+    numberOfParts = db.Column(db.Integer)
+    bracket = db.Column(db.Boolean)
+    singleOrDouble = db.Column(db.Integer)
+
+def __init__(self, belegNumber, modelName,lenght, numberOfParts, bracket, singleOrDouble):
+    self.id = id
+    self.belegNumber = belegNumber
+    self.modelName = modelName
+    self.lenght = lenght
+    self.numberOfParts =numberOfParts
+    self.bracket = bracket
+    self.singleOrDouble = singleOrDouble
+
+
+print(baseDir)
 
 @app.route('/')
 def hello_world():
