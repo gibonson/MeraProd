@@ -1,6 +1,3 @@
-
-
-
 #create  DB
 1) console->python
 2) >>> from app import db

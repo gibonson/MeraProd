@@ -89,6 +89,30 @@ def get_product(id):
     return product_schema.jsonify(product)
 
 
+#API Update a Product
+@app.route('/product/<id>', methods = ['PUT'])
+def updateProduct(id):
+
+    product = Product.query.get(id)
+
+    belegNumber = request.json['belegNumber']
+    modelName = request.json['modelName']
+    lenght = request.json['lenght']
+    numberOfParts = request.json['numberOfParts']
+    bracket = request.json['bracket']
+    singleOrDouble = request.json['singleOrDouble']
+
+    product.belegNumber = belegNumber
+    product.modelName = modelName
+    product.lenght = lenght
+    product.numberOfParts = numberOfParts
+    product.bracket = bracket
+    product.singleOrDouble = singleOrDouble
+
+
+    db.session.commit()
+
+    return product_schema.jsonify(product)
 
 
 #GUI
