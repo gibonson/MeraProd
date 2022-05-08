@@ -109,9 +109,17 @@ def updateProduct(id):
     product.bracket = bracket
     product.singleOrDouble = singleOrDouble
 
-
     db.session.commit()
 
+    return product_schema.jsonify(product)
+
+
+#API Delete Product
+@app.route('/product/<id>', methods=['DELETE'])
+def del_product(id):
+    product = Product.query.get(id)
+    db.session.delete(product)
+    db.session.commit()
     return product_schema.jsonify(product)
 
 
