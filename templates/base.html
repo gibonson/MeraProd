@@ -25,13 +25,10 @@
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">table</a>
+                <a class="nav-link" href="{{ url_for('getTable') }}">getTable</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{#}">error</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{#}">stop</a>
+                <a class="nav-link" href="{{ url_for('create') }}">create</a>
             </li>
 
         </ul>
@@ -46,6 +43,16 @@
     </div>
 </nav>
 
+{% for message in messages %}
+    <div class='alert'>
+        <h3>{{ message['title'] }}</h3>
+        <p>{{ message['content'] }}</p>
+    </div>
+{% endfor %}
+
+{% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
 
 {% block content %}
 {% endblock %}

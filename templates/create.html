@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+table
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+    <label for="belegNumber">belegNumber</label>
+    <input type="text" name="belegNumber" placeholder="belegNumber" value="{{ request.form['belegNumber'] }}"></input>
+    <br>
+
+    <label for="modelName">modelName</label>
+    <input type="text" name="modelName" placeholder="modelName" value="{{ request.form['modelName'] }}"></input>
+    <br>
+
+    <label for="lenght">lenght</label>
+    <input type="number" name="lenght" placeholder="lenght" value="{{ request.form['lenght'] }}"></input>
+    <br>
+
+    <label for="numberOfParts">numberOfParts</label>
+    <input type="number" name="numberOfParts" placeholder="numberOfParts"
+        value="{{ request.form['numberOfParts'] }}"></input>
+    <br>
+
+    <label for="bracket">bracket</label>
+    <select name="bracket" id="bracket">
+        <option value="True" {% if request.form[singleOrDouble]=='True' %} selected="selected" {% endif %}>True</option>
+        <option value="False" {% if request.form[singleOrDouble]=='False' %} selected="selected" {% endif %}>False</option>
+    </select>
+    <br>
+
+    <label for="singleOrDouble">singleOrDouble</label>
+    <select name="singleOrDouble" id="singleOrDouble">
+        <option value="1">Single</option>
+        <option value="2">Double</option>
+    </select>
+    <br>
+
+    <label for="orderStatus">orderStatus</label>
+    <select name="orderStatus" id="orderStatus">
+        <option value="0" {% if request.form[singleOrDouble]=='Swaiting' %} selected="selected" {% endif %}>Waiting
+        </option>
+        <option value="1" {% if request.form[singleOrDouble]=='Started' %} selected="selected" {% endif %}>Started
+        </option>
+        <option value="2" {% if request.form[singleOrDouble]=='Finished' %} selected="selected" {% endif %}>Finished
+        </option>
+    </select>
+    <br>
+
+    <label for="birthday">executionDate</label>
+    <input type="date" id="executionDate" name="executionDate">
+
+    <br>
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
