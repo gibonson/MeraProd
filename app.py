@@ -170,6 +170,10 @@ messages = [{'title': 'Message One',
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
     messages.clear()
+    today = datetime.date.today()
+    today = today.strftime('%Y-%m-%d')
+    print(today)
+
     if request.method == 'POST':
         belegNumber = request.form['belegNumber']
         modelName = request.form['modelName']
@@ -183,7 +187,7 @@ def create():
         executionDate = request.form['executionDate']
         format = "%Y-%m-%d"
         executionDate = datetime.datetime.strptime(executionDate, format)
-
+        
         if not belegNumber:
             flash('belegNumber is required!')
         elif not modelName:
@@ -196,10 +200,11 @@ def create():
             newProduct = Product(belegNumber, modelName, lenght, numberOfParts, bracket, singleOrDouble, orderStatus, executionDate)
             db.session.add(newProduct)
             db.session.commit()
-            return render_template('create.html', messages=messages)
+
+            return render_template('create.html', messages=messages, today=today)
 
 
-    return render_template('create.html', messages=messages)
+    return render_template('create.html', messages=messages, today=today)
 
 
 @app.route('/help')

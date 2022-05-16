@@ -26,7 +26,8 @@ table
     <label for="bracket">bracket</label>
     <select name="bracket" id="bracket">
         <option value="True" {% if request.form[singleOrDouble]=='True' %} selected="selected" {% endif %}>True</option>
-        <option value="False" {% if request.form[singleOrDouble]=='False' %} selected="selected" {% endif %}>False</option>
+        <option value="False" {% if request.form[singleOrDouble]=='False' %} selected="selected" {% endif %}>False
+        </option>
     </select>
     <br>
 
@@ -49,7 +50,7 @@ table
     <br>
 
     <label for="birthday">executionDate</label>
-    <input type="date" id="executionDate" name="executionDate">
+    <input type="date" id="executionDate" name="executionDate" value="{{ today }}" min="2022-01-01">
 
     <br>
     <button type="submit">Submit</button>
