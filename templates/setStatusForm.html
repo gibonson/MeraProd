@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+table
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+    <label for="idProd">idProd</label>
+    <input type="text" name="idProd" placeholder="idProd" value="{{ request.form['idProd'] }}"></input>
+    <br>
+
+    <label for="idEvent">idEvent</label>
+    <select name="idEvent" id="idEvent">
+        <option value="0" {% if request.form[idEvent]=='HardStop' %} selected="selected" {% endif %}>HardStop
+        </option>
+        <option value="1" {% if request.form[idEvent]=='SoftStop' %} selected="selected" {% endif %}>SoftStop
+        </option>
+        <option value="2" {% if request.form[idEvent]=='Reload' %} selected="selected" {% endif %}>Reload
+        </option>
+    </select>
+    <br>
+
+    <br>
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
