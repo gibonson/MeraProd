@@ -48,8 +48,9 @@ class Product(db.Model):
         self.orderStatus = orderStatus
         self.executionDate = executionDate
 
-
 # Product Schema
+
+
 class ProductSchema(ma.Schema):
     class Meta:
         fields = ('id', 'belegNumber', 'modelName', 'lenght',
@@ -60,6 +61,37 @@ class ProductSchema(ma.Schema):
 product_schema = ProductSchema()
 #products_schema = ProductSchema(strict=True, many=True)
 products_schema = ProductSchema(many=True)
+
+
+# Status Class/Model
+class Status(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    idProd = db.Column(db.Integer, db.ForeignKey(Product.id), nullable=True)
+    idEvent = db.Column(db.Integer)
+    startDate = db.Column(db.DateTime)
+    endDate = db.Column(db.DateTime)
+    okCounter = db.Column(db.Integer)
+    nokCounter = db.Column(db.Integer)
+
+    def __init__(self, idProd, idEvent, startDate, endDate, okCounter, nokCounter):
+        self.idProd = idProd
+        self.idEvent = idEvent
+        self.startDate = startDate
+        self.endDate = endDate
+        self.okCounter = okCounter
+        self.nokCounter = nokCounter
+
+
+# Status Schema
+class StatusSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'idProd', 'idEvent', 'startDate',
+                  'endDate', 'okCounter', 'nokCounter')
+
+
+# Init schema
+status_schema = StatusSchema()
+statuses_schema = StatusSchema(many=True)
 
 
 # API Create a Product
@@ -150,6 +182,15 @@ def getTable():
     return render_template('table.html', all_products=all_products)
 
 
+@app.route('/getTable2')
+def getTable2():
+    all_products = Product.query.filter(Product.orderStatus == 1)
+    print(all_products)
+    for column in all_products:
+        print("% s % s" % (column.id, column.lenght))
+    return render_template('table.html', all_products=all_products)
+
+
 @app.route('/remove', methods=['GET', 'POST'])
 def remove():
     if request.method == 'POST':
@@ -180,14 +221,16 @@ def create():
         lenght = request.form['lenght']
         numberOfParts = request.form['numberOfParts']
         bracket = request.form['bracket']
-        if bracket == "True": bracket = True
-        if bracket == "False": bracket = False
+        if bracket == "True":
+            bracket = True
+        if bracket == "False":
+            bracket = False
         singleOrDouble = request.form['singleOrDouble']
         orderStatus = request.form['orderStatus']
         executionDate = request.form['executionDate']
         format = "%Y-%m-%d"
         executionDate = datetime.datetime.strptime(executionDate, format)
-        
+
         if not belegNumber:
             flash('belegNumber is required!')
         elif not modelName:
@@ -197,14 +240,40 @@ def create():
             messages.append({'title': belegNumber, 'content': modelName})
             # # return redirect(url_for('getTable'))
             # # return redirect(url_for('getTable'))
-            newProduct = Product(belegNumber, modelName, lenght, numberOfParts, bracket, singleOrDouble, orderStatus, executionDate)
+            newProduct = Product(belegNumber, modelName, lenght, numberOfParts,
+                                 bracket, singleOrDouble, orderStatus, executionDate)
             db.session.add(newProduct)
             db.session.commit()
 
-            return render_template('create.html', messages=messages, today=today)
+            return render_template('createForm.html', messages=messages, today=today)
+
+    return render_template('createForm.html', messages=messages, today=today)
 
 
-    return render_template('create.html', messages=messages, today=today)
+@app.route('/setStatus', methods=('GET', 'POST'))
+def setStatus():
+    messages.clear()
+    today = datetime.datetime.today()
+    # today = today.strftime('%y/%m/%d %H:%M:%S') #25/05/22 23:12:05
+    print(today)
+
+    if request.method == 'POST':
+        idProd = request.form['idProd']
+        idEvent = request.form['idEvent']
+
+        if not idProd:
+            flash('idProd is required!')
+        elif not idEvent:
+            flash('idEvent is required!')
+        else:
+            flash(idProd + " " + idEvent + " " + " added")
+            newStatus = Status(idProd, idEvent, startDate = today, endDate = None, okCounter=None, nokCounter=None)
+            db.session.add(newStatus)
+            db.session.commit()
+
+            return render_template('setStatusForm.html', messages=messages, today=today)
+
+    return render_template('setStatusForm.html', messages=messages, today=today)
 
 
 @app.route('/help')
