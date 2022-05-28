@@ -7,7 +7,12 @@ table
 
 <form method="post">
     <label for="idProd">idProd</label>
-    <input type="text" name="idProd" placeholder="idProd" value="{{ request.form['idProd'] }}"></input>
+    <select name="idProd" id="idProd"placeholder="idProd" value="{{ request.form['idProd'] }}">
+        {% for productActiv in activProductList %}
+        <option value="{{ productActiv.id }}">{{ productActiv.belegNumber}}->{{ productActiv.modelName }}
+        </option>
+        {% endfor %}
+    </select>
     <br>
 
     <label for="idEvent">idEvent</label>

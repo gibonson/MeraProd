@@ -176,16 +176,19 @@ def hello_world():
 @app.route('/getTable')
 def getTable():
     all_products = Product.query.all()
-    print(all_products)
+    all_Statuses = Status.query.all()
     for column in all_products:
         print("% s % s" % (column.id, column.lenght))
-    return render_template('table.html', all_products=all_products)
+        for status in all_Statuses:
+            if column.id is status.idProd:
+                print(status.startDate)
+
+    return render_template('table.html', all_products=all_products, all_Statuses=all_Statuses)
 
 
 @app.route('/getTable2')
 def getTable2():
     all_products = Product.query.filter(Product.orderStatus == 1)
-    print(all_products)
     for column in all_products:
         print("% s % s" % (column.id, column.lenght))
     return render_template('table.html', all_products=all_products)
@@ -256,6 +259,12 @@ def setStatus():
     today = datetime.datetime.today()
     # today = today.strftime('%y/%m/%d %H:%M:%S') #25/05/22 23:12:05
     print(today)
+    print(today)
+    print(today)
+    print(today)
+    activProductList = Product.query.filter(Product.orderStatus == 1)
+    for column in activProductList:
+        print("% s % s" % (column.id, column.lenght))
 
     if request.method == 'POST':
         idProd = request.form['idProd']
@@ -267,13 +276,14 @@ def setStatus():
             flash('idEvent is required!')
         else:
             flash(idProd + " " + idEvent + " " + " added")
-            newStatus = Status(idProd, idEvent, startDate = today, endDate = None, okCounter=None, nokCounter=None)
+            newStatus = Status(idProd, idEvent, startDate=today,
+                               endDate=None, okCounter=None, nokCounter=None)
             db.session.add(newStatus)
             db.session.commit()
 
-            return render_template('setStatusForm.html', messages=messages, today=today)
+            return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList)
 
-    return render_template('setStatusForm.html', messages=messages, today=today)
+    return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList)
 
 
 @app.route('/help')
