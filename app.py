@@ -194,13 +194,24 @@ def getTable2():
     return render_template('table.html', all_products=all_products)
 
 
-@app.route('/remove', methods=['GET', 'POST'])
-def remove():
+@app.route('/removeProduct', methods=['GET', 'POST'])
+def removeProduct():
     if request.method == 'POST':
         id = request.form['id']
         product = Product.query.get(id)
         db.session.delete(product)
         db.session.commit()
+    return redirect(url_for('getTable'))
+
+
+@app.route('/upadteOrderStatus', methods=['GET', 'POST'])
+def upadteOrderStatus():
+    if request.method == 'POST':
+        id = request.form['id']
+        product = Product.query.get(id)
+        product.orderStatus = 2
+        db.session.commit()
+
     return redirect(url_for('getTable'))
 
 
@@ -257,11 +268,15 @@ def create():
 def setStatus():
     messages.clear()
     today = datetime.datetime.today()
-    # today = today.strftime('%y/%m/%d %H:%M:%S') #25/05/22 23:12:05
+    today2 = today.strftime('%Y-%m/%d %H:%M:%S') #25/05/22 23:12:05
+    print(today2)
     print(today)
     print(today)
     print(today)
-    print(today)
+    emptyEndDateList = Status.query.filter(Status.endDate == None)
+    for column in emptyEndDateList:
+        print("% s % s" % (column.id, column.startDate))
+
     activProductList = Product.query.filter(Product.orderStatus == 1)
     for column in activProductList:
         print("% s % s" % (column.id, column.lenght))
@@ -278,6 +293,12 @@ def setStatus():
             flash(idProd + " " + idEvent + " " + " added")
             newStatus = Status(idProd, idEvent, startDate=today,
                                endDate=None, okCounter=None, nokCounter=None)
+            
+
+            emptyEndDateList = Status.query.filter(Status.endDate == None)
+            for column in emptyEndDateList:
+                column.endDate = today
+
             db.session.add(newStatus)
             db.session.commit()
 

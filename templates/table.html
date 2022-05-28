@@ -36,15 +36,21 @@ table
             <td>
                 {% for status in all_Statuses %}
                 {% if product.id == status.idProd %}
-                {{status.id}}->{{status.idEvent}}<br>
+                {{status.id}}->{{status.idEvent}}->{{status.startDate.strftime('%Y-%m-%d %H:%M:%S')}}->{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{% endif%}<br>
                 {% endif %}
                 {% endfor %}
             </td>
             <td>
-                <form action="{{ url_for('remove') }}" method="POST">
+                <form action="{{ url_for('removeProduct') }}" method="POST">
                     <input type="hidden" value="{{ product.id }}" name="id">
                     <button class="btn btn-danger">remove</button>
                 </form>
+                <form action="{{ url_for('upadteOrderStatus') }}" method="POST">
+                    <input type="hidden" value="{{ product.id }}" name="id">
+                    <button class="btn btn-warning">upadteOrderStatus</button>
+                </form>
+
+
             </td>
 
 
