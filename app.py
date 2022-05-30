@@ -290,7 +290,7 @@ def setStatus():
         elif not idEvent:
             flash('idEvent is required!')
         else:
-            flash(idProd + " " + idEvent + " " + " added")
+            messages.append({'title': idProd, 'content': idEvent + "added"})
             newStatus = Status(idProd, idEvent, startDate=today,
                                endDate=None, okCounter=None, nokCounter=None)
             
