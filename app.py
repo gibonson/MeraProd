@@ -222,7 +222,7 @@ messages = [{'title': 'Message One',
             ]
 
 
-@app.route('/create/', methods=('GET', 'POST'))
+@app.route('/create', methods=('GET', 'POST'))
 def create():
     messages.clear()
     today = datetime.date.today()

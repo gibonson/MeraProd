@@ -19,17 +19,17 @@ table
     </select>
     <br>
     <label for="idEvent">idEvent</label>
-    <select name="idEvent" id="idEvent">
-        <option value="0" {% if request.form[idEvent]=='HardStop' %} selected="selected" {% endif %}>HardStop
+    <select name="idEvent" id="idEvent" class="form-select" size="3">
+        <option value="0" selected>HardStop
         </option>
-        <option value="1" {% if request.form[idEvent]=='SoftStop' %} selected="selected" {% endif %}>SoftStop
+        <option value="1">SoftStop
         </option>
-        <option value="2" {% if request.form[idEvent]=='Reload' %} selected="selected" {% endif %}>Reload
+        <option value="2">Reload
         </option>
     </select>
 
     <br>
-    <button type="submit">Submit</button>
+    <button class="btn btn-success type="submit">Submit</button>
 </form>
 
     </div>

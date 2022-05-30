@@ -5,58 +5,73 @@ table
 
 {% block content %}
 
-<div class="table-responsive">
-    <table class="table table-striped table-dark" style="width: 100%">
-
-        <tr>
-            <th>id</th>
-            <th>belegNumber</th>
-            <th>modelName</th>
-            <th>lenght</th>
-            <th>numberOfParts</th>
-            <th>bracket</th>
-            <th>singleOrDouble</td>
-            <th>orderStatus</td>
-            <th>executionDate</td>
-            <th>function</td>
-        </tr>
+<div class="container p-3 my-3 bg-dark text-white">
+    <h2 align="center">setStatus</h2>
+    <div class="center">
 
         {% for product in all_products %}
+        <div class="table-responsive">
+            <table class="table table-striped table-dark" style="width: 100%">
+                <tr>
+                    <th>id</th>
+                    <th>belegNumber</th>
+                    <th>modelName</th>
+                    <th>lenght</th>
+                    <th>numberOfParts</th>
+                    <th>bracket</th>
+                    <th>singleOrDouble</td>
+                    <th>orderStatus</td>
+                    <th>executionDate</td>
+                    <th>action</td>
+                </tr>
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.belegNumber}}</td>
+                    <td>{{ product.modelName }}</td>
+                    <td>{{ product.lenght }}</td>
+                    <td>{{ product.numberOfParts }}</td>
+                    <td>{{ product.bracket }}</td>
+                    <td>{{ product.singleOrDouble }}</td>
+                    <td>{{ product.orderStatus }}</td>
+                    <td>{{ product.executionDate }}</td>
+                    <td>
+                        <form action="{{ url_for('removeProduct') }}" method="POST">
+                            <input type="hidden" value="{{ product.id }}" name="id">
+                            <button class="btn btn-danger">remove</button>
+                        </form>
+                        <form action="{{ url_for('upadteOrderStatus') }}" method="POST">
+                            <input type="hidden" value="{{ product.id }}" name="id">
+                            <button class="btn btn-warning">upadteOrderStatus</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
 
-        <tr>
-            <td>{{ product.id }}</td>
-            <td>{{ product.belegNumber}}</td>
-            <td>{{ product.modelName }}</td>
-            <td>{{ product.lenght }}</td>
-            <td>{{ product.numberOfParts }}</td>
-            <td>{{ product.bracket }}</td>
-            <td>{{ product.singleOrDouble }}</td>
-            <td>{{ product.orderStatus }}</td>
-            <td>{{ product.executionDate }}</td>
-            <td>
-                {% for status in all_Statuses %}
-                {% if product.id == status.idProd %}
-                {{status.id}}->{{status.idEvent}}->{{status.startDate.strftime('%Y-%m-%d %H:%M:%S')}}->{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{% endif%}<br>
-                {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-light" style="width: 90%">
+                            {% for status in all_Statuses %}
+                            {% if product.id == status.idProd %}
+                            <tr>
+                                <th colspan="2"></th>
+                                <td>{{status.id}}</td>
+                                <td>{{status.idEvent}}</td>
+                                <td>{{status.startDate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                                <td>{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{%
+                                    endif%}
+                                </td>
+                            </tr>
+                            {% endif%}
+                            {% endfor %}
+                        </table>
+                    </div>
+                </tr>
                 {% endfor %}
-            </td>
-            <td>
-                <form action="{{ url_for('removeProduct') }}" method="POST">
-                    <input type="hidden" value="{{ product.id }}" name="id">
-                    <button class="btn btn-danger">remove</button>
-                </form>
-                <form action="{{ url_for('upadteOrderStatus') }}" method="POST">
-                    <input type="hidden" value="{{ product.id }}" name="id">
-                    <button class="btn btn-warning">upadteOrderStatus</button>
-                </form>
+            </table>
+        </div>
+        
 
 
-            </td>
 
-
-        </tr>
-
-        {% endfor %}
-    </table>
+    </div>
 </div>
 {% endblock %}
