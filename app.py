@@ -268,14 +268,7 @@ def create():
 def setStatus():
     messages.clear()
     today = datetime.datetime.today()
-    today2 = today.strftime('%Y-%m/%d %H:%M:%S') #25/05/22 23:12:05
-    print(today2)
     print(today)
-    print(today)
-    print(today)
-    emptyEndDateList = Status.query.filter(Status.endDate == None)
-    for column in emptyEndDateList:
-        print("% s % s" % (column.id, column.startDate))
 
     activProductList = Product.query.filter(Product.orderStatus == 1)
     for column in activProductList:
@@ -307,9 +300,22 @@ def setStatus():
     return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList)
 
 
+@app.route("/closeAllStatuses", methods=('GET', 'POST'))
+def closeAllStatuses():
+    messages.clear()
+    today = datetime.datetime.today()
+    print(today)
+    emptyEndDateList = Status.query.filter(Status.endDate == None)
+    for column in emptyEndDateList:
+        column.endDate = today
+
+    db.session.commit()
+    return redirect((url_for('setStatus')))
+
+
 @app.route('/help')
 def help():
-    return'help'
+    return'help',400
 
 
 @app.errorhandler(404)
