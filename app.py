@@ -63,6 +63,29 @@ product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 
 
+# EventType Class/Model
+class EventType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    idEvent = db.Column(db.Integer)
+    eventName = db.Column(db.String(20), unique=True)
+
+    def __init__(self, idEvent, eventName):
+        self.idEvent = idEvent
+        self.eventName = eventName
+
+
+# EventType Schema
+class EventTypeSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'idEvent', 'eventName')
+
+
+# Init schema
+EventType_schema = EventTypeSchema()
+#products_schema = EventTypeSchema(strict=True, many=True)
+EventType_schema = EventTypeSchema(many=True)
+
+
 # Status Class/Model
 class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -81,8 +104,9 @@ class Status(db.Model):
         self.okCounter = okCounter
         self.nokCounter = nokCounter
 
-
 # Status Schema
+
+
 class StatusSchema(ma.Schema):
     class Meta:
         fields = ('id', 'idProd', 'idEvent', 'startDate',
@@ -273,6 +297,8 @@ def setStatus():
     activProductList = Product.query.filter(Product.orderStatus == 1)
     for column in activProductList:
         print("% s % s" % (column.id, column.lenght))
+    eventList = EventType.query.all()
+
 
     if request.method == 'POST':
         idProd = request.form['idProd']
@@ -286,7 +312,6 @@ def setStatus():
             messages.append({'title': idProd, 'content': idEvent + "added"})
             newStatus = Status(idProd, idEvent, startDate=today,
                                endDate=None, okCounter=None, nokCounter=None)
-            
 
             emptyEndDateList = Status.query.filter(Status.endDate == None)
             for column in emptyEndDateList:
@@ -295,9 +320,9 @@ def setStatus():
             db.session.add(newStatus)
             db.session.commit()
 
-            return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList)
+            return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList)
 
-    return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList)
+    return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList)
 
 
 @app.route("/closeAllStatuses", methods=('GET', 'POST'))
@@ -315,7 +340,7 @@ def closeAllStatuses():
 
 @app.route('/help')
 def help():
-    return'help',400
+    return'help', 400
 
 
 @app.errorhandler(404)

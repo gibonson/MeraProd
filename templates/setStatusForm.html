@@ -12,8 +12,7 @@ table
             <div class="col-md-6">
                 <form action = "{{ url_for('setStatus') }}" method="post">
                     <label for="idProd">Product name:</label>
-                    <br>
-                    <select name="idProd" id="idProd" placeholder="idProd" value="{{ request.form['idProd'] }}">
+                    <select name="idProd" class="form-control" id="idProd" placeholder="idProd" value="{{ request.form['idProd'] }}">
                         {% for productActiv in activProductList %}
                         <option value="{{ productActiv.id }}">{{ productActiv.belegNumber}}->{{ productActiv.modelName
                             }}
@@ -22,29 +21,11 @@ table
                     </select>
                     <br>
                     <label for="idEvent">Status name:</label>
-                    <select name="idEvent" id="idEvent" class="list-group" size="10">
-                        <!-- class="form-select" -->
-                        <option class="list-group-item" value="11" selected>Awaria - 11 - Czujniki</option>
-                        <option class="list-group-item" value="12">Awaria - 12 - Siłowniki pneumatyczne</option>
-                        <option class="list-group-item" value="13">Awaria - 13 - Kompresor</option>
-                        <option class="list-group-item" value="14">Awaria - 14 - Hamulce</option>
-                        <option class="list-group-item" value="15">Awaria - 15 - Przewody elektryczne</option>
-                        <option class="list-group-item" value="16">Awaria - 16 - Przewody pneumatyczne</option>
-                        <option class="list-group-item" value="17">Awaria - 17 - Inne</option>
-                        <option class="list-group-item" value="21">Przezbrojenie - 21 - Modelu</option>
-                        <option class="list-group-item" value="22">Przezbrojenie - 22 - Wymiaru</option>
-                        <option class="list-group-item" value="31">Zasilenie maszyny - 31 - Rury</option>
-                        <option class="list-group-item" value="32">Zasilenie maszyny - 32 - Wzmocnienia</option>
-                        <option class="list-group-item" value="33">Zasilenie maszyny - 33 - Kolektory</option>
-                        <option class="list-group-item" value="40">Braki materiału - 40</option>
-                        <option class="list-group-item" value="50">Przerwa - 50</option>
-                        <option class="list-group-item" value="61">Regulacje parametrów -61 - Moc zgrzewania</option>
-                        <option class="list-group-item" value="62">Regulacje parametrów -62 - Ciśnienie</option>
-                        <option class="list-group-item" value="63">Regulacje parametrów -63 - Czas zgrzewania</option>
-                        <option class="list-group-item" value="70">Zmiana siatki na elektrodach -70</option>
-                        <option class="list-group-item" value="80">Zmiana palety - 80</option>
-                        <option class="list-group-item" value="90">Kontrola szczelności - 90</option>
-                        <option class="list-group-item" value="100">Sprzątanie stanowiska - 100</option>
+                    <select name="idEvent" class="form-control" id="idEvent" class="list-group" size="10">
+                        {% for event in eventList %}
+                        <option class="list-group-item" value="{{ event.idEvent }}"> {{ event.eventName }}</option>
+                        {%endfor %}
+
                     </select>
                     <br>
                     <button class="btn btn-success type= submit">Set status</button>
