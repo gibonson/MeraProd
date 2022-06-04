@@ -13,27 +13,15 @@ table
         <div class="table-responsive">
             <table class="table table-striped table-dark" style="width: 100%">
                 <tr>
-                    <th>id</th>
-                    <th>belegNumber</th>
-                    <th>modelName</th>
-                    <th>lenght</th>
-                    <th>numberOfParts</th>
-                    <th>bracket</th>
-                    <th>singleOrDouble</td>
-                    <th>orderStatus</td>
-                    <th>executionDate</td>
-                    <th>action</td>
-                </tr>
-                <tr>
-                    <td>{{ product.id }}</td>
-                    <td>{{ product.belegNumber}}</td>
-                    <td>{{ product.modelName }}</td>
-                    <td>{{ product.lenght }}</td>
-                    <td>{{ product.numberOfParts }}</td>
-                    <td>{{ product.bracket }}</td>
-                    <td>{{ product.singleOrDouble }}</td>
-                    <td>{{ product.orderStatus }}</td>
-                    <td>{{ product.executionDate }}</td>
+                    <td>id {{ product.id }}</td>
+                    <td>belegNumber {{ product.belegNumber}}</td>
+                    <td>modelName {{ product.modelName }}</td>
+                    <td>lenght {{ product.lenght }}</td>
+                    <td>numberOfParts {{ product.numberOfParts }}</td>
+                    <td>bracket {{ product.bracket }}</td>
+                    <td>singleOrDouble {{ product.singleOrDouble }}</td>
+                    <td>orderStatus {{ product.orderStatus }}</td>
+                    <td>executionDate {{ product.executionDate }}</td>
                     <td>
                         <form action="{{ url_for('removeProduct') }}" method="POST">
                             <input type="hidden" value="{{ product.id }}" name="id">
@@ -47,36 +35,40 @@ table
                 </tr>
                 <tr>
 
-                    <div class="table-responsive">
-                        <table class="table table-striped table-light" style="width: 90%">
-                            <tr>
-                                <th>id</th>
-                                <th>idEvent</th>
-                                <th>startDate</th>
-                                <th>endDate</th>
-                            </tr>
-                            {% for status in all_Statuses %}
-                            {% if product.id == status.idProd %}
-                            <tr>
-                                <td>{{status.id}}</td>
-                                <td>{{status.idEvent}}</td>
-                                <td>{{status.startDate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
-                                <td>{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{%
-                                    endif%}
-                                </td>
-                            </tr>
-                            {% endif%}
+                    <table class="table table-striped table-light" style="width: 100%">
+                        <tr>
+                            <th>id</th>
+                            <th>eventName</th>
+                            <th>startDate</th>
+                            <th>endDate</th>
+                        </tr>
+                        {% for status in all_Statuses %}
+                        {% if product.id == status.idProd %}
+                        <tr>
+                            <td>{{status.id}}</td>
+
+                            {% for event in eventList %}
+                            {% if status.idEvent == event.idEvent %}
+                            <td>{{ event.eventName }}</td>
+                            {% endif %}
                             {% endfor %}
-                        </table>
-                    </div>
+
+                            <td>{{status.startDate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                            <td>{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{%
+                                endif%}
+                            </td>
+                        </tr>
+                        {% endif%}
+                        {% endfor %}
+                    </table>
                 </tr>
+                </br>
+                </br>
+                </br>
+
                 {% endfor %}
             </table>
         </div>
-        
-
-
-
     </div>
 </div>
 {% endblock %}

@@ -201,13 +201,14 @@ def hello_world():
 def getTable():
     all_products = Product.query.all()
     all_Statuses = Status.query.all()
+    eventList = EventType.query.all()
     for column in all_products:
         print("% s % s" % (column.id, column.lenght))
         for status in all_Statuses:
             if column.id is status.idProd:
                 print(status.startDate)
 
-    return render_template('table.html', all_products=all_products, all_Statuses=all_Statuses)
+    return render_template('table.html', all_products=all_products, all_Statuses=all_Statuses, eventList=eventList)
 
 
 @app.route('/getTable2')
@@ -298,7 +299,6 @@ def setStatus():
     for column in activProductList:
         print("% s % s" % (column.id, column.lenght))
     eventList = EventType.query.all()
-
 
     if request.method == 'POST':
         idProd = request.form['idProd']
