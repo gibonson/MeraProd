@@ -229,12 +229,27 @@ def removeProduct():
     return redirect(url_for('getTable'))
 
 
-@app.route('/upadteOrderStatus', methods=['GET', 'POST'])
-def upadteOrderStatus():
+@app.route('/setFinishProduct', methods=['GET', 'POST'])
+def setFinishProduct():
     if request.method == 'POST':
         id = request.form['id']
         product = Product.query.get(id)
         product.orderStatus = 2
+        db.session.commit()
+
+    return redirect(url_for('getTable'))
+
+@app.route('/setActivProduct', methods=['GET', 'POST'])
+def setActivProduct():
+    if request.method == 'POST':
+
+        activList = Product.query.filter(Product.orderStatus == 1)
+        for column in activList:
+            column.orderStatus = 2
+            db.session.commit()
+        id = request.form['id']
+        product = Product.query.get(id)
+        product.orderStatus = 1
         db.session.commit()
 
     return redirect(url_for('getTable'))
