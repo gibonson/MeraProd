@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
-{% block title %}
-table
-{% endblock %}
 
 {% block content %}
 
 <div class="container p-3 my-3 bg-dark text-white">
-    <h2 align="center">setStatus</h2>
+    <h1 class="bg-danger">
+        <div id='digital-clock'>
+            <span id='hour'></span><span class='red-dot'>:</span><span id='min'></span><span
+                class='red-dot'>:</span><span id='second'></span>
+        </div>
+    </h1>
+
+
     <div class="center">
         <div class="row">
             <div class="col-md-6">
-                <form action = "{{ url_for('setStatus') }}" method="post">
+                <form action="{{ url_for('setStatus') }}" method="post">
                     <label for="idProd">Product name:</label>
-                    <select name="idProd" class="form-control" id="idProd" placeholder="idProd" value="{{ request.form['idProd'] }}">
+                    <select name="idProd" class="form-control" id="idProd" placeholder="idProd"
+                        value="{{ request.form['idProd'] }}">
                         {% for productActiv in activProductList %}
                         <option value="{{ productActiv.id }}">{{ productActiv.belegNumber}}->{{ productActiv.modelName
                             }}
@@ -33,14 +38,14 @@ table
             </div>
 
             <div class="col-md-6">
-                <form action = "{{ url_for('closeAllStatuses') }}" method="get">
-                <button class="btn btn-success type= submit">closeAllStatuses</button>
+                <form action="{{ url_for('closeAllStatuses') }}" method="get">
+                    <button class="btn btn-success type= submit">closeAllStatuses</button>
                 </form>
             </div>
-
         </div>
-
-
     </div>
+
+
+    
 </div>
 {% endblock %}
