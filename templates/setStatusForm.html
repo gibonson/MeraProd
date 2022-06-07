@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+table
+{% endblock %}
+
 {% block content %}
 
 <div class="container p-3 my-3 bg-dark text-white">
@@ -13,7 +17,7 @@
 
     <div class="center">
         <div class="row">
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <form action="{{ url_for('setStatus') }}" method="post">
                     <label for="idProd">Product name:</label>
                     <select name="idProd" class="form-control" id="idProd" placeholder="idProd"
@@ -35,7 +39,29 @@
                     <br>
                     <button class="btn btn-success type= submit">Set status</button>
                 </form>
+            </div> -->
+
+            {% for event in eventList %}
+            <div class="col-md-6">
+                <form action="{{ url_for('setStatus') }}" method="post">
+                    <input type="hidden" class="form-control" name="idEvent" value="{{ event.idEvent }}"></input>
+                    <input type="hidden" class="form-control" name="idProd" value="{{ activProductList.0.id }}"></input>
+                    {% if openStatuses[0] is not defined%}
+                    <button class="btn btn-success type=submit">{{ event.eventName }}</button>
+                    {%else%}
+                    {% for openStatus in openStatuses %}
+                    {%if event.idEvent == openStatus.idEvent%}
+                    <button class="btn btn-danger type=submit">{{ event.eventName }}</button>
+                    {%else%}
+                    <button class="btn btn-success type=submit">{{ event.eventName }}</button>
+                    {%endif%}
+                    {%endfor%}
+                    {%endif%}
+                </form>
             </div>
+            {%endfor%}
+
+
 
             <div class="col-md-6">
                 <form action="{{ url_for('closeAllStatuses') }}" method="get">
@@ -44,8 +70,5 @@
             </div>
         </div>
     </div>
-
-
-    
 </div>
 {% endblock %}

@@ -239,6 +239,7 @@ def setFinishProduct():
 
     return redirect(url_for('getTable'))
 
+
 @app.route('/setActivProduct', methods=['GET', 'POST'])
 def setActivProduct():
     if request.method == 'POST':
@@ -314,6 +315,7 @@ def setStatus():
     for column in activProductList:
         print("% s % s" % (column.id, column.lenght))
     eventList = EventType.query.all()
+    openStatuses = Status.query.filter(Status.endDate == None)
 
     if request.method == 'POST':
         idProd = request.form['idProd']
@@ -335,9 +337,9 @@ def setStatus():
             db.session.add(newStatus)
             db.session.commit()
 
-            return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList)
+            return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList, openStatuses=openStatuses)
 
-    return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList)
+    return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList, openStatuses=openStatuses)
 
 
 @app.route("/closeAllStatuses", methods=('GET', 'POST'))
