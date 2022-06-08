@@ -25,10 +25,10 @@
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('getTable') }}">getTable</a>
+                        <a class="nav-link" href="{{ url_for('create') }}">create</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('create') }}">create</a>
+                        <a class="nav-link" href="{{ url_for('getTable') }}">getTable</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('setStatus') }}">setStatus</a>
@@ -44,8 +44,8 @@
     {% for message in messages %}
     <div class="container p-3 my-3 bg-dark text-white">
         <div class="alert alert-success" role="alert">
-            <h3>{{ message['title'] }}</h3>
-            <p>{{ message['content'] }}</p>
+            <h3>do produktu: {{ message['title'] }}</h3>
+            <p>dodani evet: {{ message['content'] }}</p>
         </div>
     </div>
     {% endfor %}

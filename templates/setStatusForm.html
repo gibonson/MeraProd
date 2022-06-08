@@ -47,7 +47,7 @@ table
                     <input type="hidden" class="form-control" name="idEvent" value="{{ event.idEvent }}"></input>
                     <input type="hidden" class="form-control" name="idProd" value="{{ activProductList.0.id }}"></input>
                     {% if openStatuses[0] is not defined%}
-                    <button class="btn btn-success btn-block">{{ event.eventName }}</button>
+                    <button class="btn btn-success btn-block buttonFull">{{ event.eventName }}</button>
                     {%else%}
                     {% for openStatus in openStatuses %}
                     {%if event.idEvent == openStatus.idEvent%}
@@ -65,7 +65,7 @@ table
 
             <div class="col-md-6">
                 <form action="{{ url_for('closeAllStatuses') }}" method="get">
-                    <button class="btn btn-success buttonFull">closeAllStatuses</button>
+                    <button class="btn btn-danger buttonFull">closeAllStatuses</button>
                 </form>
             </div>
         </div>
