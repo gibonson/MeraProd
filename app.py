@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, request
 from wtforms import Form, TextAreaField, validators, StringField, SubmitField
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 import os
 import datetime
 
@@ -11,20 +12,26 @@ baseDir = os.path.abspath(os.path.dirname(__file__))
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
-
 # DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
     os.path.join(baseDir, 'db.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
 # Init db
 db = SQLAlchemy(app)
 
+# Init login
+login = LoginManager()
+login.login_view = 'login'
+login.init_app(app)
 
-# Init ma
-ma = Marshmallow(app)
 
+
+messages = [{'title': 'Message One',
+             'content': 'Message One Content'},
+            {'title': 'Message Two',
+             'content': 'Message Two Content'}
+            ]
 
 # Product Class/Model
 class Product(db.Model):
@@ -48,21 +55,6 @@ class Product(db.Model):
         self.orderStatus = orderStatus
         self.executionDate = executionDate
 
-# Product Schema
-
-
-class ProductSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'belegNumber', 'modelName', 'lenght',
-                  'numberOfParts', 'bracket', 'singleOrDouble', 'orderStatus', 'executionDate')
-
-
-# Init schema
-product_schema = ProductSchema()
-#products_schema = ProductSchema(strict=True, many=True)
-products_schema = ProductSchema(many=True)
-
-
 # EventType Class/Model
 class EventType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -72,19 +64,6 @@ class EventType(db.Model):
     def __init__(self, idEvent, eventName):
         self.idEvent = idEvent
         self.eventName = eventName
-
-
-# EventType Schema
-class EventTypeSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'idEvent', 'eventName')
-
-
-# Init schema
-EventType_schema = EventTypeSchema()
-#products_schema = EventTypeSchema(strict=True, many=True)
-EventType_schema = EventTypeSchema(many=True)
-
 
 # Status Class/Model
 class Status(db.Model):
@@ -104,92 +83,77 @@ class Status(db.Model):
         self.okCounter = okCounter
         self.nokCounter = nokCounter
 
-# Status Schema
+# Users Class/Model
+class Users(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
+    password_hash = db.Column(db.String())
+    role = db.Column(db.Integer) 
+ 
+    def set_password(self,password):
+        self.password_hash = generate_password_hash(password)
+     
+    def check_password(self,password):
+        return check_password_hash(self.password_hash,password)
 
 
-class StatusSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'idProd', 'idEvent', 'startDate',
-                  'endDate', 'okCounter', 'nokCounter')
+@login.user_loader
+def load_user(id):
+    return Users.query.get(int(id))
 
 
-# Init schema
-status_schema = StatusSchema()
-statuses_schema = StatusSchema(many=True)
+@app.route('/addUser', methods=['GET', 'POST'])
+def addUser():
+    messages.clear()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        role = request.form['role']
+        if Users.query.filter(Users.username == username).first():
+            flash ('username already Present')
+        elif not username:
+            flash('username is required!')
+        elif not password:
+            flash('password is required!')
+        else:
+            messages.append({'title': username, 'content': password})
+            user = Users(username=username, role=role)
+            user.set_password(password)
+            db.session.add(user)
+            db.session.commit()
+            return render_template('addUser.html', messages=messages)
+
+    return render_template('addUser.html', messages=messages)
 
 
-# API Create a Product
-@app.route('/product', methods=['POST'])
-def addProduct():
-    belegNumber = request.json['belegNumber']
-    modelName = request.json['modelName']
-    lenght = request.json['lenght']
-    numberOfParts = request.json['numberOfParts']
-    bracket = request.json['bracket']
-    singleOrDouble = request.json['singleOrDouble']
-    orderStatus = request.json['orderStatus']
-    executionDate = request.json['executionDate']
-
-    newProduct = Product(belegNumber, modelName, lenght,
-                         numberOfParts, bracket, singleOrDouble, orderStatus, executionDate)
-    db.session.add(newProduct)
-    db.session.commit()
-
-    return product_schema.jsonify(newProduct)
 
 
-# API Get All Products
-@app.route('/product', methods=['GET'])
-def get_products():
-    all_products = Product.query.all()
-    result = products_schema.dump(all_products)
-    return jsonify(result)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = Users.query.filter(Users.username == username).first()
+        if user.check_password(password):
+            login_user(user)
+            return redirect(url_for('getTable'))
+        else:
+            return "bad user"
+
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return 'logout'
 
 
-# API Get Product
-@app.route('/product/<id>', methods=['GET'])
-def get_product(id):
-    product = Product.query.get(id)
-    return product_schema.jsonify(product)
-
-
-# API Update a Product
-@app.route('/product/<id>', methods=['PUT'])
-def updateProduct(id):
-
-    product = Product.query.get(id)
-
-    belegNumber = request.json['belegNumber']
-    modelName = request.json['modelName']
-    lenght = request.json['lenght']
-    numberOfParts = request.json['numberOfParts']
-    bracket = request.json['bracket']
-    singleOrDouble = request.json['singleOrDouble']
-    orderStatus = request.json['orderStatus']
-    executionDate = request.json['executionDate']
-
-    product.belegNumber = belegNumber
-    product.modelName = modelName
-    product.lenght = lenght
-    product.numberOfParts = numberOfParts
-    product.bracket = bracket
-    product.singleOrDouble = singleOrDouble
-    product.orderStatus = orderStatus
-    product.executionDate = executionDate
-
-    db.session.commit()
-
-    return product_schema.jsonify(product)
-
-
-# API Delete Product
-@app.route('/product/<id>', methods=['DELETE'])
-def del_product(id):
-    product = Product.query.get(id)
-    db.session.delete(product)
-    db.session.commit()
-    return product_schema.jsonify(product)
-
+@app.route('/showUser')
+@login_required
+def showUser():
+    print(current_user.username)
+    return 'curetn user is ' + current_user.username
 
 # GUI
 @app.route('/')
@@ -198,6 +162,7 @@ def hello_world():
 
 
 @app.route('/getTable')
+@login_required 
 def getTable():
     all_products = Product.query.all()
     all_Statuses = Status.query.all()
@@ -256,14 +221,8 @@ def setActivProduct():
     return redirect(url_for('getTable'))
 
 
-messages = [{'title': 'Message One',
-             'content': 'Message One Content'},
-            {'title': 'Message Two',
-             'content': 'Message Two Content'}
-            ]
-
-
 @app.route('/create', methods=('GET', 'POST'))
+@login_required 
 def create():
     messages.clear()
     today = datetime.date.today()
@@ -306,6 +265,7 @@ def create():
 
 
 @app.route('/setStatus', methods=('GET', 'POST'))
+@login_required 
 def setStatus():
     messages.clear()
     today = datetime.datetime.today()
@@ -363,6 +323,7 @@ def help():
 @app.errorhandler(404)
 def not_found(e):
     return '404'
+
 
 
 print(baseDir)

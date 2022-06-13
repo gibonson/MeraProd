@@ -13,4 +13,7 @@
 "singleOrDouble":1
 }
 
-dupa
+
+0 - zablokowany
+1 - aktywny
+666 - admin

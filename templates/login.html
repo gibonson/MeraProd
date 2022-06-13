@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+login
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 align="center">addUser</h2>
+    <div class="form">
+
+        <form method="post">
+            <div class="form-group">
+                <label for="username">username</label>
+                <input type="text" class="form-control" name="username" placeholder="username"
+                    value="{{ request.form['username'] }}"></input>
+            </div>
+            <div class="form-group">
+                <label for="password">password</label>
+                <input type="text" class="form-control" name="password" placeholder="password"
+                    value="{{ request.form['password'] }}"></input>
+            </div>
+            <br>
+            <button class="btn btn-success type='submit'">login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
