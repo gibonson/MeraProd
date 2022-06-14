@@ -23,6 +23,11 @@ table
                     <td>orderStatus {{ product.orderStatus }}</td>
                     <td>executionDate {{ product.executionDate }}</td>
                     <td>
+                        <form action="{{ url_for('setActivProduct') }}" method="POST">
+                            <input type="hidden" value="{{ product.id }}" name="id">
+                            <button class="btn btn-warning">setActivProduct</button>
+                        </form>
+                        {% if not product.id == 1 %}
                         <form action="{{ url_for('removeProduct') }}" method="POST">
                             <input type="hidden" value="{{ product.id }}" name="id">
                             <button class="btn btn-danger">remove</button>
@@ -31,10 +36,7 @@ table
                             <input type="hidden" value="{{ product.id }}" name="id">
                             <button class="btn btn-warning">setFinishProduct</button>
                         </form>
-                        <form action="{{ url_for('setActivProduct') }}" method="POST">
-                            <input type="hidden" value="{{ product.id }}" name="id">
-                            <button class="btn btn-warning">setActivProduct</button>
-                        </form>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
@@ -45,6 +47,7 @@ table
                             <th>eventName</th>
                             <th>startDate</th>
                             <th>endDate</th>
+                            <th>userID</th>
                         </tr>
                         {% for status in all_Statuses %}
                         {% if product.id == status.idProd %}
@@ -61,6 +64,7 @@ table
                             <td>{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{%
                                 endif%}
                             </td>
+                            <td>{{ status.userID }}</td>
                         </tr>
                         {% endif%}
                         {% endfor %}

@@ -26,7 +26,6 @@ login.login_view = 'login'
 login.init_app(app)
 
 
-
 messages = [{'title': 'Message One',
              'content': 'Message One Content'},
             {'title': 'Message Two',
@@ -34,6 +33,8 @@ messages = [{'title': 'Message One',
             ]
 
 # Product Class/Model
+
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     belegNumber = db.Column(db.String(20), unique=True)
@@ -56,6 +57,8 @@ class Product(db.Model):
         self.executionDate = executionDate
 
 # EventType Class/Model
+
+
 class EventType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     idEvent = db.Column(db.Integer)
@@ -65,7 +68,23 @@ class EventType(db.Model):
         self.idEvent = idEvent
         self.eventName = eventName
 
+
+# Users Class/Model
+class Users(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
+    password_hash = db.Column(db.String())
+    role = db.Column(db.Integer)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
 # Status Class/Model
+
+
 class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     idProd = db.Column(db.Integer, db.ForeignKey(Product.id), nullable=True)
@@ -74,27 +93,16 @@ class Status(db.Model):
     endDate = db.Column(db.DateTime)
     okCounter = db.Column(db.Integer)
     nokCounter = db.Column(db.Integer)
+    userID = db.Column(db.Integer, db.ForeignKey(Users.id))
 
-    def __init__(self, idProd, idEvent, startDate, endDate, okCounter, nokCounter):
+    def __init__(self, idProd, idEvent, startDate, endDate, okCounter, nokCounter, userID):
         self.idProd = idProd
         self.idEvent = idEvent
         self.startDate = startDate
         self.endDate = endDate
         self.okCounter = okCounter
         self.nokCounter = nokCounter
-
-# Users Class/Model
-class Users(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
-    password_hash = db.Column(db.String())
-    role = db.Column(db.Integer) 
- 
-    def set_password(self,password):
-        self.password_hash = generate_password_hash(password)
-     
-    def check_password(self,password):
-        return check_password_hash(self.password_hash,password)
+        self.userID = userID
 
 
 @login.user_loader
@@ -103,6 +111,7 @@ def load_user(id):
 
 
 @app.route('/addUser', methods=['GET', 'POST'])
+@login_required
 def addUser():
     messages.clear()
     if request.method == 'POST':
@@ -110,7 +119,7 @@ def addUser():
         password = request.form['password']
         role = request.form['role']
         if Users.query.filter(Users.username == username).first():
-            flash ('username already Present')
+            flash('username already Present')
         elif not username:
             flash('username is required!')
         elif not password:
@@ -126,8 +135,6 @@ def addUser():
     return render_template('addUser.html', messages=messages)
 
 
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -136,12 +143,15 @@ def login():
         user = Users.query.filter(Users.username == username).first()
         if user is None:
             return "bad user"
+        if password is None:
+            return "bad password"
         elif user.check_password(password):
             login_user(user)
             return redirect(url_for('getTable'))
         else:
             return "bad pass"
     return render_template('login.html')
+
 
 @app.route('/logout')
 @login_required
@@ -157,13 +167,15 @@ def showUser():
     return 'curetn user is ' + current_user.username
 
 # GUI
+
+
 @app.route('/')
 def hello_world():
     return render_template('home.html')
 
 
 @app.route('/getTable')
-@login_required 
+@login_required
 def getTable():
     all_products = Product.query.all()
     all_Statuses = Status.query.all()
@@ -223,7 +235,7 @@ def setActivProduct():
 
 
 @app.route('/create', methods=('GET', 'POST'))
-@login_required 
+@login_required
 def create():
     messages.clear()
     today = datetime.date.today()
@@ -266,7 +278,7 @@ def create():
 
 
 @app.route('/setStatus', methods=('GET', 'POST'))
-@login_required 
+@login_required
 def setStatus():
     messages.clear()
     today = datetime.datetime.today()
@@ -281,15 +293,18 @@ def setStatus():
     if request.method == 'POST':
         idProd = request.form['idProd']
         idEvent = request.form['idEvent']
+        userID = request.form['userID']
 
         if not idProd:
             flash('idProd is required!')
         elif not idEvent:
             flash('idEvent is required!')
+        elif not userID:
+            flash('userID is required!')
         else:
             messages.append({'title': idProd, 'content': idEvent})
             newStatus = Status(idProd, idEvent, startDate=today,
-                               endDate=None, okCounter=None, nokCounter=None)
+                               endDate=None, okCounter=None, nokCounter=None, userID=userID)
 
             emptyEndDateList = Status.query.filter(Status.endDate == None)
             for column in emptyEndDateList:
@@ -324,7 +339,6 @@ def help():
 @app.errorhandler(404)
 def not_found(e):
     return '404'
-
 
 
 print(baseDir)

@@ -43,9 +43,11 @@
                 <form class="d-flex">
                     <a class="nav-link" href="{{url_for('logout')}}">logout</a>
                 </form>
+                {% if current_user.role == 666 %}
                 <form class="d-flex">
                     <a class="nav-link" href="{{url_for('addUser')}}">addUser</a>
                 </form>
+                {% endif %}
                 {% endif %}
             </div>
         </div>
