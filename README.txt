@@ -17,3 +17,7 @@
 0 - zablokowany
 1 - aktywny
 666 - admin
+
+
+pip freeze -l > requirements.txt
+pip install -r requirements.txt

@@ -134,19 +134,20 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = Users.query.filter(Users.username == username).first()
-        if user.check_password(password):
+        if user is None:
+            return "bad user"
+        elif user.check_password(password):
             login_user(user)
             return redirect(url_for('getTable'))
         else:
-            return "bad user"
-
+            return "bad pass"
     return render_template('login.html')
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return 'logout'
+    return render_template('login.html')
 
 
 @app.route('/showUser')
