@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 import os
-import datetime
+from datetime import datetime, timedelta
 
 # Init app
 app = Flask(__name__)
@@ -197,7 +197,27 @@ def getTable2():
     return render_template('table.html', all_products=all_products)
 
 
-@app.route('/removeProduct', methods=['GET', 'POST'])
+@app.route('/getTimeRange/<day>')
+def getTimeRange(day):
+    dateToday = datetime.today()
+    day = dateToday.day - int(day)
+    dateRangeMax = datetime(
+        dateToday.year, dateToday.month, day, 6, 0, 0, 0)
+    dateRangeMin = dateRangeMax - timedelta(days=1)
+    statusesByDay = Status.query.filter(
+        Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax)
+
+    for statusByDay in statusesByDay:
+
+        final = str(statusByDay) + " -> " + str(statusByDay.startDate) + " -> " + str(statusByDay.endDate)
+        print(final)
+
+    dateRangeMax = str(dateRangeMax)
+    dateRangeMin = str(dateRangeMin)
+    return "wynik " + dateRangeMax + " -> " + dateRangeMin
+
+
+@ app.route('/removeProduct', methods=['GET', 'POST'])
 def removeProduct():
     if request.method == 'POST':
         id = request.form['id']
@@ -207,7 +227,7 @@ def removeProduct():
     return redirect(url_for('getTable'))
 
 
-@app.route('/setFinishProduct', methods=['GET', 'POST'])
+@ app.route('/setFinishProduct', methods=['GET', 'POST'])
 def setFinishProduct():
     if request.method == 'POST':
         id = request.form['id']
@@ -218,7 +238,7 @@ def setFinishProduct():
     return redirect(url_for('getTable'))
 
 
-@app.route('/setActivProduct', methods=['GET', 'POST'])
+@ app.route('/setActivProduct', methods=['GET', 'POST'])
 def setActivProduct():
     if request.method == 'POST':
 
@@ -234,11 +254,11 @@ def setActivProduct():
     return redirect(url_for('getTable'))
 
 
-@app.route('/create', methods=('GET', 'POST'))
-@login_required
+@ app.route('/create', methods=('GET', 'POST'))
+@ login_required
 def create():
     messages.clear()
-    today = datetime.date.today()
+    today = datetime.today()
     today = today.strftime('%Y-%m-%d')
     print(today)
 
@@ -277,13 +297,12 @@ def create():
     return render_template('createForm.html', messages=messages, today=today)
 
 
-@app.route('/setStatus', methods=('GET', 'POST'))
-@login_required
+@ app.route('/setStatus', methods=('GET', 'POST'))
+@ login_required
 def setStatus():
     messages.clear()
-    today = datetime.datetime.today()
+    today = datetime.today()
     print(today)
-
     activProductList = Product.query.filter(Product.orderStatus == 1)
     for column in activProductList:
         print("% s % s" % (column.id, column.lenght))
@@ -318,10 +337,10 @@ def setStatus():
     return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList, openStatuses=openStatuses)
 
 
-@app.route("/closeAllStatuses", methods=('GET', 'POST'))
+@ app.route("/closeAllStatuses", methods=('GET', 'POST'))
 def closeAllStatuses():
     messages.clear()
-    today = datetime.datetime.today()
+    today = datetime.today()
     print(today)
     emptyEndDateList = Status.query.filter(Status.endDate == None)
     for column in emptyEndDateList:
@@ -331,12 +350,12 @@ def closeAllStatuses():
     return redirect((url_for('setStatus')))
 
 
-@app.route('/help')
+@ app.route('/help')
 def help():
     return'help', 400
 
 
-@app.errorhandler(404)
+@ app.errorhandler(404)
 def not_found(e):
     return '404'
 

@@ -47,6 +47,7 @@ table
                             <th>eventName</th>
                             <th>startDate</th>
                             <th>endDate</th>
+                            <th>time(endDate-startDate)</th>
                             <th>userID</th>
                         </tr>
                         {% for status in all_Statuses %}
@@ -64,6 +65,13 @@ table
                             <td>{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{%
                                 endif%}
                             </td>
+                            <td>{% if status.endDate is not none%}{% set testing = status.endDate - status.startDate %}
+                                {{testing}}
+                                {% else %}
+                                in progress
+                                {% endif %}
+                            </td>
+                            
                             <td>{{ status.userID }}</td>
                         </tr>
                         {% endif%}
