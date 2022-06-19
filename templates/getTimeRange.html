@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+getTimeRange
+{% endblock %}
+
+{% block content %}
+
+<div class="container p-3 my-3 bg-dark text-white">
+    <h2 align="center">setStatus</h2>
+    <div class="center">
+
+        {% for status, users ,product, event in results %}
+        {{product.belegNumber}}
+        {{users.username}}
+        {{status.startDate}}
+        {{status.endDate}}
+        {{status.endDate}} ->
+        {{status.id}}
+        {{event.eventName}}
+        </br>
+        {% endfor %}
+
+
+
+        
+    </div>
+    {% set delta = delta + 1 %}
+    
+    <a class="nav-link" href="{{url_for('getTimeRange', delta = delta)}}">move to {{delta}}</a>
+</div>
+{% endblock %}

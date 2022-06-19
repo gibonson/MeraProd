@@ -197,24 +197,31 @@ def getTable2():
     return render_template('table.html', all_products=all_products)
 
 
-@app.route('/getTimeRange/<day>')
-def getTimeRange(day):
+@app.route('/getTimeRange/<delta>')
+def getTimeRange(delta):
     dateToday = datetime.today()
-    day = dateToday.day - int(day)
+    day = dateToday.day - int(delta)+1
     dateRangeMax = datetime(
         dateToday.year, dateToday.month, day, 6, 0, 0, 0)
     dateRangeMin = dateRangeMax - timedelta(days=1)
-    statusesByDay = Status.query.filter(
-        Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax)
 
-    for statusByDay in statusesByDay:
+    results = db.session.query(Status, Users, Product, EventType).filter(
+        Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax, Status.userID == Users.id, Status.idProd == Product.id, EventType.idEvent == Status.idEvent)
+    for status, users, product, event in results:
+        print(status.userID, users.username,
+              status.startDate, status.endDate, status.id, product.belegNumber, event.eventName)
 
-        final = str(statusByDay) + " -> " + str(statusByDay.startDate) + " -> " + str(statusByDay.endDate)
-        print(final)
+    # statusesByDay = Status.query.filter(
+    #     Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax).join(Users.id)
 
+    # for statusByDay in statusesByDay:
+    #     print(statusByDay)
+    #     # final = str(statusByDay) + " -> " + str(statusByDay.startDate) + " -> " + str(statusByDay.endDate) + " "+ str(statusByDay.users.username)
+    #     # print(final)
+    delta = int(delta) 
     dateRangeMax = str(dateRangeMax)
     dateRangeMin = str(dateRangeMin)
-    return "wynik " + dateRangeMax + " -> " + dateRangeMin
+    return render_template('getTimeRange.html', results=results, delta=delta)
 
 
 @ app.route('/removeProduct', methods=['GET', 'POST'])
