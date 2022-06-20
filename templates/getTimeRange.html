@@ -8,16 +8,26 @@ getTimeRange
 <div class="container p-3 my-3 bg-dark text-white">
     <h2 align="center">setStatus</h2>
     <div class="center">
+        <div class="table-responsive">
+            <table class="table table-striped table-dark" style="width: 100%">
+                <tr>
+                    <th>belegNumber</th>
+                    <th>id</th>
+                    <th>eventName</th>
+                    <th>startDate</th>
+                    <th>endDate</th>
+                    <th>username</th>
+                </tr>
 
         {% for status, users ,product, event in results %}
-        {{product.belegNumber}}
-        {{users.username}}
-        {{status.startDate}}
-        {{status.endDate}}
-        {{status.endDate}} ->
-        {{status.id}}
-        {{event.eventName}}
-        </br>
+        <tr>
+            <td>{{product.belegNumber}}</td>
+            <td>{{status.id}}</td>
+            <td>{{event.eventName}}</td>
+            <td>{{status.startDate}}</td>
+            <td>{{status.endDate}}</td>
+            <td>{{users.username}}</td>
+        </tr>
         {% endfor %}
 
 
