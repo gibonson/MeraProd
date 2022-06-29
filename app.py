@@ -198,18 +198,20 @@ def getTable2():
 
 
 @app.route('/getTimeRange/<delta>')
+@ login_required
 def getTimeRange(delta):
+    delta = int(delta)
     dateToday = datetime.today()
-    day = dateToday.day - int(delta)+1
+    day = dateToday - timedelta(delta)+timedelta(1)
     dateRangeMax = datetime(
-        dateToday.year, dateToday.month, day, 6, 0, 0, 0)
+        day.year, day.month, day.day, 6, 0, 0, 0)
     dateRangeMin = dateRangeMax - timedelta(days=1)
 
     results = db.session.query(Status, Users, Product, EventType).filter(
         Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax, Status.userID == Users.id, Status.idProd == Product.id, EventType.idEvent == Status.idEvent)
-    for status, users, product, event in results:
-        print(status.userID, users.username,
-              status.startDate, status.endDate, status.id, product.belegNumber, event.eventName)
+    # for status, users, product, event in results:
+    #     print(status.userID, users.username,
+    #           status.startDate, status.endDate, status.id, product.belegNumber, event.eventName)
 
     # statusesByDay = Status.query.filter(
     #     Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax).join(Users.id)
@@ -218,10 +220,16 @@ def getTimeRange(delta):
     #     print(statusByDay)
     #     # final = str(statusByDay) + " -> " + str(statusByDay.startDate) + " -> " + str(statusByDay.endDate) + " "+ str(statusByDay.users.username)
     #     # print(final)
-    delta = int(delta) 
+    delta = int(delta)
     dateRangeMax = str(dateRangeMax)
     dateRangeMin = str(dateRangeMin)
-    return render_template('getTimeRange.html', results=results, delta=delta)
+
+    resultsSum = db.session.query(Status.idEvent,  EventType.eventName, db.func.count(Status.idEvent)).filter(
+        Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax, Status.userID == Users.id, Status.idProd == Product.id, EventType.idEvent == Status.idEvent).outerjoin(Status, Status.idEvent == EventType.idEvent).group_by(EventType.eventName).all()
+    for res in resultsSum:
+        print(res)
+
+    return render_template('getTimeRange.html', results=results, delta=delta, dateRangeMax=dateRangeMax, dateRangeMin=dateRangeMin)
 
 
 @ app.route('/removeProduct', methods=['GET', 'POST'])

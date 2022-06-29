@@ -65,8 +65,8 @@ table
                             <td>{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{%
                                 endif%}
                             </td>
-                            <td>{% if status.endDate is not none%}{% set testing = status.endDate - status.startDate %}
-                                {{testing}}
+                            <td>{% if status.endDate is not none%}{% set delta = status.endDate - status.startDate %}
+                                {{delta}}
                                 {% else %}
                                 in progress
                                 {% endif %}

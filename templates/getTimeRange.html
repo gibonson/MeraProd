@@ -5,8 +5,18 @@ getTimeRange
 
 {% block content %}
 
+
 <div class="container p-3 my-3 bg-dark text-white">
     <h2 align="center">setStatus</h2>
+    {% set deltaPlus = delta + 1 %}
+    {% set deltaMinus = delta - 1 %}
+
+    <a class="nav-link" href="{{url_for('getTimeRange', delta = deltaPlus)}}">move to {{deltaPlus}} </a>
+    {{delta}}
+    <a class="nav-link" href="{{url_for('getTimeRange', delta = deltaMinus)}}"> move to {{deltaMinus}}</a>
+
+    date from: {{dateRangeMin}} to {{ dateRangeMax}}
+    <br><br>
     <div class="center">
         <div class="table-responsive">
             <table class="table table-striped table-dark" style="width: 100%">
@@ -19,23 +29,23 @@ getTimeRange
                     <th>username</th>
                 </tr>
 
-        {% for status, users ,product, event in results %}
-        <tr>
-            <td>{{product.belegNumber}}</td>
-            <td>{{status.id}}</td>
-            <td>{{event.eventName}}</td>
-            <td>{{status.startDate}}</td>
-            <td>{{status.endDate}}</td>
-            <td>{{users.username}}</td>
-        </tr>
-        {% endfor %}
+                {% for status, users ,product, event in results %}
+                <tr>
+                    <td>{{product.belegNumber}}</td>
+                    <td>{{status.id}}</td>
+                    <td>{{event.eventName}}</td>
+                    <td>{{status.startDate.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                    <td>{% if status.endDate is not none%}{{status.endDate.strftime('%Y-%m-%d %H:%M:%S')}}{%
+                        endif%}</td>
+                    <td>{{users.username}}</td>
+                </tr>
+                {% endfor %}
+            </table>
 
 
 
-        
+        </div>
+
+
     </div>
-    {% set delta = delta + 1 %}
-    
-    <a class="nav-link" href="{{url_for('getTimeRange', delta = delta)}}">move to {{delta}}</a>
-</div>
-{% endblock %}
+    {% endblock %}
