@@ -7,13 +7,15 @@ getTimeRange
 
 
 <div class="container p-3 my-3 bg-dark text-white">
-    <h2 align="center">setStatus</h2>
+    <h2 align="center">getTimeRange</h2>
     {% set deltaPlus = delta + 1 %}
     {% set deltaMinus = delta - 1 %}
+    <div class="row">
+        <div class="col text-center m-3 bg-info"><a class="nav-link" href="{{url_for('getTimeRange', delta = deltaPlus)}}">move to {{deltaPlus}} </a></div>
+        <div class="col text-center m-3 bg-info">{{delta}}</div>
+        <div class="col text-center m-3 bg-info"><a class="nav-link" href="{{url_for('getTimeRange', delta = deltaMinus)}}"> move to {{deltaMinus}}</a></div>
+    </div>
 
-    <a class="nav-link" href="{{url_for('getTimeRange', delta = deltaPlus)}}">move to {{deltaPlus}} </a>
-    {{delta}}
-    <a class="nav-link" href="{{url_for('getTimeRange', delta = deltaMinus)}}"> move to {{deltaMinus}}</a>
 
     date from: {{dateRangeMin}} to {{ dateRangeMax}}
     <br><br>

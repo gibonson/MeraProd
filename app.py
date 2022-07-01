@@ -167,8 +167,6 @@ def showUser():
     return 'curetn user is ' + current_user.username
 
 # GUI
-
-
 @app.route('/')
 def hello_world():
     return render_template('home.html')
@@ -228,6 +226,8 @@ def getTimeRange(delta):
         Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax, Status.userID == Users.id, Status.idProd == Product.id, EventType.idEvent == Status.idEvent).outerjoin(Status, Status.idEvent == EventType.idEvent).group_by(EventType.eventName).all()
     for res in resultsSum:
         print(res)
+
+    print()
 
     return render_template('getTimeRange.html', results=results, delta=delta, dateRangeMax=dateRangeMax, dateRangeMin=dateRangeMin)
 
