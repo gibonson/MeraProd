@@ -1,6 +1,6 @@
 #create  DB
 1) console->python
-2) >>> from app import db
+2) >>> from mainApp import db
 3) >>> db.create_all()
 
 0 - zablokowany

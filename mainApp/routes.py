@@ -1,11 +1,12 @@
 from mainApp import app
 from mainApp import db
-from mainApp.models.users import Users
-from mainApp.models.products import Product
-from mainApp.models.eventType import EventType
-from mainApp.models.statuses import Status
+from mainApp.forms import RegisterForm, LoginForm
+from mainApp.models.user import User
+from mainApp.models.product import Product
+from mainApp.models.event import Event
+from mainApp.models.status import Status
 from flask_login import login_required, logout_user, login_user
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from datetime import datetime, timedelta
 
 messages = [{'title': 'Message One',
@@ -14,59 +15,51 @@ messages = [{'title': 'Message One',
              'content': 'Message Two Content'}
             ]
 
+
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('home.html')
 
-@app.route('/addUser', methods=['GET', 'POST'])
-@login_required
-def addUser():
-    messages.clear()
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        role = request.form['role']
-        if Users.query.filter(Users.username == username).first():
-            flash('username already Present')
-        elif not username:
-            flash('username is required!')
-        elif not password:
-            flash('password is required!')
-        else:
-            messages.append({'title': username, 'content': password})
-            user = Users(username=username, role=role)
-            user.set_password(password)
-            db.session.add(user)
-            db.session.commit()
-            return render_template('addUser.html', messages=messages)
 
-    return render_template('addUser.html', messages=messages)
+@app.route('/register', methods=['GET', 'POST'])
+def register_page():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = User(
+            username=form.username.data, email_address=form.email_address.data, role=form.role.data)
+        user_to_create.set_password(form.password1.data)
+        db.session.add(user_to_create)
+        db.session.commit()
+        flash(
+                f'Success! usser created: {user_to_create.username}', category='success')
+        return redirect(url_for('home'))
+    if form.errors != {}:  # validation errors
+        for err_msg in form.errors.values():
+            flash(
+                f'There was an wrror with creating a user: {err_msg}', category='danger')
+    return render_template('register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = Users.query.filter(Users.username == username).first()
-        if user is None:
-            return "bad user"
-        if password is None:
-            return "bad password"
-        elif user.check_password(password):
-            login_user(user)
+def login_page():
+    form = LoginForm()
+    if form.validate_on_submit():
+        attempted_user = User.query.filter(User.username == form.username.data).first()
+        if attempted_user and attempted_user.check_password(form.password.data):
+            login_user(attempted_user)
+            flash(
+                f'Success! You are logged in as: {attempted_user.username}', category='success')
             return redirect(url_for('home'))
         else:
-            return "bad pass"
-    return render_template('login.html')
+            flash(f'User name or password incorrect!', category='danger')
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')
-@login_required
 def logout():
     logout_user()
-    return render_template('login.html')
+    return redirect(url_for('login'))
 
 
 @app.route('/showUser')
