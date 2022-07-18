@@ -33,6 +33,7 @@ def register_page():
         db.session.commit()
         flash(
                 f'Success! usser created: {user_to_create.username}', category='success')
+        login_user(user_to_create)
         return redirect(url_for('home'))
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
@@ -57,9 +58,10 @@ def login_page():
 
 
 @app.route('/logout')
-def logout():
+def logout_page():
     logout_user()
-    return redirect(url_for('login'))
+    flash(f'You have been logged out!', category='info')
+    return redirect(url_for('home'))
 
 
 @app.route('/showUser')
