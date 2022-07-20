@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Status Page
+{% endblock %}
+
+{% block content %}
+
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+            {{ form.statusID.label() }}
+            {{ form.statusID(class="form-control" , placeholder = 'statusID:') }}
+
+            {{ form.statusName.label() }}
+            {{ form.statusName(class="form-control" , placeholder = 'statusName:') }}
+
+            {{ form.production.label() }}
+            {{ form.production(class="form-control" , placeholder = 'production') }}
+
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+</body>
+{% endblock %}

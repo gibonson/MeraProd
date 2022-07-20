@@ -1,6 +1,6 @@
 from mainApp import app
 from mainApp import db
-from mainApp.forms import RegisterForm, LoginForm
+from mainApp.forms import RegisterForm, LoginForm, StatusForm
 from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
@@ -32,7 +32,7 @@ def register_page():
         db.session.add(user_to_create)
         db.session.commit()
         flash(
-                f'Success! usser created: {user_to_create.username}', category='success')
+            f'Success! usser created: {user_to_create.username}', category='success')
         login_user(user_to_create)
         return redirect(url_for('home'))
     if form.errors != {}:  # validation errors
@@ -46,7 +46,8 @@ def register_page():
 def login_page():
     form = LoginForm()
     if form.validate_on_submit():
-        attempted_user = User.query.filter(User.username == form.username.data).first()
+        attempted_user = User.query.filter(
+            User.username == form.username.data).first()
         if attempted_user and attempted_user.check_password(form.password.data):
             login_user(attempted_user)
             flash(
@@ -64,11 +65,18 @@ def logout_page():
     return redirect(url_for('home'))
 
 
-@app.route('/showUser')
-@login_required
-def showUser():
-    print(current_user.username)
-    return 'curetn user is ' + current_user.username
+@app.route('/status', methods=['GET', 'POST'])
+def status_page():
+    form = StatusForm()
+    if form.validate_on_submit():
+        status_to_create = Status(form.statusID.data, form.statusName.data, form.production.data)
+        db.session.add(status_to_create)
+        db.session.commit()
+        flash(f'Success! status added: {status_to_create.statusName}', category='success')
+        return redirect(url_for('home'))        
+    else:
+            flash(f'Status name incorrect!', category='danger')
+    return render_template('status.html', form=form)
 
 
 @app.route('/getTable')
