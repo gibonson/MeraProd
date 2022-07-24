@@ -75,7 +75,7 @@ class ProductForm(FlaskForm):
     orderStatus = SelectField(
         label='Production Status:', choices=orderStatList)
     startDate = DateTimeLocalField('startDate', validators=[DataRequired()],
-                                   format='%Y-%m-%d %H:%M:%S')
+                                   format='%Y-%m-%dT%H:%M')
     executionDate = DateTimeLocalField('executionDate', validators=[DataRequired()],
-                                       format='%Y-%m-%d %H:%M:%S')
+                                       format='%Y-%m-%dT%H:%M')
     submit = SubmitField(label='Add new product')
