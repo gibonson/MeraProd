@@ -1,6 +1,6 @@
 from mainApp import app
 from mainApp import db
-from mainApp.forms import RegisterForm, LoginForm, StatusForm
+from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm
 from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
@@ -38,7 +38,7 @@ def register_page():
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
             flash(
-                f'There was an wrror with creating a user: {err_msg}', category='danger')
+                f'There was an error with creating a user: {err_msg}', category='danger')
     return render_template('register.html', form=form)
 
 
@@ -69,14 +69,23 @@ def logout_page():
 def status_page():
     form = StatusForm()
     if form.validate_on_submit():
-        status_to_create = Status(form.statusID.data, form.statusName.data, form.production.data)
+        status_to_create = Status(
+            form.statusCode.data, form.statusName.data, form.production.data)
         db.session.add(status_to_create)
         db.session.commit()
-        flash(f'Success! status added: {status_to_create.statusName}', category='success')
-        return redirect(url_for('home'))        
-    else:
-            flash(f'Status name incorrect!', category='danger')
+        flash(
+            f'Success! status added: {status_to_create.statusName}', category='success')
+        return redirect(url_for('home'))
+    if form.errors != {}:  # validation errors
+        for err_msg in form.errors.values():
+            flash(f'Status incorrect!: {err_msg}', category='danger')
     return render_template('status.html', form=form)
+
+
+@app.route('/product', methods=['GET', 'POST'])
+def product_page():
+    form = ProductForm()
+    return render_template('product.html', form=form)
 
 
 @app.route('/getTable')

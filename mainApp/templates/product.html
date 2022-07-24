@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Product Page
+{% endblock %}
+
+{% block content %}
+
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+            {{ form.modelCode.label() }}
+            {{ form.modelCode(class="form-control" , placeholder = 'modelCode:') }}
+
+            {{ form.modelName.label() }}
+            {{ form.modelName(class="form-control" , placeholder = 'modelName:') }}
+
+            {{ form.orderStatus.label() }}
+            {{ form.orderStatus(class="form-control" , placeholder = 'production') }}
+            
+            {{ form.startDate.label() }}
+            {{ form.startDate(class="form-control" , placeholder = 'startDate') }}
+
+            {{ form.executionDate.label() }}
+            {{ form.executionDate(class="form-control" , placeholder = 'executionDate') }}
+
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+</body>
+{% endblock %}

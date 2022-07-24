@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField, DateTimeLocalField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from mainApp.models.user import User
 from mainApp.models.status import Status
@@ -52,7 +52,30 @@ class StatusForm(FlaskForm):
             raise ValidationError(
                 'Status already exist! please try a different statusName')
 
-    statusID = IntegerField(label="statusID")
-    statusName = StringField(label="User Name:", validators=[DataRequired()])
-    production = SelectField(label='User role:', choices=prod)
+    def validate_statusCode(self, statusCode_to_check):
+        status = Status.query.filter(
+            Status.statusCode == statusCode_to_check.data).first()
+        if status:
+            raise ValidationError(
+                'Status already exist! please try a different statusCode')
+
+    statusCode = IntegerField(label="Status Code:")
+    statusName = StringField(label="Status Name:", validators=[DataRequired()])
+    production = SelectField(label='Production Status:', choices=prod)
     submit = SubmitField(label='Add new status')
+
+
+class ProductForm(FlaskForm):
+    orderStatList = [("Open", "Open"),
+                     ("Wait", "Wait"),
+                     ("Close", "Close")]
+
+    modelCode = StringField(label="Model Code:", validators=[DataRequired()])
+    modelName = StringField(label="Model Name:", validators=[DataRequired()])
+    orderStatus = SelectField(
+        label='Production Status:', choices=orderStatList)
+    startDate = DateTimeLocalField('startDate', validators=[DataRequired()],
+                                   format='%Y-%m-%d %H:%M:%S')
+    executionDate = DateTimeLocalField('executionDate', validators=[DataRequired()],
+                                       format='%Y-%m-%d %H:%M:%S')
+    submit = SubmitField(label='Add new product')
