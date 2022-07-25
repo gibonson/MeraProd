@@ -14,7 +14,6 @@ class Product(db.Model):
     def __init__(self, modelCode, modelName, orderStatus, startDate, executionDate):
         self.modelCode = modelCode
         self.modelName = modelName
-        self.singleOrDouble = singleOrDouble
         self.orderStatus = orderStatus
         self.startDate = startDate
         self.executionDate = executionDate

@@ -85,27 +85,33 @@ def status_page():
 @app.route('/product', methods=['GET', 'POST'])
 def product_page():
     form = ProductForm()
-    print()
-    print(form.modelCode.data)
-    print(form.modelName.data)
-    print(form.orderStatus.data)
 
-    startDate = form.startDate.data
-    print(startDate.timestamp())
-    executionDate = form.executionDate.data
-    print(executionDate.timestamp())
-
-
-    difference = executionDate.timestamp() - startDate.timestamp()
-    print(difference)
-    print(round(difference/86400))
-    print(difference/86400)
-
-    dt_object = datetime.fromtimestamp(difference).strftime('%d')
-    dt_object = datetime.fromtimestamp(difference)
-    print(dt_object)
-
-    print()
+    if form.validate_on_submit():
+        product_to_create = Product(form.modelCode.data, form.modelName.data,
+                                    form.orderStatus.data, int(form.startDate.data.timestamp()), int(form.executionDate.data.timestamp()))
+        db.session.add(product_to_create)
+        db.session.commit()
+        flash(
+            f'Success! product added: {product_to_create.modelCode}', category='success')
+    if form.errors != {}:  # validation errors
+        for err_msg in form.errors.values():
+            flash(f'Product incorrect!: {err_msg}', category='danger')
+    # print()
+    # print(form.modelCode.data)
+    # print(form.modelName.data)
+    # print(form.orderStatus.data)
+    # startDate = form.startDate.data
+    # print(startDate.timestamp())
+    # executionDate = form.executionDate.data
+    # print(executionDate.timestamp())
+    # difference = executionDate.timestamp() - startDate.timestamp()
+    # print(difference)
+    # print(round(difference/86400))
+    # print(difference/86400)
+    # dt_object = datetime.fromtimestamp(difference).strftime('%d')
+    # dt_object = datetime.fromtimestamp(difference)
+    # print(dt_object)
+    # print()
 
     return render_template('product.html', form=form)
 

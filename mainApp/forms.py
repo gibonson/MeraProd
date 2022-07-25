@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, IntegerField, Selec
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from mainApp.models.user import User
 from mainApp.models.status import Status
+from mainApp.models.product import Product
 
 
 class RegisterForm(FlaskForm):
@@ -69,13 +70,33 @@ class ProductForm(FlaskForm):
     orderStatList = [("Open", "Open"),
                      ("Wait", "Wait"),
                      ("Close", "Close")]
+    check_startDate = 0
+    check_executionDate = 0
 
-    modelCode = StringField(label="Model Code:", validators=[DataRequired()])
-    modelName = StringField(label="Model Name:", validators=[DataRequired()])
+    def validate_modelCode(self, modelCode_to_check):
+        product = Product.query.filter(
+            Product.modelCode == modelCode_to_check.data).first()
+        if product:
+            raise ValidationError(
+                'Product already exist! please try a different modelCode')
+    
+    def validate_startDate(self, startDate_to_check):
+        self.check_startDate = startDate_to_check.data.timestamp()
+
+    def validate_executionDate(self, executionDate_to_check):
+        self.check_executionDate = executionDate_to_check.data.timestamp()
+        difference = self.check_executionDate - self.check_startDate
+        if difference <= 0:
+            raise ValidationError(
+                'Date error! please set a sorrect date')
+
+
+    modelCode = StringField(label="Model Code:", validators=[DataRequired(message='*Required')])
+    modelName = StringField(label="Model Name:", validators=[DataRequired(message='*Required')])
     orderStatus = SelectField(
         label='Production Status:', choices=orderStatList)
-    startDate = DateTimeLocalField('startDate', validators=[DataRequired()],
+    startDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
                                    format='%Y-%m-%dT%H:%M')
-    executionDate = DateTimeLocalField('executionDate', validators=[DataRequired()],
+    executionDate = DateTimeLocalField(label="Execution Date:", validators=[DataRequired()],
                                        format='%Y-%m-%dT%H:%M')
     submit = SubmitField(label='Add new product')
