@@ -1,6 +1,6 @@
 from mainApp import app
 from mainApp import db
-from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm
+from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm
 from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
@@ -9,16 +9,12 @@ from flask_login import login_required, logout_user, login_user
 from flask import render_template, request, redirect, url_for, flash
 from datetime import datetime, timedelta
 
-messages = [{'title': 'Message One',
-             'content': 'Message One Content'},
-            {'title': 'Message Two',
-             'content': 'Message Two Content'}
-            ]
-
 
 @app.route('/')
 @app.route('/home')
 def home():
+    referrer = request.referrer
+    print(referrer)
     return render_template('home.html')
 
 
@@ -39,7 +35,8 @@ def register_page():
         for err_msg in form.errors.values():
             flash(
                 f'There was an error with creating a user: {err_msg}', category='danger')
-    return render_template('register.html', form=form)
+
+    return render_template('registerForm.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,13 +52,15 @@ def login_page():
             return redirect(url_for('home'))
         else:
             flash(f'User name or password incorrect!', category='danger')
-    return render_template('login.html', form=form)
+
+    return render_template('loginForm.html', form=form)
 
 
 @app.route('/logout')
 def logout_page():
     logout_user()
     flash(f'You have been logged out!', category='info')
+
     return redirect(url_for('home'))
 
 
@@ -79,7 +78,8 @@ def status_page():
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
             flash(f'Status incorrect!: {err_msg}', category='danger')
-    return render_template('status.html', form=form)
+
+    return render_template('statusForm.html', form=form)
 
 
 @app.route('/product', methods=['GET', 'POST'])
@@ -96,24 +96,36 @@ def product_page():
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
             flash(f'Product incorrect!: {err_msg}', category='danger')
-    # print()
-    # print(form.modelCode.data)
-    # print(form.modelName.data)
-    # print(form.orderStatus.data)
-    # startDate = form.startDate.data
-    # print(startDate.timestamp())
-    # executionDate = form.executionDate.data
-    # print(executionDate.timestamp())
-    # difference = executionDate.timestamp() - startDate.timestamp()
-    # print(difference)
-    # print(round(difference/86400))
-    # print(difference/86400)
-    # dt_object = datetime.fromtimestamp(difference).strftime('%d')
-    # dt_object = datetime.fromtimestamp(difference)
-    # print(dt_object)
-    # print()
 
-    return render_template('product.html', form=form)
+    return render_template('productForm.html', form=form)
+
+
+@app.route('/event', methods=['GET', 'POST'])
+def event_page():
+    form = EventForm()
+
+    if form.validate_on_submit():
+        print(form.idProd.data)
+        print(form.idStatus.data)
+        print(form.orderStatus.data)
+        startDate = form.startDate.data
+        print(startDate.timestamp())
+        endDate = form.endDate.data
+        print(endDate.timestamp())
+        print(form.okCounter.data)
+        print(form.nokCounter.data)
+        print(form.userID.data)
+
+    return render_template('eventForm.html', form=form)
+
+
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
 
 
 @app.route('/getTable')

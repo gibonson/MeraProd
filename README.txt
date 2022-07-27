@@ -39,3 +39,21 @@ INSERT INTO "main"."event_type" ("id", "idEvent", "eventName") VALUES ('20', '90
 INSERT INTO "main"."event_type" ("id", "idEvent", "eventName") VALUES ('21', '100', 'Sprzątanie stanowiska - 100');
 
 INSERT INTO "main"."product" ("id", "belegNumber", "modelName", "lenght", "numberOfParts", "bracket", "singleOrDouble", "orderStatus", "executionDate") VALUES ('1', 'No', 'No', '', '', '1', '1', '1', '2030-01-01 00:00:00.000000');
+
+
+    # print()
+    # print(form.modelCode.data)
+    # print(form.modelName.data)
+    # print(form.orderStatus.data)
+    # startDate = form.startDate.data
+    # print(startDate.timestamp())
+    # executionDate = form.executionDate.data
+    # print(executionDate.timestamp())
+    # difference = executionDate.timestamp() - startDate.timestamp()
+    # print(difference)
+    # print(round(difference/86400))
+    # print(difference/86400)
+    # dt_object = datetime.fromtimestamp(difference).strftime('%d')
+    # dt_object = datetime.fromtimestamp(difference)
+    # print(dt_object)
+    # print()

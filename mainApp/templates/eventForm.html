@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Event Page
+{% endblock %}
+
+{% block content %}
+
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+
+
+            {{ form.idProd.label() }}
+            {{ form.idProd(class="form-control" , placeholder = 'idProd:') }}
+
+            {{ form.idStatus.label() }}
+            {{ form.idStatus(class="form-control" , placeholder = 'idStatus:') }}
+
+            {{ form.startDate.label() }}
+            {{ form.startDate(class="form-control" , placeholder = 'startDate:') }}
+
+            {{ form.endDate.label() }}
+            {{ form.endDate(class="form-control" , placeholder = 'endDate:') }}
+
+            {{ form.okCounter.label() }}
+            {{ form.okCounter(class="form-control" , placeholder = 'okCounter:') }}
+
+            {{ form.nokCounter.label() }}
+            {{ form.nokCounter(class="form-control" , placeholder = 'nokCounter:') }}
+
+
+            {{current_user.username}}
+            {{ form.userID.label() }}
+            {{ form.userID(class="form-control", readonly=true, value=current_user.id) }}
+
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+</body>
+{% endblock %}

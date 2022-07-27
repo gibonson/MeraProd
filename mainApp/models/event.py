@@ -16,9 +16,9 @@ class Event(db.Model):
     nokCounter = db.Column(db.Integer)
     userID = db.Column(db.Integer, db.ForeignKey(User.id))
 
-    def __init__(self, idProd, idEvent, startDate, endDate, okCounter, nokCounter, userID):
+    def __init__(self, idProd, idStatus, startDate, endDate, okCounter, nokCounter, userID):
         self.idProd = idProd
-        self.idEvent = idEvent
+        self.idStatus = idStatus
         self.startDate = startDate
         self.endDate = endDate
         self.okCounter = okCounter

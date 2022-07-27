@@ -79,7 +79,7 @@ class ProductForm(FlaskForm):
         if product:
             raise ValidationError(
                 'Product already exist! please try a different modelCode')
-    
+
     def validate_startDate(self, startDate_to_check):
         self.check_startDate = startDate_to_check.data.timestamp()
 
@@ -90,9 +90,10 @@ class ProductForm(FlaskForm):
             raise ValidationError(
                 'Date error! please set a sorrect date')
 
-
-    modelCode = StringField(label="Model Code:", validators=[DataRequired(message='*Required')])
-    modelName = StringField(label="Model Name:", validators=[DataRequired(message='*Required')])
+    modelCode = StringField(label="Model Code:", validators=[
+                            DataRequired(message='*Required')])
+    modelName = StringField(label="Model Name:", validators=[
+                            DataRequired(message='*Required')])
     orderStatus = SelectField(
         label='Production Status:', choices=orderStatList)
     startDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
@@ -100,3 +101,27 @@ class ProductForm(FlaskForm):
     executionDate = DateTimeLocalField(label="Execution Date:", validators=[DataRequired()],
                                        format='%Y-%m-%dT%H:%M')
     submit = SubmitField(label='Add new product')
+
+
+class EventForm(FlaskForm):
+    idProdList = [("Open", "Open"),
+                  ("Wait", "Wait"),
+                  ("Close", "Close")]
+    idStatusList = [("Open", "Open"),
+                    ("Wait", "Wait"),
+                    ("Close", "Close")]
+    
+    idProd = SelectField(
+        label='Production Status:', validators=[DataRequired()], choices=idProdList)
+    idStatus = SelectField(
+        label='Production Status:', validators=[DataRequired()], choices=idStatusList)
+    startDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
+                                   format='%Y-%m-%dT%H:%M')
+    endDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
+                                 format='%Y-%m-%dT%H:%M')
+    okCounter = IntegerField(label="Ok Counter:")
+    nokCounter = IntegerField(label="Nok Counter:")
+    userID = IntegerField(label="- ID:", validators=[
+                            DataRequired(message='*Required')])
+    submit = SubmitField(label='Start Event')
+

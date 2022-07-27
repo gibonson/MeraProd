@@ -24,9 +24,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-               <a class="nav-link" href="{{url_for('create')}}">create</a>
-            </li>
             <!-- <li class="nav-item">
                   <a class="nav-link" href="{{url_for('getTable')}}">getTable</a>
                </li>
@@ -36,11 +33,19 @@
                <li class="nav-item">
                   <a class="nav-link" href="{{url_for('setStatus')}}">setStatus</a>
                </li> -->
-            <li class="nav-item">
+            {{request.referrer.split('/')[3]}}
+            {{request.referrer}}
+
+
+
+            <li class="nav-item active">
                <a class="nav-link" href="{{url_for('product_page')}}">product_page</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="{{url_for('status_page')}}">status_page</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{url_for('event_page')}}">event_page</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="{{url_for('register_page')}}">register_page</a>
