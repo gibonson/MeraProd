@@ -104,17 +104,13 @@ class ProductForm(FlaskForm):
 
 
 class EventForm(FlaskForm):
-    idProdList = [("Open", "Open"),
-                  ("Wait", "Wait"),
-                  ("Close", "Close")]
-    idStatusList = [("Open", "Open"),
-                    ("Wait", "Wait"),
-                    ("Close", "Close")]
-    
+    activProductList = []
+    idStatusList = []
+
     idProd = SelectField(
-        label='Production Status:', validators=[DataRequired()], choices=idProdList)
+        label='Product Code:', validators=[DataRequired()], choices=activProductList)
     idStatus = SelectField(
-        label='Production Status:', validators=[DataRequired()], choices=idStatusList)
+        label='Status Name:', validators=[DataRequired()], choices=idStatusList)
     startDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
                                    format='%Y-%m-%dT%H:%M')
     endDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
@@ -122,6 +118,7 @@ class EventForm(FlaskForm):
     okCounter = IntegerField(label="Ok Counter:")
     nokCounter = IntegerField(label="Nok Counter:")
     userID = IntegerField(label="- ID:", validators=[
-                            DataRequired(message='*Required')])
+        DataRequired(message='*Required')])
     submit = SubmitField(label='Start Event')
-
+    
+    

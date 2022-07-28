@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 @app.route('/')
 @app.route('/home')
-def home():
+def home_page():
     referrer = request.referrer
     print(referrer)
     return render_template('home.html')
@@ -49,7 +49,7 @@ def login_page():
             login_user(attempted_user)
             flash(
                 f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('home'))
+            return redirect(url_for('home_page'))
         else:
             flash(f'User name or password incorrect!', category='danger')
 
@@ -61,7 +61,7 @@ def logout_page():
     logout_user()
     flash(f'You have been logged out!', category='info')
 
-    return redirect(url_for('home'))
+    return redirect(url_for('home_page'))
 
 
 @app.route('/status', methods=['GET', 'POST'])
@@ -102,12 +102,22 @@ def product_page():
 
 @app.route('/event', methods=['GET', 'POST'])
 def event_page():
+
+    EventForm.activProductList.clear()
+    EventForm.idStatusList.clear()
+    activProductListDB = Product.query.filter(Product.orderStatus == 'Open')
+    for row in activProductListDB:
+        EventForm.activProductList.append(
+            (row.id, row.modelCode + " - " + row.modelName))
+    idStatusListDB = Status.query.all()
+    for row in idStatusListDB:
+        EventForm.idStatusList.append(
+            (row.id, row.statusCode + " - " + row.statusName))
     form = EventForm()
 
     if form.validate_on_submit():
         print(form.idProd.data)
         print(form.idStatus.data)
-        print(form.orderStatus.data)
         startDate = form.startDate.data
         print(startDate.timestamp())
         endDate = form.endDate.data
