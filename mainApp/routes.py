@@ -30,7 +30,7 @@ def register_page():
         flash(
             f'Success! usser created: {user_to_create.username}', category='success')
         login_user(user_to_create)
-        return redirect(url_for('home'))
+        return redirect(url_for('home_page'))
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
             flash(
@@ -57,6 +57,7 @@ def login_page():
 
 
 @app.route('/logout')
+@login_required
 def logout_page():
     logout_user()
     flash(f'You have been logged out!', category='info')
@@ -65,6 +66,7 @@ def logout_page():
 
 
 @app.route('/status', methods=['GET', 'POST'])
+@login_required
 def status_page():
     form = StatusForm()
     if form.validate_on_submit():
@@ -74,7 +76,7 @@ def status_page():
         db.session.commit()
         flash(
             f'Success! status added: {status_to_create.statusName}', category='success')
-        return redirect(url_for('home'))
+        return redirect(url_for('home_page'))
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
             flash(f'Status incorrect!: {err_msg}', category='danger')
@@ -83,6 +85,7 @@ def status_page():
 
 
 @app.route('/product', methods=['GET', 'POST'])
+@login_required
 def product_page():
     form = ProductForm()
 
@@ -101,6 +104,7 @@ def product_page():
 
 
 @app.route('/event', methods=['GET', 'POST'])
+@login_required
 def event_page():
 
     EventForm.activProductList.clear()
@@ -108,11 +112,11 @@ def event_page():
     activProductListDB = Product.query.filter(Product.orderStatus == 'Open')
     for row in activProductListDB:
         EventForm.activProductList.append(
-            (row.id, row.modelCode + " - " + row.modelName))
+            (row.id, str(row.modelCode) + " - " + row.modelName))
     idStatusListDB = Status.query.all()
     for row in idStatusListDB:
         EventForm.idStatusList.append(
-            (row.id, row.statusCode + " - " + row.statusName))
+            (row.id, str(row.statusCode) + " - " + row.statusName))
     form = EventForm()
 
     if form.validate_on_submit():
@@ -125,8 +129,23 @@ def event_page():
         print(form.okCounter.data)
         print(form.nokCounter.data)
         print(form.userID.data)
+        event_to_create = Event(int(form.idProd.data), int(form.idStatus.data), int(form.startDate.data.timestamp()), int(
+            form.endDate.data.timestamp()), form.okCounter.data, form.nokCounter.data, int(form.userID.data))
+        db.session.add(event_to_create)
+        db.session.commit()
+        flash(
+            f'Success! event added: {event_to_create}', category='success')
+    if form.errors != {}:  # validation errors
+        for err_msg in form.errors.values():
+            flash(f'Product incorrect!: {err_msg}', category='danger')
 
     return render_template('eventForm.html', form=form)
+
+@app.route('/producttable', methods=['GET', 'POST'])
+@login_required
+def product_table_page():
+    products = Product.query.all()
+    return render_template('productTable.html', products=products)
 
 
 # granica poprawności:D
@@ -151,7 +170,6 @@ def getTable():
                 print(status.startDate)
 
     return render_template('table.html', all_products=all_products, all_Statuses=all_Statuses, eventList=eventList)
-
 
 @app.route('/getTable2')
 def getTable2():
@@ -232,49 +250,6 @@ def setActivProduct():
         db.session.commit()
 
     return redirect(url_for('getTable'))
-
-
-@ app.route('/create', methods=('GET', 'POST'))
-@ login_required
-def create():
-    messages.clear()
-    today = datetime.today()
-    today = today.strftime('%Y-%m-%d')
-    print(today)
-
-    if request.method == 'POST':
-        belegNumber = request.form['belegNumber']
-        modelName = request.form['modelName']
-        lenght = request.form['lenght']
-        numberOfParts = request.form['numberOfParts']
-        bracket = request.form['bracket']
-        if bracket == "True":
-            bracket = True
-        if bracket == "False":
-            bracket = False
-        singleOrDouble = request.form['singleOrDouble']
-        orderStatus = request.form['orderStatus']
-        executionDate = request.form['executionDate']
-        format = "%Y-%m-%d"
-        executionDate = datetime.strptime(executionDate, format)
-
-        if not belegNumber:
-            flash('belegNumber is required!')
-        elif not modelName:
-            flash('modelName is required!')
-        else:
-            # flash(title + " " + content + " added")
-            messages.append({'title': belegNumber, 'content': modelName})
-            # # return redirect(url_for('getTable'))
-            # # return redirect(url_for('getTable'))
-            newProduct = Product(belegNumber, modelName, lenght, numberOfParts,
-                                 bracket, singleOrDouble, orderStatus, executionDate)
-            db.session.add(newProduct)
-            db.session.commit()
-
-            return render_template('createForm.html', messages=messages, today=today)
-
-    return render_template('createForm.html', messages=messages, today=today)
 
 
 @ app.route('/setStatus', methods=('GET', 'POST'))
