@@ -145,6 +145,10 @@ def event_page():
 @login_required
 def product_table_page():
     products = Product.query.all()
+    for product in products:
+        product.delta= round((product.executionDate - product.startDate)/86400,1)
+        product.startDate = datetime.fromtimestamp(product.startDate)
+        product.executionDate = datetime.fromtimestamp(product.executionDate)
     return render_template('productTable.html', products=products)
 
 
