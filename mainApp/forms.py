@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField, DateTimeLocalField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField, DateTimeLocalField, HiddenField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from mainApp.models.user import User
 from mainApp.models.status import Status
@@ -122,3 +122,15 @@ class EventForm(FlaskForm):
     submit = SubmitField(label='Start Event')
     
     
+
+class ProductOpenStatusForm(FlaskForm):
+    submit  = SubmitField(label="Set Open Status")
+
+class ProductCloseStatusForm(FlaskForm):
+    submit  = SubmitField(label="Set Close Status")
+
+class ProductWaitStatusForm(FlaskForm):
+    submit  = SubmitField(label="Set Wait Status")
+
+class ProductEditForm(FlaskForm):
+    submit  = SubmitField(label="Set Edit Status")

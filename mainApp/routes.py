@@ -1,6 +1,6 @@
 from mainApp import app
 from mainApp import db
-from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm
+from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm, ProductOpenStatusForm, ProductCloseStatusForm, ProductWaitStatusForm, ProductEditForm
 from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
@@ -120,15 +120,15 @@ def event_page():
     form = EventForm()
 
     if form.validate_on_submit():
-        print(form.idProd.data)
-        print(form.idStatus.data)
+        # print(form.idProd.data)
+        # print(form.idStatus.data)
         startDate = form.startDate.data
-        print(startDate.timestamp())
+        # print(startDate.timestamp())
         endDate = form.endDate.data
-        print(endDate.timestamp())
-        print(form.okCounter.data)
-        print(form.nokCounter.data)
-        print(form.userID.data)
+        # print(endDate.timestamp())
+        # print(form.okCounter.data)
+        # print(form.nokCounter.data)
+        # print(form.userID.data)
         event_to_create = Event(int(form.idProd.data), int(form.idStatus.data), int(form.startDate.data.timestamp()), int(
             form.endDate.data.timestamp()), form.okCounter.data, form.nokCounter.data, int(form.userID.data))
         db.session.add(event_to_create)
@@ -141,15 +141,51 @@ def event_page():
 
     return render_template('eventForm.html', form=form)
 
-@app.route('/producttable', methods=['GET', 'POST'])
+
+@app.route('/productTable', methods=['GET', 'POST'])
 @login_required
 def product_table_page():
+    productCloseStatusForm = ProductCloseStatusForm()
+    productOpenStatusForm = ProductOpenStatusForm()
+    productWaitStatusForm = ProductWaitStatusForm()
+    productEditForm = ProductEditForm()
+    if request.method == 'POST':
+        productID = request.form.get('productID')
+        newStatus = request.form.get('newStatus')
+        if newStatus == "Edit":
+            modelCode = request.form.get('modelCode')
+            modelName = request.form.get('modelName')
+            orderStatus = request.form.get('orderStatus')
+            startDate = request.form.get('startDate')
+            executionDate = request.form.get('executionDate')
+            startDateDate = datetime.strptime(startDate,"%Y-%m-%dT%H:%M")
+            executionDateDate = datetime.strptime(executionDate,"%Y-%m-%dT%H:%M")
+            startDateDate = startDateDate.timestamp()
+            executionDateDate = executionDateDate.timestamp()
+            product = Product.query.get(productID)
+            oldName = product.modelName
+            product.modelCode = modelCode
+            product.modelName = modelName
+            product.orderStatus = orderStatus
+            product.startDate = startDateDate
+            product.executionDate = executionDateDate
+            db.session.commit()
+            flash(f"Edited product from {oldName} to {modelName}", category='success')
+        else:
+            product = Product.query.get(productID)
+            oldStatus = product.orderStatus
+            product.orderStatus = newStatus
+            db.session.commit()
+            flash(f"Changed product status from {oldStatus} to {newStatus}", category='success')
+
+
     products = Product.query.all()
     for product in products:
-        product.delta= round((product.executionDate - product.startDate)/86400,1)
+        product.delta = round(
+            (product.executionDate - product.startDate)/86400, 1)
         product.startDate = datetime.fromtimestamp(product.startDate)
         product.executionDate = datetime.fromtimestamp(product.executionDate)
-    return render_template('productTable.html', products=products)
+    return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productWaitStatusForm=productWaitStatusForm, productEditForm=productEditForm)
 
 
 # granica poprawności:D
@@ -174,13 +210,6 @@ def getTable():
                 print(status.startDate)
 
     return render_template('table.html', all_products=all_products, all_Statuses=all_Statuses, eventList=eventList)
-
-@app.route('/getTable2')
-def getTable2():
-    all_products = Product.query.filter(Product.orderStatus == 1)
-    for column in all_products:
-        print("% s % s" % (column.id, column.lenght))
-    return render_template('table.html', all_products=all_products)
 
 
 @app.route('/getTimeRange/<delta>')

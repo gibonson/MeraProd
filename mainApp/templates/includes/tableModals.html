@@ -1,6 +1,6 @@
 <style>
     .modal-content {
-        background-color: #6e6d6d
+        background-color: #212121
     }
 </style>
 
@@ -19,7 +19,24 @@
                 </button>
             </div>
             <div class="modal-body text-left">
-                Do you want to change <strong>{{ product.modelCode}} - {{ product.modelName}}</strong> status to <strong>Open</strong>?
+                <form method="post">
+                    <div class="text-center">
+                        <h4>
+                            Do you want to change <strong>{{ product.modelCode}} - {{ product.modelName}}</strong>
+                            status to
+                            <strong>Open</strong>?
+                        </h4>
+                        <br>
+                        <h6 class="text-center">
+                            By clicking Submit, you will set Open status.
+                        </h6>
+                        <br>
+                        {{ productOpenStatusForm.hidden_tag() }}
+                        <input id="productID" name="productID" type="hidden" value="{{product.id}}">
+                        <input id="newStatus" name="newStatus" type="hidden" value="Open">
+                        {{ productOpenStatusForm.submit(class = "btn btn-outline-success btn-block")}}
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
@@ -43,8 +60,66 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                {{ product.modelName}}
+            <div class="modal-body text-left">
+                <form method="post">
+                    <div class="text-center">
+                        <h4>
+                            Do you want to change <strong>{{ product.modelCode}} - {{ product.modelName}}</strong>
+                            status to
+                            <strong>Close</strong>?
+                        </h4>
+                        <br>
+                        <h6 class="text-center">
+                            By clicking Submit, you will set Close status.
+                        </h6>
+                        <br>
+                        {{ productCloseStatusForm.hidden_tag() }}
+                        <input id="productID" name="productID" type="hidden" value="{{product.id}}">
+                        <input id="newStatus" name="newStatus" type="hidden" value="Close">
+                        {{ productCloseStatusForm.submit(class = "btn btn-outline-danger btn-block")}}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Modal-Wait-{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">
+                    {{ product.modelCode}}
+                    <!-- -->
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left">
+                <form method="post">
+                    <div class="text-center">
+                        <h4>
+                            Do you want to change <strong>{{ product.modelCode}} - {{ product.modelName}}</strong>
+                            status to
+                            <strong>Wait</strong>?
+                        </h4>
+                        <br>
+                        <h6 class="text-center">
+                            By clicking Submit, you will set Wait status.
+                        </h6>
+                        <br>
+                        {{ productWaitStatusForm.hidden_tag() }}
+                        <input id="productID" name="productID" type="hidden" value="{{product.id}}">
+                        <input id="newStatus" name="newStatus" type="hidden" value="Wait">
+                        {{ productWaitStatusForm.submit(class = "btn btn-outline-warning btn-block")}}
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
@@ -67,8 +142,35 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                {{ product.modelName}}
+            <div class="modal-body text-left">
+                <form method="post">
+                    <div class="text-center">
+                        <h4>
+                            Do you want to change <strong>{{ product.modelCode}} - {{ product.modelName}}</strong>
+                            status to
+                            <strong>Edit</strong>?
+                        </h4>
+                        <br>
+                        <h6 class="text-center">
+                            By clicking Submit, you will set Edit status.
+                        </h6>
+                        <br>
+                        {{ productEditForm.hidden_tag() }}
+                        <input id="productID" name="productID" type="hidden" value="{{product.id}}">
+                        <br>
+                        <input id="modelCode" name="modelCode" type="text" value="{{product.modelCode}}">
+                        <br>
+                        <input id="modelName" name="modelName" type="text" value="{{product.modelName}}">
+                        <br>
+                        <input id="startDate" name="startDate" type="datetime-local" value="{{product.startDate}}">
+                        <br>
+                        <input id="executionDate" name="executionDate" type="datetime-local" value="{{product.executionDate}}">
+                        <br>
+                        <input id="orderStatus" name="orderStatus" type="text" value="{{product.orderStatus}}">
+                        <input id="newStatus" name="newStatus" type="hidden" value="Edit">
+                        {{ productEditForm.submit(class = "btn btn-outline-info btn-block")}}
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
