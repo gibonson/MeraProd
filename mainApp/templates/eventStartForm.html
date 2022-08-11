@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Event Start Form
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <div class="container">
+        <h1 class="h2 mb-3 font-weight-normal">
+            Event Start Form
+        </h1>
+
+        {% for openProduct in openProductList %}
+        {% for status in statusList %}
+        <form method="POST" class="form-register" style="color:white">
+            <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+            <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+            <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+            <button class="btn btn-success btn-block buttonFull">set stats to: {{ status.statusName }} - {{
+                openProduct.modelName}}</button>
+        </form>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

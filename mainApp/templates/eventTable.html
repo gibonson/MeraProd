@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Event Table Page
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1 class="h2 mb-3 font-weight-normal">Event Table Page</h1>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-striped table-dark" style="width: 100%">
+                <tr>
+                    <th>modelCode</th>
+                    <th>modelName</th>
+                    <th>username</th>
+                    <th>statusName</th>
+                    <th>okCounter</th>
+                    <th>nokCounter</th>
+                    <th>startDate</th>
+                    <th>endDate</th>
+                    <th>delta</th>
+                </tr>
+                {% for finalEvent in finalEventTable %}
+                <tr>
+                    <td>{{finalEvent.modelCode}}</td>
+                    <td>{{finalEvent.modelName}}</td>
+                    <td>{{finalEvent.username}}</td>
+                    <td>{{finalEvent.statusName}}</td>
+                    <td>{{finalEvent.okCounter}}</td>
+                    <td>{{finalEvent.nokCounter}}</td>
+                    <td>{{finalEvent.startDate}}</td>
+                    <td>{{finalEvent.endDate}}</td>
+                    <td>{{finalEvent.delta}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -22,22 +22,8 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
          <span class="navbar-toggler-icon"></span>
       </button>
-      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
          <ul class="navbar-nav mr-auto">
-            <!-- <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('getTable')}}">getTable</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('getTimeRange', delta = 0)}}">getTimeRange</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('setStatus')}}">setStatus</a>
-               </li> -->
-            <!-- {{request.referrer}} -->
-
-
-
             <li class="nav-item active">
                <a class="nav-link" href="{{url_for('product_page')}}">product_page</a>
             </li>
@@ -50,6 +36,13 @@
             <li class="nav-item">
                <a class="nav-link" href="{{url_for('product_table_page')}}">product_table_page</a>
             </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{url_for('event_table_page')}}">event_table_page</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{url_for('event_start_page')}}">event_start_page</a>
+            </li>
+            
          </ul>
          {% if current_user.is_authenticated %}
          <ul class="navbar-nav">

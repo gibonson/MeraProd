@@ -134,3 +134,13 @@ class ProductWaitStatusForm(FlaskForm):
 
 class ProductEditForm(FlaskForm):
     submit  = SubmitField(label="Set Edit Status")
+
+
+# class EventStartForm(FlaskForm):
+#     idProd = HiddenField(label='Product Code:', validators=[DataRequired()])
+#     idStatus = HiddenField(label='Status Name:', validators=[DataRequired()])
+#     startDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
+#                                    format='%Y-%m-%dT%H:%M')
+#     userID = IntegerField(label="- ID:", validators=[
+#         DataRequired(message='*Required')])
+#     submit = SubmitField(label='Start Event')

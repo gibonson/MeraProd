@@ -120,15 +120,8 @@ def event_page():
     form = EventForm()
 
     if form.validate_on_submit():
-        # print(form.idProd.data)
-        # print(form.idStatus.data)
         startDate = form.startDate.data
-        # print(startDate.timestamp())
         endDate = form.endDate.data
-        # print(endDate.timestamp())
-        # print(form.okCounter.data)
-        # print(form.nokCounter.data)
-        # print(form.userID.data)
         event_to_create = Event(int(form.idProd.data), int(form.idStatus.data), int(form.startDate.data.timestamp()), int(
             form.endDate.data.timestamp()), form.okCounter.data, form.nokCounter.data, int(form.userID.data))
         db.session.add(event_to_create)
@@ -140,6 +133,31 @@ def event_page():
             flash(f'Product incorrect!: {err_msg}', category='danger')
 
     return render_template('eventForm.html', form=form)
+
+
+@ app.route('/eventStart', methods=('GET', 'POST'))
+@ login_required
+def event_start_page():
+    if request.method == 'POST':
+        idProd = request.form['idProd']
+        print(idProd)
+        idStatus = request.form['idStatus']
+        print(idStatus)
+        idUser = request.form['idUser']
+        print(idUser)
+        today = datetime.today()
+        today = today.timestamp()
+        today = int(today)
+        print(today)
+        event_to_create = Event(idProd=idProd, idStatus=idStatus, startDate=today, endDate=None, nokCounter=None,
+                                okCounter=None,  userID=idUser)
+        db.session.add(event_to_create)
+        db.session.commit()
+
+    openProductList = Product.query.filter(Product.orderStatus == "Open")
+    statusList = Status.query.all()
+
+    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList)
 
 
 @app.route('/productTable', methods=['GET', 'POST'])
@@ -158,8 +176,9 @@ def product_table_page():
             orderStatus = request.form.get('orderStatus')
             startDate = request.form.get('startDate')
             executionDate = request.form.get('executionDate')
-            startDateDate = datetime.strptime(startDate,"%Y-%m-%dT%H:%M")
-            executionDateDate = datetime.strptime(executionDate,"%Y-%m-%dT%H:%M")
+            startDateDate = datetime.strptime(startDate, "%Y-%m-%dT%H:%M")
+            executionDateDate = datetime.strptime(
+                executionDate, "%Y-%m-%dT%H:%M")
             startDateDate = startDateDate.timestamp()
             executionDateDate = executionDateDate.timestamp()
             product = Product.query.get(productID)
@@ -170,14 +189,15 @@ def product_table_page():
             product.startDate = startDateDate
             product.executionDate = executionDateDate
             db.session.commit()
-            flash(f"Edited product from {oldName} to {modelName}", category='success')
+            flash(
+                f"Edited product from {oldName} to {modelName}", category='success')
         else:
             product = Product.query.get(productID)
             oldStatus = product.orderStatus
             product.orderStatus = newStatus
             db.session.commit()
-            flash(f"Changed product status from {oldStatus} to {newStatus}", category='success')
-
+            flash(
+                f"Changed product status from {oldStatus} to {newStatus}", category='success')
 
     products = Product.query.all()
     for product in products:
@@ -188,28 +208,42 @@ def product_table_page():
     return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productWaitStatusForm=productWaitStatusForm, productEditForm=productEditForm)
 
 
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-
-
-@app.route('/getTable')
+@app.route('/eventTable', methods=['GET', 'POST'])
 @login_required
-def getTable():
-    all_products = Product.query.all()
-    all_Statuses = Status.query.all()
-    eventList = EventType.query.all()
-    for column in all_products:
-        print("% s % s" % (column.id, column.lenght))
-        for status in all_Statuses:
-            if column.id is status.idProd:
-                print(status.startDate)
+def event_table_page():
+    results = db.session.query(Status, User, Product, Event).filter(
+        Event.startDate, Event.startDate, Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
 
-    return render_template('table.html', all_products=all_products, all_Statuses=all_Statuses, eventList=eventList)
+    finalEventTable = []
+    for status, user, product, event in results:
+        finalEvent = {}
+        finalEvent["modelCode"] = product.modelCode
+        finalEvent["modelName"] = product.modelName
+        finalEvent["username"] = user.username
+        finalEvent["statusName"] = status.statusName
+        finalEvent["okCounter"] = event.okCounter
+        finalEvent["nokCounter"] = event.nokCounter
+        finalEvent["startDate"] = datetime.fromtimestamp(event.startDate)
+        if event.endDate:
+            finalEvent["endDate"] = datetime.fromtimestamp(event.endDate)
+            finalEvent["delta"] = round(
+                (event.endDate - event.startDate)/86400, 1)
+        else:
+            finalEvent["endDate"] = "in progress"
+            finalEvent["delta"] = "in progress"
+        finalEventTable.append(finalEvent)
+
+    for resfinalEvent in finalEventTable:
+        print(resfinalEvent)
+    return render_template('eventTable.html', finalEventTable=finalEventTable)
+
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
+# granica poprawności:D
 
 
 @app.route('/getTimeRange/<delta>')
@@ -246,43 +280,6 @@ def getTimeRange(delta):
 
     print()
     return render_template('getTimeRange.html', results=results, delta=delta, dateRangeMax=dateRangeMax, dateRangeMin=dateRangeMin)
-
-
-@ app.route('/removeProduct', methods=['GET', 'POST'])
-def removeProduct():
-    if request.method == 'POST':
-        id = request.form['id']
-        product = Product.query.get(id)
-        db.session.delete(product)
-        db.session.commit()
-    return redirect(url_for('getTable'))
-
-
-@ app.route('/setFinishProduct', methods=['GET', 'POST'])
-def setFinishProduct():
-    if request.method == 'POST':
-        id = request.form['id']
-        product = Product.query.get(id)
-        product.orderStatus = 2
-        db.session.commit()
-
-    return redirect(url_for('getTable'))
-
-
-@ app.route('/setActivProduct', methods=['GET', 'POST'])
-def setActivProduct():
-    if request.method == 'POST':
-
-        activList = Product.query.filter(Product.orderStatus == 1)
-        for column in activList:
-            column.orderStatus = 2
-            db.session.commit()
-        id = request.form['id']
-        product = Product.query.get(id)
-        product.orderStatus = 1
-        db.session.commit()
-
-    return redirect(url_for('getTable'))
 
 
 @ app.route('/setStatus', methods=('GET', 'POST'))
