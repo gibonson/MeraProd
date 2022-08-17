@@ -156,17 +156,18 @@
                         </h6>
                         <br>
                         {{ productEditForm.hidden_tag() }}
-                        <input id="productID" name="productID" type="hidden" value="{{product.id}}">
+                        <input id="productID" name="productID" type="hidden" value="{{product.id}}" class="form-control">
                         <br>
-                        <input id="modelCode" name="modelCode" type="text" value="{{product.modelCode}}">
+                        <input id="modelCode" name="modelCode" type="text" value="{{product.modelCode}}" class="form-control">
                         <br>
-                        <input id="modelName" name="modelName" type="text" value="{{product.modelName}}">
+                        <input id="modelName" name="modelName" type="text" value="{{product.modelName}}" class="form-control">
                         <br>
-                        <input id="startDate" name="startDate" type="datetime-local" value="{{product.startDate}}">
+                        <input id="startDate" name="startDate" type="datetime-local" value="{{product.startDate}}" class="form-control">
                         <br>
-                        <input id="executionDate" name="executionDate" type="datetime-local" value="{{product.executionDate}}">
+                        <input id="executionDate" name="executionDate" type="datetime-local" value="{{product.executionDate}}" class="form-control">
                         <br>
-                        <input id="orderStatus" name="orderStatus" type="text" value="{{product.orderStatus}}">
+                        <input id="orderStatus" name="orderStatus" type="text" value="{{product.orderStatus}}" class="form-control">
+                        <br>
                         <input id="newStatus" name="newStatus" type="hidden" value="Edit">
                         {{ productEditForm.submit(class = "btn btn-outline-info btn-block")}}
                     </div>

@@ -144,3 +144,6 @@ class ProductEditForm(FlaskForm):
 #     userID = IntegerField(label="- ID:", validators=[
 #         DataRequired(message='*Required')])
 #     submit = SubmitField(label='Start Event')
+
+# class CloseAllEvents(FlaskForm):
+#     submit  = SubmitField(label="Close all events")

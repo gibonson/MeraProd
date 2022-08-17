@@ -13,15 +13,22 @@ Event Start Form
         </h1>
 
         {% for openProduct in openProductList %}
-        {% for status in statusList %}
-        <form method="POST" class="form-register" style="color:white">
-            <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
-            <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
-            <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
-            <button class="btn btn-success btn-block buttonFull">set stats to: {{ status.statusName }} - {{
-                openProduct.modelName}}</button>
-        </form>
-        {% endfor %}
+        <h3 class="h2 mb-3 font-weight-normal">
+            create a new status for {{openProduct.modelName}} - {{ openProduct.modelCode}}
+        </h3>
+        <div class="row">
+            {% for status in statusList %}
+            <div class="col text-center">
+                <form method="POST" class="form-register" style="color:white">
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <button class="btn btn-success btn-block buttonFull">set stats to: {{ status.statusName }} - {{
+                        openProduct.modelName}}</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
         {% endfor %}
     </div>
 </div>

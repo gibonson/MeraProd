@@ -159,6 +159,21 @@ def event_start_page():
 
     return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList)
 
+@ app.route('/eventAllStop', methods=('GET', 'POST'))
+@ login_required
+def event_all_stop_page():
+        now = datetime.today()
+        now = now.timestamp()
+        now = int(now)
+        activEventList = Event.query.filter(Event.endDate == None)
+        for column in activEventList:
+            print(column.id)
+            column.endDate = now
+        db.session.commit()
+
+        return redirect((url_for('event_start_page')))
+
+
 
 @app.route('/productTable', methods=['GET', 'POST'])
 @login_required
@@ -217,6 +232,7 @@ def event_table_page():
     finalEventTable = []
     for status, user, product, event in results:
         finalEvent = {}
+        finalEvent["id"] = event.id
         finalEvent["modelCode"] = product.modelCode
         finalEvent["modelName"] = product.modelName
         finalEvent["username"] = user.username
