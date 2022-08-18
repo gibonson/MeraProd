@@ -1,6 +1,6 @@
 from mainApp import app
 from mainApp import db
-from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm, ProductOpenStatusForm, ProductCloseStatusForm, ProductWaitStatusForm, ProductEditForm
+from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm, ProductOpenStatusForm, ProductCloseStatusForm, ProductWaitStatusForm, ProductEditForm, EventStartForm, EventCloseForm
 from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
@@ -135,44 +135,50 @@ def event_page():
     return render_template('eventForm.html', form=form)
 
 
-@ app.route('/eventStart', methods=('GET', 'POST'))
+@ app.route('/eventStartStop', methods=('GET', 'POST'))
 @ login_required
-def event_start_page():
+def event_start_stop_page():
+    eventStartForm = EventStartForm()
+    eventCloseForm = EventCloseForm()
     if request.method == 'POST':
-        idProd = request.form['idProd']
-        print(idProd)
-        idStatus = request.form['idStatus']
-        print(idStatus)
-        idUser = request.form['idUser']
-        print(idUser)
-        today = datetime.today()
-        today = today.timestamp()
-        today = int(today)
-        print(today)
-        event_to_create = Event(idProd=idProd, idStatus=idStatus, startDate=today, endDate=None, nokCounter=None,
-                                okCounter=None,  userID=idUser)
-        db.session.add(event_to_create)
-        db.session.commit()
+        if request.form['idEvent'] != "None":
+            print("dupa")
+        else:
+            idProd = request.form['idProd']
+            print(idProd)
+            idStatus = request.form['idStatus']
+            print(idStatus)
+            idUser = request.form['idUser']
+            print(idUser)
+            today = datetime.today()
+            today = today.timestamp()
+            today = int(today)
+            print(today)
+            event_to_create = Event(idProd=idProd, idStatus=idStatus, startDate=today, endDate=None, nokCounter=None,
+                                    okCounter=None,  userID=idUser)
+            db.session.add(event_to_create)
+            db.session.commit()
 
     openProductList = Product.query.filter(Product.orderStatus == "Open")
     statusList = Status.query.all()
+    openEventList = Event.query.filter(Event.endDate == None)
 
-    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList)
+    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm = eventStartForm, eventCloseForm = eventCloseForm)
+
 
 @ app.route('/eventAllStop', methods=('GET', 'POST'))
 @ login_required
 def event_all_stop_page():
-        now = datetime.today()
-        now = now.timestamp()
-        now = int(now)
-        activEventList = Event.query.filter(Event.endDate == None)
-        for column in activEventList:
-            print(column.id)
-            column.endDate = now
-        db.session.commit()
+    now = datetime.today()
+    now = now.timestamp()
+    now = int(now)
+    activEventList = Event.query.filter(Event.endDate == None)
+    for column in activEventList:
+        print(column.id)
+        column.endDate = now
+    db.session.commit()
 
-        return redirect((url_for('event_start_page')))
-
+    return redirect((url_for('event_start_stop_page')))
 
 
 @app.route('/productTable', methods=['GET', 'POST'])

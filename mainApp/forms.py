@@ -120,20 +120,22 @@ class EventForm(FlaskForm):
     userID = IntegerField(label="- ID:", validators=[
         DataRequired(message='*Required')])
     submit = SubmitField(label='Start Event')
-    
-    
+
 
 class ProductOpenStatusForm(FlaskForm):
-    submit  = SubmitField(label="Set Open Status")
+    submit = SubmitField(label="Set Open Status")
+
 
 class ProductCloseStatusForm(FlaskForm):
-    submit  = SubmitField(label="Set Close Status")
+    submit = SubmitField(label="Set Close Status")
+
 
 class ProductWaitStatusForm(FlaskForm):
-    submit  = SubmitField(label="Set Wait Status")
+    submit = SubmitField(label="Set Wait Status")
+
 
 class ProductEditForm(FlaskForm):
-    submit  = SubmitField(label="Set Edit Status")
+    submit = SubmitField(label="Set Edit Status")
 
 
 # class EventStartForm(FlaskForm):
@@ -147,3 +149,12 @@ class ProductEditForm(FlaskForm):
 
 # class CloseAllEvents(FlaskForm):
 #     submit  = SubmitField(label="Close all events")
+
+
+class EventStartForm(FlaskForm):
+    submit = SubmitField(label="Start Event")
+
+class EventCloseForm(FlaskForm):
+    submit = SubmitField(label="Close Event")
+
+

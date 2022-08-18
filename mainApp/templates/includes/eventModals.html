@@ -1,0 +1,48 @@
+<style>
+    .modal-content {
+        background-color: #212121
+    }
+</style>
+
+<!-- Open status -->
+<div class="modal fade" id="Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">
+                    {{ openProduct.id}} - {{ status.statusName }} - {{ openProduct.modelName}}
+                    <!-- -->
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left">
+                <form method="post">
+                    <div class="text-center">
+                        <h4>
+                            Do you want to start new event: <strong>{{ status.statusName }}</strong> for detail  <strong>{{
+                                openProduct.modelName}}</strong>?
+                        </h4>
+                        <br>
+                        <h6 class="text-center">
+                            By clicking Start Event, you will create new event.
+                        </h6>
+                        <br>
+                        {{ eventStartForm.hidden_tag() }}
+                        <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                        <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                        <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                        <input type="hidden" class="form-control" name="idEvent" value="None">
+                        {{ eventStartForm.submit(class = "btn btn-outline-success btn-block")}}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
