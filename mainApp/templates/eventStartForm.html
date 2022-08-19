@@ -11,7 +11,6 @@ Event Start Form
         <h1 class="h2 mb-3 font-weight-normal">
             Event Start Form
         </h1>
-
         {% for openProduct in openProductList %}
         <h3 class="h2 mb-3 font-weight-normal">
             create a new status for {{openProduct.modelName}} - {{ openProduct.modelCode}}
@@ -19,58 +18,18 @@ Event Start Form
         <div class="row">
             {% for status in statusList %}
             {% for openEvent in openEventList %}
-            {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
-            <div class="col text-center">
-                <form method="POST" class="form-register" style="color:white">
-                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
-                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
-                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
-                    <input type="hidden" class="form-control" name="idEvent" value="{{ openEvent.id }}">
-                    <button class="btn btn-danger btn-block buttonFull">Close event: {{ status.statusName }} - {{
-                        openProduct.modelName}} - {{ openEvent.id }}</button>
-                </form>
-            </div>
-            {% endif %}
-            {% endfor %}
-            <div class="col text-center">
-                <form method="POST" class="form-register" style="color:white">
-                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
-                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
-                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
-                    <input type="hidden" class="form-control" name="idEvent" value="None">
-                    <button class="btn btn-success btn-block buttonFull">Start new event: {{ status.statusName }} - {{
-                        openProduct.modelName}}</button>
-
-                </form>
-            </div>
-            {% endfor %}
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-<div class="text-center">
-    <div class="container">
-        <h1 class="h2 mb-3 font-weight-normal">
-            Event Start Form
-        </h1>
-        {% for openProduct in openProductList %}
-        <h3 class="h2 mb-3 font-weight-normal">
-            create a new status for {{openProduct.modelName}} - {{ openProduct.modelCode}}
-        </h3>
-        <div class="row">
-            {% for status in statusList %}
-            {% for openEvent in openEventList %}
-            {% include 'includes/eventModals.html'%}
+            {% include 'includes/eventCloseModals.html'%}
 
             {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
             <div class="col text-center">
                 <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal"
-                    data-target="#Modal-Close-{{openProduct.id}}">Close event: {{ status.statusName }} - {{
+                    data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Close event: {{ status.statusName }} - {{
                         openProduct.modelName}} - {{openEvent.id}}</button>
             </div>
             {% endif %}
             {% endfor %}
+            {% include 'includes/eventStartModals.html'%}
+
             <div class="col text-center">
                 <button class="btn btn-outline btn-success buttonFull" data-toggle="modal"
                     data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start new event: {{ status.statusName }} - {{
@@ -83,6 +42,3 @@ Event Start Form
     </div>
 </div>
 {% endblock %}
-
-
--{{ current_user.id }}-{{ openEvent.id }}

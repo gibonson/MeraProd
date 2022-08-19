@@ -142,7 +142,21 @@ def event_start_stop_page():
     eventCloseForm = EventCloseForm()
     if request.method == 'POST':
         if request.form['idEvent'] != "None":
-            print("dupa")
+            okCounter = request.form['okCounter']
+            nokCounter = request.form['nokCounter']
+            eventID = request.form['idEvent']
+            event_to_close = Event.query.get(eventID)
+
+            now = datetime.today()
+            now = now.timestamp()
+            now = int(now)
+            event_to_close.okCounter = okCounter
+            event_to_close.nokCounter = nokCounter
+            event_to_close.endDate = now
+
+            db.session.add(event_to_close)
+            db.session.commit()
+
         else:
             idProd = request.form['idProd']
             print(idProd)
@@ -342,19 +356,6 @@ def setStatus():
             return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList, openStatuses=openStatuses)
 
     return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList, openStatuses=openStatuses)
-
-
-@ app.route("/closeAllStatuses", methods=('GET', 'POST'))
-def closeAllStatuses():
-    messages.clear()
-    today = datetime.today()
-    print(today)
-    emptyEndDateList = Status.query.filter(Status.endDate == None)
-    for column in emptyEndDateList:
-        column.endDate = today
-
-    db.session.commit()
-    return redirect((url_for('setStatus')))
 
 
 @ app.route('/help')

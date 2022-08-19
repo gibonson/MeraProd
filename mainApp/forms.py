@@ -155,6 +155,8 @@ class EventStartForm(FlaskForm):
     submit = SubmitField(label="Start Event")
 
 class EventCloseForm(FlaskForm):
+    okCounter = IntegerField(label="Ok Counter:", validators=[DataRequired()])
+    nokCounter = IntegerField(label="Nok Counter:", validators=[DataRequired()])
     submit = SubmitField(label="Close Event")
 
 
