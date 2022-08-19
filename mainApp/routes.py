@@ -156,7 +156,8 @@ def event_start_stop_page():
 
             db.session.add(event_to_close)
             db.session.commit()
-
+            flash(
+                f'Success! Event closed: {eventID}', category='success')
         else:
             idProd = request.form['idProd']
             print(idProd)
@@ -172,7 +173,8 @@ def event_start_stop_page():
                                     okCounter=None,  userID=idUser)
             db.session.add(event_to_create)
             db.session.commit()
-
+            flash(
+                f'Success! Event Start: {idProd} - {idStatus}', category='success')
     openProductList = Product.query.filter(Product.orderStatus == "Open")
     statusList = Status.query.all()
     openEventList = Event.query.filter(Event.endDate == None)
@@ -316,47 +318,6 @@ def getTimeRange(delta):
 
     print()
     return render_template('getTimeRange.html', results=results, delta=delta, dateRangeMax=dateRangeMax, dateRangeMin=dateRangeMin)
-
-
-@ app.route('/setStatus', methods=('GET', 'POST'))
-@ login_required
-def setStatus():
-    messages.clear()
-    today = datetime.today()
-    print(today)
-    activProductList = Product.query.filter(Product.orderStatus == 1)
-    for column in activProductList:
-        print("% s % s" % (column.id, column.lenght))
-    eventList = EventType.query.all()
-    openStatuses = Status.query.filter(Status.endDate == None)
-
-    if request.method == 'POST':
-        idProd = request.form['idProd']
-        idEvent = request.form['idEvent']
-        userID = request.form['userID']
-
-        if not idProd:
-            flash('idProd is required!')
-        elif not idEvent:
-            flash('idEvent is required!')
-        elif not userID:
-            flash('userID is required!')
-        else:
-            messages.append({'title': idProd, 'content': idEvent})
-            newStatus = Status(idProd, idEvent, startDate=today,
-                               endDate=None, okCounter=None, nokCounter=None, userID=userID)
-
-            emptyEndDateList = Status.query.filter(Status.endDate == None)
-            for column in emptyEndDateList:
-                column.endDate = today
-
-            db.session.add(newStatus)
-            db.session.commit()
-
-            return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList, openStatuses=openStatuses)
-
-    return render_template('setStatusForm.html', messages=messages, today=today, activProductList=activProductList, eventList=eventList, openStatuses=openStatuses)
-
 
 @ app.route('/help')
 def help():
