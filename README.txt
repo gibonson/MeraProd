@@ -1,14 +1,15 @@
-#create  DB
+-- create  DB
 1) console->python
 2) >>> from mainApp import db
 3) >>> db.create_all()
 
-
+-- pip zapisanie listy
 pip freeze -l > requirements.txt
+-- pip instalacja
 pip install -r requirements.txt
 
 
--- SQLite
+-- SQLite lista statusów 
 INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('1', '00', 'Produkcja - 00 - Produkcja', 'Prod');
 INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('2', '11', 'Awaria - 11 - Czujniki', 'Error');
 INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('3', '12', 'Awaria - 12 - Siłowniki pneumatyczne', 'Error');
