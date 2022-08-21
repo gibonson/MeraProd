@@ -8,7 +8,8 @@ from mainApp.models.status import Status
 from flask_login import login_required, logout_user, login_user
 from flask import render_template, request, redirect, url_for, flash
 from datetime import datetime, timedelta
-
+from openpyxl import Workbook
+import string
 
 @app.route('/')
 @app.route('/home')
@@ -179,7 +180,7 @@ def event_start_stop_page():
     statusList = Status.query.all()
     openEventList = Event.query.filter(Event.endDate == None)
 
-    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm = eventStartForm, eventCloseForm = eventCloseForm)
+    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm=eventStartForm, eventCloseForm=eventCloseForm)
 
 
 @ app.route('/eventAllStop', methods=('GET', 'POST'))
@@ -265,7 +266,7 @@ def event_table_page():
         if event.endDate:
             finalEvent["endDate"] = datetime.fromtimestamp(event.endDate)
             finalEvent["delta"] = round(
-                (event.endDate - event.startDate)/86400, 1)
+                (event.endDate - event.startDate)/3600, 1)
         else:
             finalEvent["endDate"] = "in progress"
             finalEvent["delta"] = "in progress"
@@ -273,7 +274,65 @@ def event_table_page():
 
     for resfinalEvent in finalEventTable:
         print(resfinalEvent)
+
+    wb = Workbook()
+    ws = wb.active
+    ws1 = wb.create_sheet("test")
+    ws.title = "New Title"
+    ws.sheet_properties.tabColor = "1072BA"
+    ws['A1'] = "id"
+    ws['B1'] = "modelCode"
+    ws['C1'] = "modelName"
+    ws['D1'] = "username"
+    ws['E1'] = "statusName"
+    ws['F1'] = "okCounter"
+    ws['G1'] = "nokCounter"
+    ws['H1'] = "startDate"
+    ws['I1'] = "endDate"
+    ws['J1'] = "delta[h]"
+    # for x in range(1, 10):
+    #     cell = 'A' + str(x)
+    #     ws[cell] = x
+    date_now = datetime.now()
+    alphabet = list(string.ascii_lowercase)
+    print(alphabet)
+    row_counter = 1
+    for resfinalEvent in finalEventTable:
+        row_counter+=1
+        ws['A'+str(row_counter)] = resfinalEvent["id"]
+        ws['B'+str(row_counter)] = resfinalEvent["modelCode"]
+        ws['C'+str(row_counter)] = resfinalEvent["modelName"]
+        ws['D'+str(row_counter)] = resfinalEvent["username"]
+        ws['E'+str(row_counter)] = resfinalEvent["statusName"]
+        ws['F'+str(row_counter)] = resfinalEvent["okCounter"]
+        ws['G'+str(row_counter)] = resfinalEvent["nokCounter"]
+        ws['H'+str(row_counter)] = resfinalEvent["startDate"]
+        ws['I'+str(row_counter)] = resfinalEvent["endDate"]
+        ws['J'+str(row_counter)] = resfinalEvent["delta"]
+        print(row_counter)
+    output_file_name = "output/raport - " + str(date_now) + ".xls"
+    wb.save(output_file_name)
+    flash(f"Export complete! File name: {output_file_name}", category='success')
+
+    
+
     return render_template('eventTable.html', finalEventTable=finalEventTable)
+
+
+@app.route('/exportExcel', methods=['GET', 'POST'])
+@login_required
+def exportExcel():
+    wb = Workbook()
+    ws = wb.active
+    ws1 = wb.create_sheet("test")
+    ws.title = "New Title"
+    ws.sheet_properties.tabColor = "1072BA"
+    for x in range(1, 10):
+        cell = 'A' + str(x)
+        ws[cell] = x
+    wb.save("testfile.xlsx")
+    return "ok"
+
 
 # granica poprawności:D
 # granica poprawności:D
@@ -318,6 +377,7 @@ def getTimeRange(delta):
 
     print()
     return render_template('getTimeRange.html', results=results, delta=delta, dateRangeMax=dateRangeMax, dateRangeMin=dateRangeMin)
+
 
 @ app.route('/help')
 def help():
