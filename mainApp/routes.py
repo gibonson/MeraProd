@@ -334,9 +334,9 @@ def exportExcel():
 def download_report_page ():
     path = "../output/raport.xls"
     try:
-        flash(f'File download error!', category='danger')
         return send_file(path, as_attachment=True)
     except:
+        flash(f'File download error!', category='danger')
         return render_template('404.html')
 
 @ app.route('/help')
