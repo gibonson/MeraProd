@@ -6,7 +6,7 @@ from mainApp.models.product import Product
 from mainApp.models.event import Event
 from mainApp.models.status import Status
 from flask_login import login_required, logout_user, login_user
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from openpyxl import Workbook
 import string
@@ -308,9 +308,10 @@ def event_table_page():
         ws['I'+str(row_counter)] = resfinalEvent["endDate"]
         ws['J'+str(row_counter)] = resfinalEvent["delta"]
         print(row_counter)
-    output_file_name = "output/raport - " + str(date_now) + ".xls"
+    # output_file_name = "output/raport - " + str(date_now) + ".xls"
+    output_file_name = "output/raport.xls"
     wb.save(output_file_name)
-    flash(f"Export complete! File name: {output_file_name}", category='success')
+    flash(f'Export complete! File name: {output_file_name}', category='success')
 
     return render_template('eventTable.html', finalEventTable=finalEventTable)
 
@@ -329,6 +330,14 @@ def exportExcel():
     wb.save("testfile.xlsx")
     return "ok"
 
+@app.route('/download')
+def download_report_page ():
+    path = "../output/raport.xls"
+    try:
+        flash(f'File download error!', category='danger')
+        return send_file(path, as_attachment=True)
+    except:
+        return render_template('404.html')
 
 @ app.route('/help')
 def help():
@@ -337,6 +346,7 @@ def help():
 
 @ app.errorhandler(404)
 def not_found(e):
+    flash(f'404!', category='danger')
     return render_template('404.html')
 
   

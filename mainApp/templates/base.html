@@ -45,6 +45,10 @@
             <li class="nav-item">
                <a class="nav-link" href="{{url_for('event_all_stop_page')}}"><i class='fa fa-hand-paper-o'></i> event_all_stop_page</a>
             </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i> download</a>
+            </li>
+            
          </ul>
          {% if current_user.is_authenticated %}
          <ul class="navbar-nav">
