@@ -312,8 +312,6 @@ def event_table_page():
     wb.save(output_file_name)
     flash(f"Export complete! File name: {output_file_name}", category='success')
 
-    
-
     return render_template('eventTable.html', finalEventTable=finalEventTable)
 
 
@@ -331,6 +329,17 @@ def exportExcel():
     wb.save("testfile.xlsx")
     return "ok"
 
+
+@ app.route('/help')
+def help():
+    return'help', 400
+
+
+@ app.errorhandler(404)
+def not_found(e):
+    return render_template('404.html')
+
+  
 
 # granica poprawności:D
 # granica poprawności:D
@@ -375,13 +384,3 @@ def getTimeRange(delta):
 
     print()
     return render_template('getTimeRange.html', results=results, delta=delta, dateRangeMax=dateRangeMax, dateRangeMin=dateRangeMin)
-
-
-@ app.route('/help')
-def help():
-    return'help', 400
-
-
-@ app.errorhandler(404)
-def not_found(e):
-    return '404'
