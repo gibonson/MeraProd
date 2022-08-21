@@ -290,9 +290,7 @@ def event_table_page():
     ws['H1'] = "startDate"
     ws['I1'] = "endDate"
     ws['J1'] = "delta[h]"
-    # for x in range(1, 10):
-    #     cell = 'A' + str(x)
-    #     ws[cell] = x
+
     date_now = datetime.now()
     alphabet = list(string.ascii_lowercase)
     print(alphabet)
