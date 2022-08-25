@@ -68,7 +68,7 @@ class StatusForm(FlaskForm):
 
 class ProductForm(FlaskForm):
     orderStatList = [("Open", "Open"),
-                     ("Wait", "Wait"),
+                     ("Auto", "Auto"),
                      ("Close", "Close")]
     check_startDate = 0
     check_executionDate = 0
@@ -130,8 +130,8 @@ class ProductCloseStatusForm(FlaskForm):
     submit = SubmitField(label="Set Close Status")
 
 
-class ProductWaitStatusForm(FlaskForm):
-    submit = SubmitField(label="Set Wait Status")
+class ProductAutoStatusForm(FlaskForm):
+    submit = SubmitField(label="Set Auto Status")
 
 
 class ProductEditForm(FlaskForm):
@@ -160,3 +160,9 @@ class EventCloseForm(FlaskForm):
     submit = SubmitField(label="Close Event")
 
 
+class SetdateRange(FlaskForm):
+    startDate = DateTimeLocalField(label="Start Date:", validators=[DataRequired()],
+                                   format='%Y-%m-%dT%H:%M')
+    endDate = DateTimeLocalField(label="End Date:", validators=[DataRequired()],
+                                 format='%Y-%m-%dT%H:%M')
+    submit = SubmitField(label='Set date range')

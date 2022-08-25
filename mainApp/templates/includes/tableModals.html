@@ -88,7 +88,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="Modal-Wait-{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="Modal-Auto-{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -107,17 +107,17 @@
                         <h4>
                             Do you want to change <strong>{{ product.modelCode}} - {{ product.modelName}}</strong>
                             status to
-                            <strong>Wait</strong>?
+                            <strong>Auto</strong>?
                         </h4>
                         <br>
                         <h6 class="text-center">
-                            By clicking Submit, you will set Wait status.
+                            By clicking Submit, you will set Auto status.
                         </h6>
                         <br>
-                        {{ productWaitStatusForm.hidden_tag() }}
+                        {{ productAutoStatusForm.hidden_tag() }}
                         <input id="productID" name="productID" type="hidden" value="{{product.id}}">
-                        <input id="newStatus" name="newStatus" type="hidden" value="Wait">
-                        {{ productWaitStatusForm.submit(class = "btn btn-outline-warning btn-block")}}
+                        <input id="newStatus" name="newStatus" type="hidden" value="Auto">
+                        {{ productAutoStatusForm.submit(class = "btn btn-outline-warning btn-block")}}
                     </div>
                 </form>
             </div>

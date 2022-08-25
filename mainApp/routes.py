@@ -1,6 +1,6 @@
 from mainApp import app
 from mainApp import db
-from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm, ProductOpenStatusForm, ProductCloseStatusForm, ProductWaitStatusForm, ProductEditForm, EventStartForm, EventCloseForm
+from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm, ProductOpenStatusForm, ProductCloseStatusForm, ProductAutoStatusForm, ProductEditForm, EventStartForm, EventCloseForm, SetdateRange
 from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
@@ -10,6 +10,8 @@ from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from openpyxl import Workbook
 import string
+from sqlalchemy import or_
+
 
 @app.route('/')
 @app.route('/home')
@@ -62,7 +64,6 @@ def login_page():
 def logout_page():
     logout_user()
     flash(f'You have been logged out!', category='info')
-
     return redirect(url_for('home_page'))
 
 
@@ -176,7 +177,7 @@ def event_start_stop_page():
             db.session.commit()
             flash(
                 f'Success! Event Start: {idProd} - {idStatus}', category='success')
-    openProductList = Product.query.filter(Product.orderStatus == "Open")
+    openProductList = Product.query.filter(or_(Product.orderStatus == "Open",Product.orderStatus == "Auto"))
     statusList = Status.query.all()
     openEventList = Event.query.filter(Event.endDate == None)
 
@@ -203,7 +204,7 @@ def event_all_stop_page():
 def product_table_page():
     productCloseStatusForm = ProductCloseStatusForm()
     productOpenStatusForm = ProductOpenStatusForm()
-    productWaitStatusForm = ProductWaitStatusForm()
+    productAutoStatusForm = ProductAutoStatusForm()
     productEditForm = ProductEditForm()
     if request.method == 'POST':
         productID = request.form.get('productID')
@@ -243,15 +244,46 @@ def product_table_page():
             (product.executionDate - product.startDate)/86400, 1)
         product.startDate = datetime.fromtimestamp(product.startDate)
         product.executionDate = datetime.fromtimestamp(product.executionDate)
-    return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productWaitStatusForm=productWaitStatusForm, productEditForm=productEditForm)
+    return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productAutoStatusForm=productAutoStatusForm, productEditForm=productEditForm)
 
 
 @app.route('/eventTable', methods=['GET', 'POST'])
 @login_required
 def event_table_page():
-    results = db.session.query(Status, User, Product, Event).filter(
-        Event.startDate, Event.startDate, Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
 
+    startDateTimestamp = datetime.now()
+    endDateTimestamp = datetime.now()
+    
+    dateRangeMin = 0
+    dateRangeMax = 0
+
+    form = SetdateRange()
+
+    startDateTimestamp = datetime.now() - timedelta(days=1)
+    startDateTimestamp = startDateTimestamp.strftime('%Y-%m-%dT00:00')
+
+    endDateTimestamp = datetime.now()
+    endDateTimestamp = endDateTimestamp.strftime('%Y-%m-%dT23:59')
+    
+    form.startDate.default = startDateTimestamp
+    form.endDate.default = endDateTimestamp
+
+    if form.validate_on_submit():
+        startDateTimestamp = form.startDate.data
+        endDateTimestamp = form.endDate.data
+        dateRangeMin = startDateTimestamp.timestamp()
+        dateRangeMax = endDateTimestamp.timestamp()
+        print(dateRangeMin)
+        print(dateRangeMax)
+    # results = db.session.query(Status, User, Product, Event).filter(
+        # Event.startDate, Event.startDate, Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
+    results = db.session.query(Status, User, Product, Event).filter(
+        Event.startDate>= dateRangeMin, Event.startDate <= dateRangeMax, Event.endDate, Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
+    print(dateRangeMin)
+    dateRangeMin = startDateTimestamp
+    print(dateRangeMax)
+    dateRangeMax = endDateTimestamp
+    
     finalEventTable = []
     for status, user, product, event in results:
         finalEvent = {}
@@ -272,72 +304,64 @@ def event_table_page():
             finalEvent["delta"] = "in progress"
         finalEventTable.append(finalEvent)
 
-    for resfinalEvent in finalEventTable:
-        print(resfinalEvent)
 
-    wb = Workbook()
-    ws = wb.active
-    ws1 = wb.create_sheet("test")
-    ws.title = "New Title"
-    ws.sheet_properties.tabColor = "1072BA"
-    ws['A1'] = "id"
-    ws['B1'] = "modelCode"
-    ws['C1'] = "modelName"
-    ws['D1'] = "username"
-    ws['E1'] = "statusName"
-    ws['F1'] = "okCounter"
-    ws['G1'] = "nokCounter"
-    ws['H1'] = "startDate"
-    ws['I1'] = "endDate"
-    ws['J1'] = "delta[h]"
-
-    date_now = datetime.now()
-    alphabet = list(string.ascii_lowercase)
-    print(alphabet)
-    row_counter = 1
-    for resfinalEvent in finalEventTable:
-        row_counter+=1
-        ws['A'+str(row_counter)] = resfinalEvent["id"]
-        ws['B'+str(row_counter)] = resfinalEvent["modelCode"]
-        ws['C'+str(row_counter)] = resfinalEvent["modelName"]
-        ws['D'+str(row_counter)] = resfinalEvent["username"]
-        ws['E'+str(row_counter)] = resfinalEvent["statusName"]
-        ws['F'+str(row_counter)] = resfinalEvent["okCounter"]
-        ws['G'+str(row_counter)] = resfinalEvent["nokCounter"]
-        ws['H'+str(row_counter)] = resfinalEvent["startDate"]
-        ws['I'+str(row_counter)] = resfinalEvent["endDate"]
-        ws['J'+str(row_counter)] = resfinalEvent["delta"]
-        print(row_counter)
-    # output_file_name = "output/raport - " + str(date_now) + ".xls"
-    output_file_name = "output/raport.xls"
-    wb.save(output_file_name)
-    flash(f'Export complete! File name: {output_file_name}', category='success')
-
-    return render_template('eventTable.html', finalEventTable=finalEventTable)
+    
+    # for resfinalEvent in finalEventTable:
+    #     print(resfinalEvent)
 
 
-@app.route('/exportExcel', methods=['GET', 'POST'])
-@login_required
-def exportExcel():
-    wb = Workbook()
-    ws = wb.active
-    ws1 = wb.create_sheet("test")
-    ws.title = "New Title"
-    ws.sheet_properties.tabColor = "1072BA"
-    for x in range(1, 10):
-        cell = 'A' + str(x)
-        ws[cell] = x
-    wb.save("testfile.xlsx")
-    return "ok"
+    if form.validate_on_submit():
+        wb = Workbook()
+        ws = wb.active
+        ws1 = wb.create_sheet("test")
+        ws.title = "New Title"
+        ws.sheet_properties.tabColor = "1072BA"
+        ws['A1'] = "id"
+        ws['B1'] = "modelCode"
+        ws['C1'] = "modelName"
+        ws['D1'] = "username"
+        ws['E1'] = "statusName"
+        ws['F1'] = "okCounter"
+        ws['G1'] = "nokCounter"
+        ws['H1'] = "startDate"
+        ws['I1'] = "endDate"
+        ws['J1'] = "delta[h]"
+
+        # alphabet = list(string.ascii_lowercase)
+        # print(alphabet)
+        row_counter = 1
+        for resfinalEvent in finalEventTable:
+            row_counter += 1
+            ws['A'+str(row_counter)] = resfinalEvent["id"]
+            ws['B'+str(row_counter)] = resfinalEvent["modelCode"]
+            ws['C'+str(row_counter)] = resfinalEvent["modelName"]
+            ws['D'+str(row_counter)] = resfinalEvent["username"]
+            ws['E'+str(row_counter)] = resfinalEvent["statusName"]
+            ws['F'+str(row_counter)] = resfinalEvent["okCounter"]
+            ws['G'+str(row_counter)] = resfinalEvent["nokCounter"]
+            ws['H'+str(row_counter)] = resfinalEvent["startDate"]
+            ws['I'+str(row_counter)] = resfinalEvent["endDate"]
+            ws['J'+str(row_counter)] = resfinalEvent["delta"]
+            # print(row_counter)
+        # output_file_name = "output/raport - " + str(date_now) + ".xls"
+        output_file_name = "output/raport.xls"
+        wb.save(output_file_name)
+        flash(
+            f'Export complete! File name: {output_file_name}', category='success')
+
+    return render_template('eventTable.html', finalEventTable=finalEventTable, form=form, endDateTimestamp=endDateTimestamp, startDateTimestamp=startDateTimestamp , )
+
 
 @app.route('/download')
-def download_report_page ():
+@login_required
+def download_report_page():
     path = "../output/raport.xls"
     try:
         return send_file(path, as_attachment=True)
     except:
         flash(f'File download error!', category='danger')
         return render_template('404.html')
+
 
 @ app.route('/help')
 def help():
@@ -348,49 +372,3 @@ def help():
 def not_found(e):
     flash(f'404!', category='danger')
     return render_template('404.html')
-
-  
-
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-# granica poprawności:D
-
-
-@app.route('/getTimeRange/<delta>')
-@ login_required
-def getTimeRange(delta):
-    delta = int(delta)
-    dateToday = datetime.today()
-    day = dateToday - timedelta(delta)+timedelta(1)
-    dateRangeMax = datetime(
-        day.year, day.month, day.day, 6, 0, 0, 0)
-    dateRangeMin = dateRangeMax - timedelta(days=1)
-
-    results = db.session.query(Status, Users, Product, EventType).filter(
-        Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax, Status.userID == Users.id, Status.idProd == Product.id, EventType.idEvent == Status.idEvent)
-    for status, users, product, event in results:
-        print(status.userID, users.username,
-              status.endDate - status.startDate, status.id, product.belegNumber, event.eventName)
-
-    # statusesByDay = Status.query.filter(
-    #     Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax).join(Users.id)
-
-    # for statusByDay in statusesByDay:
-    #     print(statusByDay)
-    #     # final = str(statusByDay) + " -> " + str(statusByDay.startDate) + " -> " + str(statusByDay.endDate) + " "+ str(statusByDay.users.username)
-    #     # print(final)
-    delta = int(delta)
-    dateRangeMax = str(dateRangeMax)
-    dateRangeMin = str(dateRangeMin)
-
-    resultsSum = db.session.query(Status.idEvent,  EventType.eventName, db.func.count(Status.idEvent)).filter(
-        Status.startDate >= dateRangeMin, Status.startDate <= dateRangeMax, Status.userID == Users.id, Status.idProd == Product.id, EventType.idEvent == Status.idEvent).outerjoin(Status, Status.idEvent == EventType.idEvent).group_by(EventType.eventName).all()
-    for res in resultsSum:
-        print(res)
-
-    print()
-    return render_template('getTimeRange.html', results=results, delta=delta, dateRangeMax=dateRangeMax, dateRangeMin=dateRangeMin)
