@@ -278,7 +278,7 @@ def event_table_page():
     # results = db.session.query(Status, User, Product, Event).filter(
         # Event.startDate, Event.startDate, Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
     results = db.session.query(Status, User, Product, Event).filter(
-        Event.startDate>= dateRangeMin, Event.startDate <= dateRangeMax, Event.endDate, Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
+        Event.startDate>= dateRangeMin, Event.startDate <= dateRangeMax,  Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
     print(dateRangeMin)
     dateRangeMin = startDateTimestamp
     print(dateRangeMax)
@@ -349,7 +349,7 @@ def event_table_page():
         flash(
             f'Export complete! File name: {output_file_name}', category='success')
 
-    return render_template('eventTable.html', finalEventTable=finalEventTable, form=form, endDateTimestamp=endDateTimestamp, startDateTimestamp=startDateTimestamp , )
+    return render_template('eventTable.html', finalEventTable=finalEventTable, form=form, endDateTimestamp=endDateTimestamp, startDateTimestamp=startDateTimestamp)
 
 
 @app.route('/download')
