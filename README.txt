@@ -37,3 +37,22 @@ INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('1
 INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('20', '80', 'Zmiana palety - 80', 'Error');
 INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('21', '90', 'Kontrola szczelności - 90', 'Error');
 INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('22', '100', 'Sprzątanie stanowiska - 100', 'Error');
+
+
+```mermaid
+graph TD;
+a-->b;
+a-->c;
+d-->d;
+c-->d;
+```
+
+lub
+
+```mermaid
+sequenceDiagram
+participant a
+participant b
+a->>b: c
+b->>b: d
+```
