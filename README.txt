@@ -46,7 +46,13 @@ a-->c;
 d-->d;
 c-->d;
 ```
-
+<div class="mermaid">
+    graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+</div>
 lub
 
 ```mermaid
@@ -56,3 +62,10 @@ participant b
 a->>b: c
 b->>b: d
 ```
+
+
+graph TD;
+    Router---Switch1;
+    Router---Switch2;
+    Switch1---Server;
+    Switch2---Server;
