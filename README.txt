@@ -1,3 +1,8 @@
+1) status auto - done
+2) user and admin role - done
+3) słowniki
+4) paramertyzacja
+
 -- create  DB
 1) console->python
 2) >>> from mainApp import db
