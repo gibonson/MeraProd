@@ -5,12 +5,28 @@ from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
 from mainApp.models.status import Status
-from flask_login import login_required, logout_user, login_user
+from flask_login import login_required, logout_user, login_user, current_user
 from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from openpyxl import Workbook
 import string
-from sqlalchemy import or_
+from sqlalchemy import or_ , and_
+from functools import wraps
+
+
+
+def admin_check(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if current_user.is_anonymous:
+            return redirect(url_for('login_page'))
+        elif current_user.role  == "admin":
+            print("you are admin")
+        else:
+            flash(f'You are not admin!', category='danger')
+            return render_template('404.html')
+        return func(*args, **kwargs)
+    return wrapper
 
 
 @app.route('/')
@@ -69,6 +85,7 @@ def logout_page():
 
 @app.route('/status', methods=['GET', 'POST'])
 @login_required
+@admin_check
 def status_page():
     form = StatusForm()
     if form.validate_on_submit():
@@ -88,6 +105,7 @@ def status_page():
 
 @app.route('/product', methods=['GET', 'POST'])
 @login_required
+@admin_check
 def product_page():
     form = ProductForm()
 
@@ -107,6 +125,7 @@ def product_page():
 
 @app.route('/event', methods=['GET', 'POST'])
 @login_required
+@admin_check
 def event_page():
 
     EventForm.activProductList.clear()
@@ -177,7 +196,11 @@ def event_start_stop_page():
             db.session.commit()
             flash(
                 f'Success! Event Start: {idProd} - {idStatus}', category='success')
-    openProductList = Product.query.filter(or_(Product.orderStatus == "Open",Product.orderStatus == "Auto"))
+    now = datetime.today()
+    now = now.timestamp()
+    now = int(now)
+    print(now)
+    openProductList = Product.query.filter(or_(Product.orderStatus == "Open",and_(Product.orderStatus == "Auto", Product.startDate <= now, Product.executionDate >= now)))
     statusList = Status.query.all()
     openEventList = Event.query.filter(Event.endDate == None)
 
@@ -249,6 +272,7 @@ def product_table_page():
 
 @app.route('/eventTable', methods=['GET', 'POST'])
 @login_required
+@admin_check
 def event_table_page():
 
     startDateTimestamp = datetime.now()
@@ -354,6 +378,7 @@ def event_table_page():
 
 @app.route('/download')
 @login_required
+@admin_check
 def download_report_page():
     path = "../output/raport.xls"
     try:
