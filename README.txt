@@ -3,6 +3,9 @@
 3) słowniki - silnik działa
 4) paramertyzacja
 
+
+autofocus="autofocus"
+
 -- create  DB
 1) console->python
 2) >>> from mainApp import db

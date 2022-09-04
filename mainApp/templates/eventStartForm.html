@@ -17,22 +17,32 @@ Event Start Form
         </h3>
         <div class="row">
             {% for status in statusList %}
-            {% for openEvent in openEventList %}
-            {% include 'includes/eventCloseModals.html'%}
+                {% for openEvent in openEventList %}
 
-            {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
-            <div class="col text-center">
-                <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal"
-                    data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}"><span class="spinner-border spinner-border-sm"></span> Close: {{ status.statusName }}, id: {{openEvent.id}}</button>
-            </div>
-            {% endif %}
-            {% endfor %}
-            {% include 'includes/eventStartModals.html'%}
+                {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
+                {% include 'includes/eventCloseModals.html'%}
+                <div class="col text-center">
+                    <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal" autofocus="autofocus"
+                        data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}"><span class="spinner-border spinner-border-sm"></span> Close: {{ status.statusName }}, ID: {{openEvent.id}}</button>
+                </div>
+                {% endif %}
+                {% endfor %}
 
-            <div class="col text-center">
-                <button class="btn btn-outline btn-success buttonFull" data-toggle="modal"
-                    data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{ status.statusName }}</button>
-            </div>
+                {% if status.production == "Prod" %}
+                {% include 'includes/eventStartModals.html'%}
+                <div class="col text-center">
+                    <button class="btn btn-outline btn-success buttonFull" data-toggle="modal" 
+                        data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{ status.statusName }}</button>
+                </div>
+                {% else %}
+                {% include 'includes/eventStartModals.html'%}
+                <div class="col text-center">
+                    <button class="btn btn-outline btn-warning buttonFull" data-toggle="modal"
+                        data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{ status.statusName }}</button>
+                </div>
+                {% endif %}
+
+
             {% endfor %}
         </div>
         {% endfor %}
