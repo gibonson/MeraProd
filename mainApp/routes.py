@@ -12,7 +12,7 @@ from openpyxl import Workbook
 import string
 from sqlalchemy import or_ , and_
 from functools import wraps
-
+from flask_babel import  gettext
 
 
 def admin_check(func):
@@ -32,9 +32,10 @@ def admin_check(func):
 @app.route('/')
 @app.route('/home')
 def home_page():
-    referrer = request.referrer
-    print(referrer)
-    return render_template('home.html')
+
+    prodStart = gettext('start produkcji')
+
+    return render_template('home.html', prodStart = prodStart)
 
 
 @app.route('/register', methods=['GET', 'POST'])

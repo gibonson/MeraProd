@@ -2,7 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import database_exists
 from flask_login import LoginManager
+from flask_babel import Babel
+
 import os
+
+
 
 # Init app
 app = Flask(__name__)
@@ -28,5 +32,14 @@ if database_exists(app.config["SQLALCHEMY_DATABASE_URI"]):
     print('date base exist!')
 else:
     print('no db')
+
+# Init Babel
+# app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+babel = Babel(app, default_locale="en")
+
+@babel.localeselector
+def get_locale():
+    print('translate')
+    return 'pl'
 
 from mainApp import routes

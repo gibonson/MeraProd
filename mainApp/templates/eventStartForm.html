@@ -23,8 +23,7 @@ Event Start Form
             {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
             <div class="col text-center">
                 <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal"
-                    data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Close event: {{ status.statusName }} - {{
-                        openProduct.modelName}} - {{openEvent.id}}</button>
+                    data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}"><span class="spinner-border spinner-border-sm"></span> Close: {{ status.statusName }}, id: {{openEvent.id}}</button>
             </div>
             {% endif %}
             {% endfor %}
@@ -32,8 +31,7 @@ Event Start Form
 
             <div class="col text-center">
                 <button class="btn btn-outline btn-success buttonFull" data-toggle="modal"
-                    data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start new event: {{ status.statusName }} - {{
-                        openProduct.modelName}}</button>
+                    data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{ status.statusName }}</button>
             </div>
             {% endfor %}
         </div>
