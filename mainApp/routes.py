@@ -10,9 +10,9 @@ from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from openpyxl import Workbook
 import string
-from sqlalchemy import or_ , and_
+from sqlalchemy import or_, and_
 from functools import wraps
-from flask_babel import  gettext
+from flask_babel import gettext
 
 
 def admin_check(func):
@@ -20,7 +20,7 @@ def admin_check(func):
     def wrapper(*args, **kwargs):
         if current_user.is_anonymous:
             return redirect(url_for('login_page'))
-        elif current_user.role  == "admin":
+        elif current_user.role == "admin":
             print("you are admin")
         else:
             flash(f'You are not admin!', category='danger')
@@ -35,7 +35,7 @@ def home_page():
 
     prodStart = gettext('start produkcji')
 
-    return render_template('home.html', prodStart = prodStart)
+    return render_template('home.html', prodStart=prodStart)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -201,7 +201,8 @@ def event_start_stop_page():
     now = now.timestamp()
     now = int(now)
     print(now)
-    openProductList = Product.query.filter(or_(Product.orderStatus == "Open",and_(Product.orderStatus == "Auto", Product.startDate <= now, Product.executionDate >= now)))
+    openProductList = Product.query.filter(or_(Product.orderStatus == "Open", and_(
+        Product.orderStatus == "Auto", Product.startDate <= now, Product.executionDate >= now)))
     statusList = Status.query.all()
     openEventList = Event.query.filter(Event.endDate == None)
 
@@ -219,7 +220,6 @@ def event_all_stop_page():
         print(column.id)
         column.endDate = now
     db.session.commit()
-
     return redirect((url_for('event_start_stop_page')))
 
 
@@ -278,7 +278,7 @@ def event_table_page():
 
     startDateTimestamp = datetime.now()
     endDateTimestamp = datetime.now()
-    
+
     dateRangeMin = 0
     dateRangeMax = 0
 
@@ -289,7 +289,7 @@ def event_table_page():
 
     endDateTimestamp = datetime.now()
     endDateTimestamp = endDateTimestamp.strftime('%Y-%m-%dT23:59')
-    
+
     form.startDate.default = startDateTimestamp
     form.endDate.default = endDateTimestamp
 
@@ -303,12 +303,12 @@ def event_table_page():
     # results = db.session.query(Status, User, Product, Event).filter(
         # Event.startDate, Event.startDate, Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
     results = db.session.query(Status, User, Product, Event).filter(
-        Event.startDate>= dateRangeMin, Event.startDate <= dateRangeMax,  Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
+        Event.startDate >= dateRangeMin, Event.startDate <= dateRangeMax,  Event.userID == User.id, Event.idProd == Product.id, Event.idStatus == Status.id)
     print(dateRangeMin)
     dateRangeMin = startDateTimestamp
     print(dateRangeMax)
     dateRangeMax = endDateTimestamp
-    
+
     finalEventTable = []
     for status, user, product, event in results:
         finalEvent = {}
@@ -329,11 +329,8 @@ def event_table_page():
             finalEvent["delta"] = "in progress"
         finalEventTable.append(finalEvent)
 
-
-    
     # for resfinalEvent in finalEventTable:
     #     print(resfinalEvent)
-
 
     if form.validate_on_submit():
         wb = Workbook()
@@ -387,6 +384,22 @@ def download_report_page():
     except:
         flash(f'File download error!', category='danger')
         return render_template('404.html')
+
+
+@app.route('/activeProduct', methods=['GET', 'POST'])
+@login_required
+def active_product_page():
+    if request.method == 'POST':
+        modelCode = request.form.get('modelCode')
+        print(modelCode)
+        products = Product.query.all()
+        for product in products:
+            product.orderStatus = "Close"
+            if product.modelCode == modelCode:
+                product.orderStatus = "Open"
+
+    db.session.commit()
+    return redirect((url_for('event_start_stop_page')))
 
 
 @ app.route('/help')

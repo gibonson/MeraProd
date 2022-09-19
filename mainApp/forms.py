@@ -166,3 +166,9 @@ class SetdateRange(FlaskForm):
     endDate = DateTimeLocalField(label="End Date:", validators=[DataRequired()],
                                  format='%Y-%m-%dT%H:%M')
     submit = SubmitField(label='Set date range')
+
+
+class ActiveProduct(FlaskForm):
+    modelCode = StringField(label="Model Code:", validators=[
+                            DataRequired(message='*Required')])
+    submit = SubmitField(label='Active')
