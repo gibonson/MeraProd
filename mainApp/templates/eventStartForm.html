@@ -5,6 +5,8 @@ Event Start Form
 {% endblock %}
 
 {% block content %}
+{% set activeTask = namespace(activeTask=false) %}
+{% set activeTask = namespace(activeStatus=false) %}
 
 <div class="text-center">
     <div class="container">
@@ -13,38 +15,64 @@ Event Start Form
         </h1>
         {% for openProduct in openProductList %}
         <h3 class="h2 mb-3 font-weight-normal">
-            create a new status for {{openProduct.modelName}} - {{ openProduct.modelCode}}
+            create a new evet for {{openProduct.modelName}} - {{ openProduct.modelCode}}
         </h3>
         <div class="row">
             {% for status in statusList %}
-                {% for openEvent in openEventList %}
+            {% for openEvent in openEventList %}
+            {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
+            {% set activeTask.activeTask = True %}
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
 
-                {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
-                {% include 'includes/eventCloseModals.html'%}
-                <div class="col text-center">
-                    <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal" autofocus="autofocus"
-                        data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}"><span class="spinner-border spinner-border-sm"></span> Close: {{ status.statusName }}, ID: {{openEvent.id}}</button>
-                </div>
-                {% endif %}
-                {% endfor %}
 
-                {% if status.production == "Prod" %}
-                {% include 'includes/eventStartModals.html'%}
-                <div class="col text-center">
-                    <button class="btn btn-outline btn-success buttonFull" data-toggle="modal" 
-                        data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{ status.statusName }}</button>
-                </div>
-                {% else %}
-                {% include 'includes/eventStartModals.html'%}
-                <div class="col text-center">
-                    <button class="btn btn-outline btn-warning buttonFull" data-toggle="modal"
-                        data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{ status.statusName }}</button>
-                </div>
-                {% endif %}
+            {% for status in statusList %}
+            {% for openEvent in openEventList %}
+            {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
+            {% set activeTask.activeTask = True %}
+            {% set activeTask.activeStatus = True %}
+            {% include 'includes/eventCloseModals.html'%}
+            <div class="col text-center">
+                <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal" autofocus="autofocus"
+                    data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}"><span
+                        class="spinner-border spinner-border-sm"></span> Close: {{ status.statusName }}, ID:
+                    {{openEvent.id}}</button>
+            </div>
+            {% endif %}
+            {% endfor %}
 
+            {% if status.production == "Prod" and not activeTask.activeTask %}
+            {% include 'includes/eventStartModals.html'%}
+            <div class="col text-center">
+                <button class="btn btn-outline btn-success buttonFull" data-toggle="modal"
+                    data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{
+                    status.statusName }}</button>
+            </div>
+            {% endif %}
+
+            {% if status.production == "Error" and not activeTask.activeTask %}
+            {% include 'includes/eventStartModals.html'%}
+            <div class="col text-center">
+                <button class="btn btn-outline btn-warning buttonFull" data-toggle="modal"
+                    data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{
+                    status.statusName }}</button>
+            </div>
+            {% endif %}
+
+            {% if activeTask.activeTask and not activeTask.activeStatus %}
+            <div class="col text-center">
+                <button class="btn btn-outline btn-secondary buttonFull" data-toggle="modal"
+                    data-target="">Unactive: {{
+                    status.statusName }}</button>
+            </div>
+            {% endif %}
+            
+            {% set activeTask.activeStatus = False %}
 
             {% endfor %}
         </div>
+        {% set activeTask.activeTask = False %}
         {% endfor %}
 
     </div>
