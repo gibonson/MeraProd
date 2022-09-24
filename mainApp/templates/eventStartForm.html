@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Event Start Form
+{{ _('Event Start Form')}}
 {% endblock %}
 
 {% block content %}
@@ -11,11 +11,11 @@ Event Start Form
 <div class="text-center">
     <div class="container">
         <h1 class="h2 mb-3 font-weight-normal">
-            Event Start Form
+            {{ _('Event Start Form')}}
         </h1>
         {% for openProduct in openProductList %}
         <h3 class="h2 mb-3 font-weight-normal">
-            create a new evet for {{openProduct.modelName}} - {{ openProduct.modelCode}}
+            {{ _('create a new evet for')}} {{openProduct.modelName}} - {{ openProduct.modelCode}}
         </h3>
         <div class="row">
             {% for status in statusList %}
@@ -37,7 +37,7 @@ Event Start Form
                 <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal" autofocus="autofocus"
                     data-target="#Modal-Close-{{openProduct.id}}-{{status.id}}-{{current_user.id}}"><span
                         class="spinner-border spinner-border-sm"></span> Close: {{ status.statusName }}, ID:
-                    {{openEvent.id}}</button>
+                    {{openEvent.id}}, {{openEvent.username}}</button>
             </div>
             {% endif %}
             {% endfor %}

@@ -204,7 +204,7 @@ def event_start_stop_page():
     openProductList = Product.query.filter(or_(Product.orderStatus == "Open", and_(
         Product.orderStatus == "Auto", Product.startDate <= now, Product.executionDate >= now)))
     statusList = Status.query.all()
-    openEventList = Event.query.filter(Event.endDate == None)
+    openEventList = Event.query.filter(Event.endDate == None )
 
     return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm=eventStartForm, eventCloseForm=eventCloseForm)
 

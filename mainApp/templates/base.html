@@ -26,33 +26,32 @@
          <ul class="navbar-nav mr-auto">
             {% if current_user.role == "admin"%}
             <li class="nav-item active">
-               <a class="nav-link" href="{{url_for('product_page')}}"><i class='fa fa-product-hunt'></i> Add product</a>
+               <a class="nav-link" href="{{url_for('product_page')}}"><i class='fa fa-product-hunt'></i> {{ _('Add product')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('status_page')}}"><i class='fa fa-question'></i> Add status</a>
+               <a class="nav-link" href="{{url_for('status_page')}}"><i class='fa fa-question'></i> {{ _('Add status')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_page')}}"><i class='fa fa-clock-o'></i> Add event</a>
+               <a class="nav-link" href="{{url_for('event_page')}}"><i class='fa fa-clock-o'></i> {{ _('Add event')}}</a>
             </li>
             {% endif %}
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('product_table_page')}}"><i class='fa fa-table'></i> Product</a>
+               <a class="nav-link" href="{{url_for('product_table_page')}}"><i class='fa fa-table'></i> {{ _('Product')}}</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="{{url_for('event_start_stop_page')}}"><i class='fa fa-cog fa-spin'></i>
-                  Event</a>
+                  {{ _('Event')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_all_stop_page')}}"><i class='fa fa-hand-paper-o'></i> Force
-                  STOP</a>
+               <a class="nav-link" href="{{url_for('event_all_stop_page')}}"><i class='fa fa-hand-paper-o'></i> {{ _('Force STOP')}}</a>
             </li>
             {% if current_user.role == "admin"%}
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> Event</a>
+               <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> {{ _('Event')}}</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i>
-                  Download</a>
+                  {{ _('Download')}}</a>
             </li>
             {% endif %}
             {% if current_user.is_authenticated %}
@@ -75,17 +74,17 @@
                    - {{ current_user.role }} <i class='fa fa-user'></i></a>
             </li>
             <li class="nav-item">
-               <a class="btn btn-danger navbar-btn" href="{{url_for('logout_page')}}">logout_page <i
+               <a class="btn btn-danger navbar-btn" href="{{url_for('logout_page')}}">{{ _('logout_page')}} <i
                      class='fa fa-sign-out'></i></a>
             </li>
          </ul>
          {% else %}
          <ul class="navbar-nav">
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('register_page')}}">register_page <i class='fa fa-user-plus'></i></a>
+               <a class="nav-link" href="{{url_for('register_page')}}">{{ _('register_page')}} <i class='fa fa-user-plus'></i></a>
             </li>
             <li class="nav-item">
-               <a class="btn btn-success navbar-btn" href="{{url_for('login_page')}}">login_page <i
+               <a class="btn btn-success navbar-btn" href="{{url_for('login_page')}}">{{ _('login_page')}} <i
                      class='fa fa-sign-in'></i></a>
             </li>
          </ul>

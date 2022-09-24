@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Login Page
+{{ _('Login Page')}}
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@ Login Page
         <form method="POST" class="form-signin" style="color:white">
             {{ form.hidden_tag() }}
             <h1 class="h3 mb-3 font-weight-normal">
-                Please Login
+                {{ _('Please Login')}}
             </h1>
             {{ form.username.label() }}
             {{ form.username(class="form-control", placeholder="User Name") }}
@@ -24,8 +24,8 @@ Login Page
 
             <br>
             <div class="checkbox mb-3">
-                <h6>Do not have an account?</h6>
-                <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Register</a>
+                <h6>{{ _('Do not have an account?')}}</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">{{ _('Register')}}</a>
             </div>
 
         </form>
