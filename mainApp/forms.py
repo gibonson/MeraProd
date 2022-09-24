@@ -4,6 +4,7 @@ from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationE
 from mainApp.models.user import User
 from mainApp.models.status import Status
 from mainApp.models.product import Product
+from flask_babel import gettext
 
 
 class RegisterForm(FlaskForm):
@@ -15,7 +16,7 @@ class RegisterForm(FlaskForm):
             User.username == username_to_check.data).first()
         if user:
             raise ValidationError(
-                'User already exist! please try a different username')
+                 gettext('User already exist! please try a different username'))
 
     def validate_email_address(self, email_address_to_check):
         email_address = User.query.filter(
@@ -33,7 +34,7 @@ class RegisterForm(FlaskForm):
     password2 = PasswordField(
         label='Confirm Password:', validators=[EqualTo('password1'), DataRequired()])
     role = SelectField(label='User role:', choices=role)
-    submit = SubmitField(label='Create Account')
+    submit = SubmitField(label=gettext('Create Account'))
 
 
 class LoginForm(FlaskForm):
