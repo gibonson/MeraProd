@@ -28,14 +28,20 @@ def admin_check(func):
         return func(*args, **kwargs)
     return wrapper
 
+def openStatusesCounter():
+    openEventCounter = 0
+    activEventsList = Event.query.filter(Event.endDate == None)
+    for  activEventList in activEventsList:
+        openEventCounter += 1
+    return openEventCounter
 
 @app.route('/')
 @app.route('/home')
 def home_page():
-
+    openStatuses = openStatusesCounter()
     prodStart = gettext('start produkcji')
 
-    return render_template('home.html', prodStart=prodStart)
+    return render_template('home.html', prodStart=prodStart, openStatuses = openStatuses)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -88,6 +94,7 @@ def logout_page():
 @login_required
 @admin_check
 def status_page():
+    openStatuses = openStatusesCounter()
     form = StatusForm()
     if form.validate_on_submit():
         status_to_create = Status(
@@ -101,13 +108,14 @@ def status_page():
         for err_msg in form.errors.values():
             flash(f'Status incorrect!: {err_msg}', category='danger')
 
-    return render_template('statusForm.html', form=form)
+    return render_template('statusForm.html', form=form, openStatuses = openStatuses)
 
 
 @app.route('/product', methods=['GET', 'POST'])
 @login_required
 @admin_check
 def product_page():
+
     form = ProductForm()
 
     if form.validate_on_submit():
@@ -120,8 +128,8 @@ def product_page():
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
             flash(f'Product incorrect!: {err_msg}', category='danger')
-
-    return render_template('productForm.html', form=form)
+    openStatuses = openStatusesCounter()
+    return render_template('productForm.html', form=form, openStatuses = openStatuses)
 
 
 @app.route('/event', methods=['GET', 'POST'])
@@ -153,8 +161,8 @@ def event_page():
     if form.errors != {}:  # validation errors
         for err_msg in form.errors.values():
             flash(f'Product incorrect!: {err_msg}', category='danger')
-
-    return render_template('eventForm.html', form=form)
+    openStatuses = openStatusesCounter()
+    return render_template('eventForm.html', form=form, openStatuses = openStatuses)
 
 
 @ app.route('/eventStartStop', methods=('GET', 'POST'))
@@ -205,8 +213,9 @@ def event_start_stop_page():
         Product.orderStatus == "Auto", Product.startDate <= now, Product.executionDate >= now)))
     statusList = Status.query.all()
     openEventList = Event.query.filter(Event.endDate == None )
+    openStatuses = openStatusesCounter()
 
-    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm=eventStartForm, eventCloseForm=eventCloseForm)
+    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm=eventStartForm, eventCloseForm=eventCloseForm, openStatuses = openStatuses)
 
 
 @ app.route('/eventAllStop', methods=('GET', 'POST'))
@@ -264,18 +273,39 @@ def product_table_page():
 
     products = Product.query.all()
     for product in products:
-        product.delta = round(
-            (product.executionDate - product.startDate)/86400, 1)
-        product.startDate = datetime.fromtimestamp(product.startDate)
-        product.executionDate = datetime.fromtimestamp(product.executionDate)
-    return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productAutoStatusForm=productAutoStatusForm, productEditForm=productEditForm)
+        product.delta = "update"
+        if product.startDate:
+            product.delta = round((product.executionDate - product.startDate)/86400, 1)
+            product.startDate = datetime.fromtimestamp(product.startDate)
+            product.executionDate = datetime.fromtimestamp(product.executionDate)
+        else:
+            product.delta = "update"
+    openStatuses = openStatusesCounter()
+    return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productAutoStatusForm=productAutoStatusForm, productEditForm=productEditForm, openStatuses = openStatuses)
+
+@app.route('/productFinishedTable', methods=['GET', 'POST'])
+@login_required
+def product_finished_table_page():
+    products = Product.query.filter(Product.orderStatus == 'Finished')
+    for product in products:
+        if product.startDate:
+            product.delta = round((product.executionDate - product.startDate)/86400, 1)
+            product.startDate = datetime.fromtimestamp(product.startDate)
+            product.executionDate = datetime.fromtimestamp(product.executionDate)
+            print(product.delta)
+        else:
+            product.delta = "update"
+
+    openStatuses = openStatusesCounter()
+    return render_template('productFinishedTable.html', products=products, openStatuses = openStatuses)
+
+
 
 
 @app.route('/eventTable', methods=['GET', 'POST'])
 @login_required
 @admin_check
 def event_table_page():
-
     startDateTimestamp = datetime.now()
     endDateTimestamp = datetime.now()
 
@@ -370,8 +400,9 @@ def event_table_page():
         wb.save(output_file_name)
         flash(
             f'Export complete! File name: {output_file_name}', category='success')
+    openStatuses = openStatusesCounter()
 
-    return render_template('eventTable.html', finalEventTable=finalEventTable, form=form, endDateTimestamp=endDateTimestamp, startDateTimestamp=startDateTimestamp)
+    return render_template('eventTable.html', finalEventTable=finalEventTable, form=form, endDateTimestamp=endDateTimestamp, startDateTimestamp=startDateTimestamp, openStatuses = openStatuses)
 
 
 @app.route('/download')
@@ -389,6 +420,7 @@ def download_report_page():
 @app.route('/activeProduct', methods=['GET', 'POST'])
 @login_required
 def active_product_page():
+    productExist = False
     if request.method == 'POST':
         modelCode = request.form.get('modelCode')
         print(modelCode)
@@ -397,8 +429,16 @@ def active_product_page():
             product.orderStatus = "Close"
             if product.modelCode == modelCode:
                 product.orderStatus = "Open"
+                productExist = True
+        db.session.commit()
 
-    db.session.commit()
+        if not productExist:
+            product_to_create = Product(modelCode, "added by operator",
+                                    "Open", None, None)
+            db.session.add(product_to_create)
+            db.session.commit()
+            flash(f'Success! product added by operator: {product_to_create.modelCode}', category='success')
+
     return redirect((url_for('event_start_stop_page')))
 
 

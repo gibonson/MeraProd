@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ _('Product Finished Table Page')}}
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1 class="h2 mb-3 font-weight-normal">{{ _('Product Finished Table Page')}}</h1>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-striped table-dark" style="width: 100%">
+                <tr>
+                    <th>id</th>
+                    <th>modelCode</th>
+                    <th>modelName</th>
+                    <th>orderStatus</th>
+                    <th>startDate</th>
+                    <th>executionDate</th>
+                    <th>delta [day]</th>
+                </tr>
+                {% for product in products %}
+                <tr>
+                    <td>{{product.id}}</td>
+                    <td>{{product.modelCode}}</td>
+                    <td>{{product.modelName}}</td>
+                    <td>{{product.orderStatus}}</td>
+                    <td>{{product.startDate}}</td>
+                    <td>{{product.executionDate}}</td>
+                    <td>{{product.delta}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
