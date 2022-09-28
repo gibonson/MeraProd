@@ -271,6 +271,7 @@ def product_table_page():
             flash(
                 f"Changed product status from {oldStatus} to {newStatus}", category='success')
 
+    # products = Product.query.filter(Product.orderStatus == 'Finished')
     products = Product.query.all()
     for product in products:
         product.delta = "update"
@@ -289,17 +290,12 @@ def product_finished_table_page():
     products = Product.query.filter(Product.orderStatus == 'Finished')
     for product in products:
         if product.startDate:
-            product.delta = round((product.executionDate - product.startDate)/86400, 1)
             product.startDate = datetime.fromtimestamp(product.startDate)
             product.executionDate = datetime.fromtimestamp(product.executionDate)
-            print(product.delta)
-        else:
-            product.delta = "update"
+
 
     openStatuses = openStatusesCounter()
     return render_template('productFinishedTable.html', products=products, openStatuses = openStatuses)
-
-
 
 
 @app.route('/eventTable', methods=['GET', 'POST'])
@@ -426,7 +422,8 @@ def active_product_page():
         print(modelCode)
         products = Product.query.all()
         for product in products:
-            product.orderStatus = "Close"
+            if product.orderStatus != "Finished":
+                product.orderStatus = "Close"
             if product.modelCode == modelCode:
                 product.orderStatus = "Open"
                 productExist = True

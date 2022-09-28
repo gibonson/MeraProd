@@ -18,7 +18,6 @@
                     <th>orderStatus</th>
                     <th>startDate</th>
                     <th>executionDate</th>
-                    <th>delta [day]</th>
                 </tr>
                 {% for product in products %}
                 <tr>
@@ -28,7 +27,6 @@
                     <td>{{product.orderStatus}}</td>
                     <td>{{product.startDate}}</td>
                     <td>{{product.executionDate}}</td>
-                    <td>{{product.delta}}</td>
                 </tr>
                 {% endfor %}
             </table>
