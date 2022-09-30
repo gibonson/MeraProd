@@ -44,6 +44,15 @@
                <a class="nav-link" href="{{url_for('event_start_stop_page')}}"><i class='fa fa-cog'></i>
                   {{ _('Event')}}</a>
             </li>
+            {% if current_user.role == "admin"%}
+            <li class="nav-item">
+               <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> {{ _('Event')}}</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i>
+                  {{ _('Download')}}</a>
+            </li>
+            {% endif %}
             {% if openStatuses == 0%}
             <li class="nav-item">
                <a class="btn btn-secondary navbar-btn" href="#"><i class='fa fa-cog'></i>
@@ -53,16 +62,6 @@
             <li class="nav-item">
                <a class="btn btn-danger navbar-btn" href="{{url_for('event_all_stop_page')}}"><i class='fa fa-hand-paper-o'></i><i class='fa fa-cog fa-spin'></i>
                   {{ _('Force STOP')}} {{openStatuses}} {{ _('event')}}</a>
-            </li>
-            {% endif %}
-            </li>
-            {% if current_user.role == "admin"%}
-            <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> {{ _('Event')}}</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i>
-                  {{ _('Download')}}</a>
             </li>
             {% endif %}
             {% if current_user.is_authenticated %}

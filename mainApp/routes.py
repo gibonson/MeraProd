@@ -13,6 +13,7 @@ import string
 from sqlalchemy import or_, and_
 from functools import wraps
 from flask_babel import gettext
+import re
 
 
 def admin_check(func):
@@ -430,6 +431,12 @@ def active_product_page():
         db.session.commit()
 
         if not productExist:
+
+            modelCodeRegexp = re.search("[0-9]{4}\/[0-9]{2}\/[0-9]{2}\/ZP\/[0-9]+", modelCode)
+            if not modelCodeRegexp:
+                flash(f'nameCode validation error: {modelCode}', category='danger')
+                return redirect((url_for('event_start_stop_page')))
+
             product_to_create = Product(modelCode, "added by operator",
                                     "Open", None, None)
             db.session.add(product_to_create)

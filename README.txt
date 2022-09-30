@@ -1,9 +1,7 @@
-1) status auto - done
-2) user and admin role - done
-3) słowniki - silnik działa
-4) paramertyzacja
+-- indeks detalu
+sugerowany format modelCode: 0001/08/22/ZP/1
 
-
+-- aktywne pole w HTML
 autofocus="autofocus"
 
 -- create  DB
@@ -45,34 +43,3 @@ INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('2
 pybabel extract -F mainApp/babel.cfg -o messages.pot .  
 pybabel init -i messages.pot -d translations -l pl 
 pybabel compile -d translations  
-
-```mermaid
-graph TD;
-a-->b;
-a-->c;
-d-->d;
-c-->d;
-```
-<div class="mermaid">
-    graph TD;
-      A-->B;
-      A-->C;
-      B-->D;
-      C-->D;
-</div>
-lub
-
-```mermaid
-sequenceDiagram
-participant a
-participant b
-a->>b: c
-b->>b: d
-```
-
-
-graph TD;
-    Router---Switch1;
-    Router---Switch2;
-    Switch1---Server;
-    Switch2---Server;
