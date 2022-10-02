@@ -194,8 +194,7 @@ def event_start_stop_page():
                 product_to_close = Product.query.get(idProd)
                 product_to_close.orderStatus = "Finished"
                 db.session.commit()
-            flash(
-                f'Success! Product Finished: {product_to_close.modelCode}', category='success')
+                flash(f'Success! Product Finished: {product_to_close.modelCode}', category='success')
         else:
             idProd = request.form['idProd']
             print(idProd)
