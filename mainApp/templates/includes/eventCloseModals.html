@@ -34,7 +34,8 @@
                         <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
                         <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
                         <input type="hidden" class="form-control" name="idEvent" value="{{ openEvent.id }}">
-                        {% if status.production == "Prod"%}
+                        <input type="hidden" class="form-control" name="production" value="{{ status.production }}">
+                        {% if status.production == "Prod" or status.production == "Finish"%}
                         {{ eventCloseForm.okCounter.label() }}
                         {{ eventCloseForm.okCounter(class="form-control" , value = 0) }}
             
@@ -44,7 +45,12 @@
                         {% else %}
                         <input type="hidden" class="form-control" name="okCounter" value=0>
                         <input type="hidden" class="form-control" name="nokCounter" value=0>
+                        {% endif %}
 
+                        {% if status.production == "Finish"%}
+                        <h3 class="text-center">
+                            By clicking Close Event, you will close product.
+                        </h3>
                         {% endif %}
 
                         {{ eventCloseForm.submit(class = "btn btn-outline-danger btn-block")}}

@@ -60,6 +60,24 @@
             </div>
             {% endif %}
 
+            {% if status.production == "TPZ" and not activeTask.activeTask %}
+            {% include 'includes/eventStartModals.html'%}
+            <div class="col text-center">
+                <button class="btn btn-outline btn-info buttonFull" data-toggle="modal"
+                    data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{
+                    status.statusName }}</button>
+            </div>
+            {% endif %}
+
+            {% if status.production == "Finish" and not activeTask.activeTask %}
+            {% include 'includes/eventStartModals.html'%}
+            <div class="col text-center">
+                <button class="btn btn-outline btn-outline-danger buttonFull" data-toggle="modal"
+                    data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">Start: {{
+                    status.statusName }}</button>
+            </div>
+            {% endif %}
+
             {% if activeTask.activeTask and not activeTask.activeStatus %}
             <div class="col text-center">
                 <button class="btn btn-outline btn-secondary buttonFull" data-toggle="modal"

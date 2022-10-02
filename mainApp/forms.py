@@ -45,7 +45,9 @@ class LoginForm(FlaskForm):
 
 class StatusForm(FlaskForm):
     prod = [("Prod", "Prod"),
-            ("Error", "Error")]
+            ("TPZ", "TPZ"),
+            ("Error", "Error"),
+            ("Finish", "Finish")]
 
     def validate_statusName(self, statusName_to_check):
         status = Status.query.filter(
