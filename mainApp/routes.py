@@ -189,6 +189,13 @@ def event_start_stop_page():
             db.session.commit()
             flash(
                 f'Success! Event closed: {eventID}', category='success')
+            if request.form['production'] == "Finish":
+                idProd = request.form['idProd']
+                product_to_close = Product.query.get(idProd)
+                product_to_close.orderStatus = "Finished"
+                db.session.commit()
+            flash(
+                f'Success! Product Finished: {product_to_close.modelCode}', category='success')
         else:
             idProd = request.form['idProd']
             print(idProd)
