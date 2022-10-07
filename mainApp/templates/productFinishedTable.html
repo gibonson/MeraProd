@@ -18,8 +18,10 @@
                     <th>orderStatus</th>
                     <th>startDate</th>
                     <th>executionDate</th>
+                    <th>Action</th>
                 </tr>
                 {% for product in products %}
+                
                 <tr>
                     <td>{{product.id}}</td>
                     <td>{{product.modelCode}}</td>
@@ -27,6 +29,12 @@
                     <td>{{product.orderStatus}}</td>
                     <td>{{product.startDate}}</td>
                     <td>{{product.executionDate}}</td>
+                    <td>
+                        <form method="post" action="/productSummary">
+                        <input id="productID" name="productID" type="hidden" value="{{product.id}}">
+                        <input type="submit" class="btn btn-success" value="Product Summary">
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

@@ -10,7 +10,7 @@ from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from openpyxl import Workbook
 import string
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, func
 from functools import wraps
 from flask_babel import gettext
 import re
@@ -29,12 +29,14 @@ def admin_check(func):
         return func(*args, **kwargs)
     return wrapper
 
+
 def openStatusesCounter():
     openEventCounter = 0
     activEventsList = Event.query.filter(Event.endDate == None)
-    for  activEventList in activEventsList:
+    for activEventList in activEventsList:
         openEventCounter += 1
     return openEventCounter
+
 
 @app.route('/')
 @app.route('/home')
@@ -42,7 +44,7 @@ def home_page():
     openStatuses = openStatusesCounter()
     prodStart = gettext('start produkcji')
 
-    return render_template('home.html', prodStart=prodStart, openStatuses = openStatuses)
+    return render_template('home.html', prodStart=prodStart, openStatuses=openStatuses)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -109,7 +111,7 @@ def status_page():
         for err_msg in form.errors.values():
             flash(f'Status incorrect!: {err_msg}', category='danger')
 
-    return render_template('statusForm.html', form=form, openStatuses = openStatuses)
+    return render_template('statusForm.html', form=form, openStatuses=openStatuses)
 
 
 @app.route('/product', methods=['GET', 'POST'])
@@ -130,7 +132,7 @@ def product_page():
         for err_msg in form.errors.values():
             flash(f'Product incorrect!: {err_msg}', category='danger')
     openStatuses = openStatusesCounter()
-    return render_template('productForm.html', form=form, openStatuses = openStatuses)
+    return render_template('productForm.html', form=form, openStatuses=openStatuses)
 
 
 @app.route('/event', methods=['GET', 'POST'])
@@ -163,7 +165,7 @@ def event_page():
         for err_msg in form.errors.values():
             flash(f'Product incorrect!: {err_msg}', category='danger')
     openStatuses = openStatusesCounter()
-    return render_template('eventForm.html', form=form, openStatuses = openStatuses)
+    return render_template('eventForm.html', form=form, openStatuses=openStatuses)
 
 
 @ app.route('/eventStartStop', methods=('GET', 'POST'))
@@ -194,7 +196,8 @@ def event_start_stop_page():
                 product_to_close = Product.query.get(idProd)
                 product_to_close.orderStatus = "Finished"
                 db.session.commit()
-                flash(f'Success! Product Finished: {product_to_close.modelCode}', category='success')
+                flash(
+                    f'Success! Product Finished: {product_to_close.modelCode}', category='success')
         else:
             idProd = request.form['idProd']
             print(idProd)
@@ -219,10 +222,10 @@ def event_start_stop_page():
     openProductList = Product.query.filter(or_(Product.orderStatus == "Open", and_(
         Product.orderStatus == "Auto", Product.startDate <= now, Product.executionDate >= now)))
     statusList = Status.query.all()
-    openEventList = Event.query.filter(Event.endDate == None )
+    openEventList = Event.query.filter(Event.endDate == None)
     openStatuses = openStatusesCounter()
 
-    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm=eventStartForm, eventCloseForm=eventCloseForm, openStatuses = openStatuses)
+    return render_template('eventStartForm.html', openProductList=openProductList, statusList=statusList, openEventList=openEventList, eventStartForm=eventStartForm, eventCloseForm=eventCloseForm, openStatuses=openStatuses)
 
 
 @ app.route('/eventAllStop', methods=('GET', 'POST'))
@@ -283,13 +286,16 @@ def product_table_page():
     for product in products:
         product.delta = "update"
         if product.startDate:
-            product.delta = round((product.executionDate - product.startDate)/86400, 1)
+            product.delta = round(
+                (product.executionDate - product.startDate)/86400, 1)
             product.startDate = datetime.fromtimestamp(product.startDate)
-            product.executionDate = datetime.fromtimestamp(product.executionDate)
+            product.executionDate = datetime.fromtimestamp(
+                product.executionDate)
         else:
             product.delta = "update"
     openStatuses = openStatusesCounter()
-    return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productAutoStatusForm=productAutoStatusForm, productEditForm=productEditForm, openStatuses = openStatuses)
+    return render_template('productTable.html', products=products, productOpenStatusForm=productOpenStatusForm, productCloseStatusForm=productCloseStatusForm, productAutoStatusForm=productAutoStatusForm, productEditForm=productEditForm, openStatuses=openStatuses)
+
 
 @app.route('/productFinishedTable', methods=['GET', 'POST'])
 @login_required
@@ -298,11 +304,11 @@ def product_finished_table_page():
     for product in products:
         if product.startDate:
             product.startDate = datetime.fromtimestamp(product.startDate)
-            product.executionDate = datetime.fromtimestamp(product.executionDate)
-
+            product.executionDate = datetime.fromtimestamp(
+                product.executionDate)
 
     openStatuses = openStatusesCounter()
-    return render_template('productFinishedTable.html', products=products, openStatuses = openStatuses)
+    return render_template('productFinishedTable.html', products=products, openStatuses=openStatuses)
 
 
 @app.route('/eventTable', methods=['GET', 'POST'])
@@ -405,7 +411,7 @@ def event_table_page():
             f'Export complete! File name: {output_file_name}', category='success')
     openStatuses = openStatusesCounter()
 
-    return render_template('eventTable.html', finalEventTable=finalEventTable, form=form, endDateTimestamp=endDateTimestamp, startDateTimestamp=startDateTimestamp, openStatuses = openStatuses)
+    return render_template('eventTable.html', finalEventTable=finalEventTable, form=form, endDateTimestamp=endDateTimestamp, startDateTimestamp=startDateTimestamp, openStatuses=openStatuses)
 
 
 @app.route('/download')
@@ -438,18 +444,54 @@ def active_product_page():
 
         if not productExist:
 
-            modelCodeRegexp = re.search("[0-9]{4}\/[0-9]{2}\/[0-9]{2}\/ZP\/[0-9]+", modelCode)
+            modelCodeRegexp = re.search(
+                "[0-9]{4}\/[0-9]{2}\/[0-9]{2}\/ZP\/[0-9]+", modelCode)
             if not modelCodeRegexp:
-                flash(f'nameCode validation error: {modelCode}', category='danger')
+                flash(
+                    f'nameCode validation error: {modelCode}', category='danger')
                 return redirect((url_for('event_start_stop_page')))
 
             product_to_create = Product(modelCode, "added by operator",
-                                    "Open", None, None)
+                                        "Open", None, None)
             db.session.add(product_to_create)
             db.session.commit()
-            flash(f'Success! product added by operator: {product_to_create.modelCode}', category='success')
+            flash(
+                f'Success! product added by operator: {product_to_create.modelCode}', category='success')
 
     return redirect((url_for('event_start_stop_page')))
+
+
+@app.route('/productSummary', methods=['GET', 'POST'])
+@login_required
+def product_summary_page():
+    if request.method == 'POST':
+        idProd = request.form.get('productID')
+
+
+        # modelCode = request.form.get('modelCode')
+        results = db.session.query(Status, Event).with_entities(Event.id, Event.idStatus,  func.sum(Event.startDate).label("startDate"),  func.sum(Event.endDate).label("endDate"), func.sum(
+            Event.endDate - Event.startDate).label("delta"), func.sum(Event.okCounter).label("okCounter"),  func.sum(Event.nokCounter).label("nokCounter"), Status.statusName, Status.production).filter(Event.idProd == idProd, Event.idStatus == Status.id ).group_by(Event.idStatus).all()
+        statuses = Status.query.all()
+        # evetns = Event.query.filter(Event.idProd == idProd)
+        
+        finalResultsTable = []
+        for result in results:
+            finalEvent = {}
+
+            finalEvent["idStatus"] = result.idStatus
+            finalEvent["statusName"] = result.statusName
+            finalEvent["production"] = result.production
+            finalEvent["okCounter"] = result.okCounter
+            finalEvent["nokCounter"] = result.nokCounter
+            if result.endDate:
+                finalEvent["delta"] = round((result.endDate - result.startDate)/3600, 3)
+            else:
+                finalEvent["delta"] = "in progress"
+            finalResultsTable.append(finalEvent)
+
+        openStatuses = openStatusesCounter()
+    return render_template('productSummaryTable.html', finalResultsTable=finalResultsTable, openStatuses=openStatuses)
+
 
 
 @ app.route('/help')
