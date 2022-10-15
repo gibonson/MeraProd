@@ -14,6 +14,7 @@ from sqlalchemy import or_, and_, func
 from functools import wraps
 from flask_babel import gettext
 import re
+import matplotlib.pyplot as plt
 
 
 def admin_check(func):
@@ -467,13 +468,12 @@ def product_summary_page():
     if request.method == 'POST':
         idProd = request.form.get('productID')
 
-
         # modelCode = request.form.get('modelCode')
         results = db.session.query(Status, Event).with_entities(Event.id, Event.idStatus,  func.sum(Event.startDate).label("startDate"),  func.sum(Event.endDate).label("endDate"), func.sum(
-            Event.endDate - Event.startDate).label("delta"), func.sum(Event.okCounter).label("okCounter"),  func.sum(Event.nokCounter).label("nokCounter"), Status.statusName, Status.production).filter(Event.idProd == idProd, Event.idStatus == Status.id ).group_by(Event.idStatus).all()
+            Event.endDate - Event.startDate).label("delta"), func.sum(Event.okCounter).label("okCounter"),  func.sum(Event.nokCounter).label("nokCounter"), Status.statusName, Status.production).filter(Event.idProd == idProd, Event.idStatus == Status.id).group_by(Event.idStatus).all()
         statuses = Status.query.all()
         # evetns = Event.query.filter(Event.idProd == idProd)
-        
+
         finalResultsTable = []
         for result in results:
             finalEvent = {}
@@ -484,14 +484,31 @@ def product_summary_page():
             finalEvent["okCounter"] = result.okCounter
             finalEvent["nokCounter"] = result.nokCounter
             if result.endDate:
-                finalEvent["delta"] = round((result.endDate - result.startDate)/3600, 3)
+                finalEvent["delta"] = round(
+                    (result.endDate - result.startDate)/3600, 3)
             else:
                 finalEvent["delta"] = "in progress"
             finalResultsTable.append(finalEvent)
 
-        openStatuses = openStatusesCounter()
-    return render_template('productSummaryTable.html', finalResultsTable=finalResultsTable, openStatuses=openStatuses)
+        plt.figure(figsize=(8, 5))
+        values = []
+        labels = []
 
+        for finalResultTable in finalResultsTable:
+
+            labels.append(finalResultTable["statusName"])
+            values.append(finalResultTable["delta"])
+
+
+        plt.pie(values, labels=labels, autopct='%.2f %%')
+
+        plt.title('Summary Chart')
+
+        plt.savefig('mainApp/static/new_plot.png')
+
+        openStatuses = openStatusesCounter()
+
+    return render_template('productSummaryTable.html', finalResultsTable=finalResultsTable, openStatuses=openStatuses)
 
 
 @ app.route('/help')
