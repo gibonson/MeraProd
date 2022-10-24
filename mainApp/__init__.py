@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import database_exists
 from flask_login import LoginManager
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 
 import os
 

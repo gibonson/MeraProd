@@ -43,3 +43,11 @@ INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('2
 pybabel extract -F mainApp/babel.cfg -o messages.pot .  
 pybabel init -i messages.pot -d translations -l pl 
 pybabel compile -d translations  
+
+
+
+
+OEE - raport produkcyjny
+trakowanie usera dzienny
+trakowanie produkt
+założone wydajności 

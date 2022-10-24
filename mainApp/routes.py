@@ -1,34 +1,20 @@
 from mainApp import app
 from mainApp import db
-from mainApp.forms import RegisterForm, LoginForm, StatusForm, ProductForm, EventForm, ProductOpenStatusForm, ProductCloseStatusForm, ProductAutoStatusForm, ProductEditForm, EventStartForm, EventCloseForm, SetdateRange
 from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
 from mainApp.models.status import Status
-from flask_login import login_required, logout_user, login_user, current_user
+from mainApp.forms import StatusForm, ProductForm, EventForm, ProductOpenStatusForm, ProductCloseStatusForm, ProductAutoStatusForm, ProductEditForm, EventStartForm, EventCloseForm, SetdateRange
 from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from openpyxl import Workbook
-import string
 from sqlalchemy import or_, and_, func
-from functools import wraps
 from flask_babel import gettext
+import string
 import re
 import matplotlib.pyplot as plt
-
-
-def admin_check(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        if current_user.is_anonymous:
-            return redirect(url_for('login_page'))
-        elif current_user.role == "admin":
-            print("you are admin")
-        else:
-            flash(f'You are not admin!', category='danger')
-            return render_template('404.html')
-        return func(*args, **kwargs)
-    return wrapper
+from mainApp.auth.auth import admin_check, login_required
+from mainApp.auth.forms import RegisterForm, LoginForm
 
 
 def openStatusesCounter():
@@ -46,52 +32,6 @@ def home_page():
     prodStart = gettext('start produkcji')
 
     return render_template('home.html', prodStart=prodStart, openStatuses=openStatuses)
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def register_page():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        user_to_create = User(
-            username=form.username.data, email_address=form.email_address.data, role=form.role.data)
-        user_to_create.set_password(form.password1.data)
-        db.session.add(user_to_create)
-        db.session.commit()
-        flash(
-            f'Success! usser created: {user_to_create.username}', category='success')
-        login_user(user_to_create)
-        return redirect(url_for('home_page'))
-    if form.errors != {}:  # validation errors
-        for err_msg in form.errors.values():
-            flash(
-                f'There was an error with creating a user: {err_msg}', category='danger')
-
-    return render_template('registerForm.html', form=form)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login_page():
-    form = LoginForm()
-    if form.validate_on_submit():
-        attempted_user = User.query.filter(
-            User.username == form.username.data).first()
-        if attempted_user and attempted_user.check_password(form.password.data):
-            login_user(attempted_user)
-            flash(
-                f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('home_page'))
-        else:
-            flash(f'User name or password incorrect!', category='danger')
-
-    return render_template('loginForm.html', form=form)
-
-
-@app.route('/logout')
-@login_required
-def logout_page():
-    logout_user()
-    flash(f'You have been logged out!', category='info')
-    return redirect(url_for('home_page'))
 
 
 @app.route('/status', methods=['GET', 'POST'])
@@ -498,7 +438,6 @@ def product_summary_page():
 
             labels.append(finalResultTable["statusName"])
             values.append(finalResultTable["delta"])
-
 
         plt.pie(values, labels=labels, autopct='%.2f %%')
 
