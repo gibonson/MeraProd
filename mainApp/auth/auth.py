@@ -2,10 +2,10 @@ from mainApp import db
 from mainApp import app
 from mainApp.routes import redirect, url_for, render_template, flash
 from mainApp.models.user import User
-from mainApp.auth.forms import LoginForm, RegisterForm
+from mainApp.auth.forms import LoginForm, RegisterForm, ChangePassword
 from functools import wraps
 from flask_login import login_required, logout_user, login_user, current_user
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def admin_check(func):
     @wraps(func)
@@ -67,9 +67,23 @@ def logout_page():
     return redirect(url_for('home_page'))
 
 
-@app.route('/userTable')
+@app.route('/userTable', methods=['GET', 'POST'])
 @login_required
 @admin_check
 def user_table_page():
+    form = ChangePassword()
+    if form.validate_on_submit():
+        print("walidacja ok")
+        print(form.userID.data)
+        print(form.password1.data)
+        user = User.query.get(form.userID.data)
+        user.set_password(form.password1.data)
+        db.session.commit()
+
+    if form.errors != {}:  # validation errors
+        for err_msg in form.errors.values():
+            flash(
+                f'There was an error with creating a user: {err_msg}', category='danger')
+
     users = User.query.all()
-    return render_template('userTable.html', users=users)
+    return render_template('userTable.html', users=users, form=form)
