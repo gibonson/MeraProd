@@ -14,18 +14,23 @@
                 <tr>
                     <th>id</th>
                     <th>username</th>
-                    <th>password_hash</th>
                     <th>email_address</th>
                     <th>role</th>
+                    <th>action</th>
                 </tr>
                 {% for user in users %}
-
+                {% include 'includes/userUpdate.html'%}
                 <tr>
                     <td>{{user.id}}</td>
                     <td>{{user.username}}</td>
-                    <td>{{user.password_hash}}</td>
                     <td>{{user.email_address}}</td>
                     <td>{{user.role}}</td>
+                    <td>
+                        <div class="btn-group">
+                        <button class="btn btn-outline btn-warning" data-toggle="modal"
+                            data-target="#Modal-changePassword-{{user.id}}">changePassword </button>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
