@@ -54,7 +54,7 @@
                   {{ _('Download')}}</a>
             </li>
             {% endif %}
-            {% if openStatuses == 0%}
+            {% if openEvents == 0%}
             <li class="nav-item">
                <a class="btn btn-secondary navbar-btn" href="#"><i class='fa fa-cog'></i>
                   No open event</a>
@@ -62,7 +62,7 @@
             {% else %}
             <li class="nav-item">
                <a class="btn btn-danger navbar-btn" href="{{url_for('event_all_stop_page')}}"><i class='fa fa-hand-paper-o'></i><i class='fa fa-cog fa-spin'></i>
-                  {{ _('Force STOP')}} {{openStatuses}} {{ _('event')}}</a>
+                  {{ _('Force STOP')}} {{openEvents}} {{ _('event')}}</a>
             </li>
             {% endif %}
             {% if current_user.is_authenticated %}

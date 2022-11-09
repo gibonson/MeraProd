@@ -1,5 +1,7 @@
+from flask_wtf import FlaskForm
 from mainApp import gettext
-from mainApp.forms import FlaskForm, StringField, Length, DataRequired, Email, PasswordField, EqualTo, SelectField, SubmitField, HiddenField
+from wtforms import StringField, PasswordField, SelectField, SubmitField, HiddenField
+from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from mainApp.models.user import User
 
 
