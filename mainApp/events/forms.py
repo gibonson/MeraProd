@@ -3,7 +3,6 @@ from wtforms import SelectField, DateTimeLocalField, IntegerField, SubmitField
 from wtforms.validators import DataRequired
 
 
-
 class EventForm(FlaskForm):
     activProductList = []
     idStatusList = []
@@ -26,9 +25,11 @@ class EventForm(FlaskForm):
 class EventStartForm(FlaskForm):
     submit = SubmitField(label="Start Event")
 
+
 class EventCloseForm(FlaskForm):
     okCounter = IntegerField(label="Ok Counter:", validators=[DataRequired()])
-    nokCounter = IntegerField(label="Nok Counter:", validators=[DataRequired()])
+    nokCounter = IntegerField(label="Nok Counter:",
+                              validators=[DataRequired()])
     submit = SubmitField(label="Close Event")
 
 

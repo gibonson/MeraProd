@@ -28,4 +28,5 @@ class StatusForm(FlaskForm):
     statusCode = IntegerField(label="Status Code:")
     statusName = StringField(label="Status Name:", validators=[DataRequired()])
     production = SelectField(label='Production Status:', choices=prod)
+    displayOrder = IntegerField(label="Display Order:")
     submit = SubmitField(label='Add new status')

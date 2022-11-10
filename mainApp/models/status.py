@@ -8,8 +8,10 @@ class Status(db.Model):
     statusCode = db.Column(db.Integer)
     statusName = db.Column(db.String(20), unique=True)
     production = db.Column(db.String(20))
+    displayOrder = db.Column(db.Integer)
 
-    def __init__(self, statusCode, statusName, production):
+    def __init__(self, statusCode, statusName, production, displayOrder):
         self.statusCode = statusCode
         self.statusName = statusName
         self.production = production
+        self.displayOrder = displayOrder

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-25 00:53+0200\n"
+"POT-Creation-Date: 2022-11-10 22:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,51 +17,75 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: forms.py:19
+#: auth/forms.py:17
 msgid "User already exist! please try a different username"
 msgstr ""
 
-#: routes.py:36
-msgid "start produkcji"
+#: auth/forms.py:35
+msgid "Create Account"
 msgstr ""
 
-#: templates/base.html:29
-msgid "Add product"
+#: auth/forms.py:50
+msgid "Submit"
+msgstr ""
+
+#: templates/base.html:28
+msgid "Admin tool"
 msgstr ""
 
 #: templates/base.html:32
-msgid "Add status"
+msgid "User table"
 msgstr ""
 
 #: templates/base.html:35
+msgid "Add product"
+msgstr ""
+
+#: templates/base.html:38
+msgid "Product table"
+msgstr ""
+
+#: templates/base.html:41
+msgid "Add status"
+msgstr ""
+
+#: templates/base.html:44
 msgid "Add event"
 msgstr ""
 
-#: templates/base.html:39
-msgid "Product"
+#: templates/base.html:47
+msgid "Event table"
 msgstr ""
 
-#: templates/base.html:43 templates/base.html:50
-msgid "Event"
-msgstr ""
-
-#: templates/base.html:46
-msgid "Force STOP"
-msgstr ""
-
-#: templates/base.html:54
+#: templates/base.html:50
 msgid "Download"
 msgstr ""
 
-#: templates/base.html:77
+#: templates/base.html:56
+msgid "Finished Product"
+msgstr ""
+
+#: templates/base.html:59
+msgid "Event"
+msgstr ""
+
+#: templates/base.html:70
+msgid "Force STOP"
+msgstr ""
+
+#: templates/base.html:70
+msgid "event"
+msgstr ""
+
+#: templates/base.html:93
 msgid "logout_page"
 msgstr ""
 
-#: templates/base.html:84
+#: templates/base.html:100
 msgid "register_page"
 msgstr ""
 
-#: templates/base.html:87
+#: templates/base.html:103
 msgid "login_page"
 msgstr ""
 
@@ -149,8 +173,16 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
+#: templates/productFinishedTable.html:4 templates/productFinishedTable.html:10
+msgid "Product Finished Table Page"
+msgstr ""
+
 #: templates/productForm.html:4
 msgid "Product Page"
+msgstr ""
+
+#: templates/productSummaryTable.html:4 templates/productSummaryTable.html:10
+msgid "Product Summary Table Page"
 msgstr ""
 
 #: templates/productTable.html:4 templates/productTable.html:10
@@ -167,5 +199,9 @@ msgstr ""
 
 #: templates/statusForm.html:4 templates/statusForm.html:14
 msgid "Status Page"
+msgstr ""
+
+#: templates/userTable.html:4 templates/userTable.html:10
+msgid "User Table Page"
 msgstr ""
 

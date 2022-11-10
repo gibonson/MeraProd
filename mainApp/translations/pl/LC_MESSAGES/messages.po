@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-25 00:53+0200\n"
-"PO-Revision-Date: 2022-09-25 00:36+0200\n"
+"POT-Creation-Date: 2022-11-10 22:21+0100\n"
+"PO-Revision-Date: 2022-11-10 22:22+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pl\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -19,93 +19,117 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: forms.py:19
+#: auth/forms.py:17
 msgid "User already exist! please try a different username"
-msgstr ""
+msgstr "Operator już istnieje. Prosze wybrac inna nazwe"
 
-#: routes.py:36
-msgid "start produkcji"
-msgstr ""
+#: auth/forms.py:35
+msgid "Create Account"
+msgstr "Utwórz nowe konto"
 
-#: templates/base.html:29
-msgid "Add product"
-msgstr ""
+#: auth/forms.py:50
+msgid "Submit"
+msgstr "Zatwierdz"
+
+#: templates/base.html:28
+msgid "Admin tool"
+msgstr "Narzędzia administracyjne"
 
 #: templates/base.html:32
-msgid "Add status"
-msgstr ""
+msgid "User table"
+msgstr "Tabela użytkowników"
 
 #: templates/base.html:35
+msgid "Add product"
+msgstr "Dodaj zlecenie"
+
+#: templates/base.html:38
+msgid "Product table"
+msgstr "Tabela zleceń"
+
+#: templates/base.html:41
+msgid "Add status"
+msgstr "Dodaj status"
+
+#: templates/base.html:44
 msgid "Add event"
-msgstr ""
+msgstr "Dodaj Zdarzenie"
 
-#: templates/base.html:39
-msgid "Product"
-msgstr ""
+#: templates/base.html:47
+msgid "Event table"
+msgstr "Tabela czynności"
 
-#: templates/base.html:43 templates/base.html:50
-msgid "Event"
-msgstr ""
-
-#: templates/base.html:46
-msgid "Force STOP"
-msgstr ""
-
-#: templates/base.html:54
+#: templates/base.html:50
 msgid "Download"
-msgstr ""
+msgstr "Pobierz raport"
 
-#: templates/base.html:77
+#: templates/base.html:56
+msgid "Finished Product"
+msgstr "Zakończone zlecenia"
+
+#: templates/base.html:59
+msgid "Event"
+msgstr "Start/Stop czynnośći"
+
+#: templates/base.html:70
+msgid "Force STOP"
+msgstr "STOP Wszystko"
+
+#: templates/base.html:70
+msgid "event"
+msgstr "Czynności"
+
+#: templates/base.html:93
 msgid "logout_page"
-msgstr ""
+msgstr "Wyloguj"
 
-#: templates/base.html:84
+#: templates/base.html:100
 msgid "register_page"
-msgstr ""
+msgstr "Zarejestruj się"
 
-#: templates/base.html:87
+#: templates/base.html:103
 msgid "login_page"
-msgstr ""
+msgstr "Logowanie"
 
 #: templates/eventForm.html:4 templates/eventForm.html:14
 msgid "Event Page"
-msgstr ""
+msgstr "Dodaj nową czynność"
 
 #: templates/eventStartForm.html:4 templates/eventStartForm.html:14
 msgid "Event Start Form"
-msgstr ""
+msgstr "Start/Stop czynnośći"
 
 #: templates/eventStartForm.html:18
 msgid "create a new evet for"
-msgstr ""
+msgstr "Start/Stop czynnośći dla"
 
 #: templates/eventTable.html:4 templates/eventTable.html:30
 msgid "Event Table Page"
-msgstr ""
+msgstr "Tabela czynnośći"
 
 #: templates/eventTable.html:13
 msgid "Please Set the range:"
-msgstr ""
+msgstr "Podaj zakres:"
 
 #: templates/eventTable.html:35
 msgid "id"
-msgstr ""
+msgstr "lp."
 
 #: templates/eventTable.html:36
 msgid "modelCode"
-msgstr ""
+msgstr "Numer zlecenia"
 
 #: templates/eventTable.html:37
 msgid "modelName"
-msgstr ""
+msgstr "Model"
 
 #: templates/eventTable.html:38
 msgid "username"
-msgstr ""
+msgstr "Operator"
 
 #: templates/eventTable.html:39
 msgid "statusName"
-msgstr ""
+msgstr "Nazwa statusu"
 
 #: templates/eventTable.html:40
 msgid "okCounter"
@@ -113,61 +137,73 @@ msgstr "Sztuki OK"
 
 #: templates/eventTable.html:41
 msgid "nokCounter"
-msgstr ""
+msgstr "Sztuki NOK"
 
 #: templates/eventTable.html:42
 msgid "startDate"
-msgstr ""
+msgstr "Data START"
 
 #: templates/eventTable.html:43
 msgid "endDate"
-msgstr ""
+msgstr "Data KONIEC"
 
 #: templates/eventTable.html:44
 msgid "delta"
-msgstr ""
+msgstr "Róźnica"
 
 #: templates/home.html:4
 msgid "Home Page"
-msgstr ""
+msgstr "Strona startowa"
 
 #: templates/home.html:13
 msgid "produkcja"
-msgstr ""
+msgstr "produkcja"
 
 #: templates/loginForm.html:4
 msgid "Login Page"
-msgstr ""
+msgstr "Zaloguj"
 
 #: templates/loginForm.html:14
 msgid "Please Login"
-msgstr ""
+msgstr "Zaloguj się"
 
 #: templates/loginForm.html:27
 msgid "Do not have an account?"
-msgstr ""
+msgstr "Nie masz konta?"
 
 #: templates/loginForm.html:28
 msgid "Register"
-msgstr ""
+msgstr "Rejestracja"
+
+#: templates/productFinishedTable.html:4 templates/productFinishedTable.html:10
+msgid "Product Finished Table Page"
+msgstr "Zakończone zlecenia"
 
 #: templates/productForm.html:4
 msgid "Product Page"
-msgstr ""
+msgstr "Dodaj nowe zlecenie"
+
+#: templates/productSummaryTable.html:4 templates/productSummaryTable.html:10
+msgid "Product Summary Table Page"
+msgstr "Podsumowanie zlecenia"
 
 #: templates/productTable.html:4 templates/productTable.html:10
 msgid "Product Table Page"
-msgstr ""
+msgstr "Tabela zleceń"
 
 #: templates/registerForm.html:4
 msgid "Register Page"
-msgstr ""
+msgstr "Strona rejstracji uzytkownikow"
 
 #: templates/registerForm.html:14
 msgid "Please Create your Account"
-msgstr ""
+msgstr "Utwórz swoje konto"
 
 #: templates/statusForm.html:4 templates/statusForm.html:14
 msgid "Status Page"
-msgstr ""
+msgstr "Dodaj nowy status"
+
+#: templates/userTable.html:4 templates/userTable.html:10
+msgid "User Table Page"
+msgstr "Tabela użytkowników"
 

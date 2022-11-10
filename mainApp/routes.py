@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import or_, and_
 from flask_babel import gettext
 import string
-from mainApp.auth.auth import admin_check, login_required
+from mainApp.auth.auth import admin_check, login_required, user_table_page
 from mainApp.auth.forms import RegisterForm, LoginForm
 from mainApp.products.products import product_page, product_table_page, product_finished_table_page, active_product_page, product_summary_page
 from mainApp.events.events import openEventsCounter
@@ -20,7 +20,7 @@ from mainApp.statuses.statuses import status_page
 @app.route('/home')
 def home_page():
     openEvents = openEventsCounter()
-    prodStart = gettext('start produkcji')
+    prodStart = gettext('Przykladowy teskt startowy')
 
     return render_template('home.html', prodStart=prodStart, openEvents=openEvents)
 

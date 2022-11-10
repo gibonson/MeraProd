@@ -40,7 +40,7 @@ INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('2
 INSERT INTO "status" ("id", "statusCode", "statusName", "production") VALUES ('22', '100', 'Sprzątanie stanowiska - 100', 'Error');
 
 -- BABEL
-pybabel extract -F mainApp/babel.cfg -o messages.pot .  
+in mainAPP: pybabel extract -F babel.cfg -o messages.pot .  
 pybabel init -i messages.pot -d translations -l pl 
 pybabel compile -d translations  
 

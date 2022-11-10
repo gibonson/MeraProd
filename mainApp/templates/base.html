@@ -25,44 +25,47 @@
       <div class="collapse navbar-collapse" id="navbarNav">
          <ul class="navbar-nav mr-auto">
             {% if current_user.role == "admin"%}
-            <li class="nav-item active">
-               <a class="nav-link" href="{{url_for('product_page')}}"><i class='fa fa-product-hunt'></i> {{ _('Add product')}}</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="{{url_for('status_page')}}"><i class='fa fa-question'></i> {{ _('Add status')}}</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_page')}}"><i class='fa fa-clock-o'></i> {{ _('Add event')}}</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="{{url_for('product_table_page')}}"><i class='fa fa-table'></i> {{ _('Product')}}</a>
-            </li>   
+            <li class="dropdown "><a class="nav-link active" data-toggle="dropdown" href="#"><i class='fa fa-user-md'></i> {{ _('Admin tool')}}</a>
+               <span class="caret"></span></a>
+               <ul class="dropdown-menu" style="background-color: #000000">
+                  <li class="nav-item">
+                     <a class="nav-link" href="{{url_for('user_table_page')}}"><i class='fa fa-users'></i> {{ _('User table')}}</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{{url_for('product_page')}}"><i class='fa fa-product-hunt'></i> {{ _('Add product')}}</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{{url_for('product_table_page')}}"><i class='fa fa-table'></i> {{ _('Product table')}}</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{{url_for('status_page')}}"><i class='fa fa-question'></i> {{ _('Add status')}}</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{{url_for('event_page')}}"><i class='fa fa-clock-o'></i> {{ _('Add event')}}</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> {{ _('Event table')}}</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i> {{ _('Download')}}</a>
+                  </li>
+               </ul>
+             </li>
             {% endif %}
             <li class="nav-item">
                <a class="nav-link" href="{{url_for('product_finished_table_page')}}"><i class='fa fa-table'></i> {{ _('Finished Product')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_start_stop_page')}}"><i class='fa fa-cog'></i>
-                  {{ _('Event')}}</a>
+               <a class="nav-link" href="{{url_for('event_start_stop_page')}}"><i class='fa fa-cog'></i> {{ _('Event')}}</a>
             </li>
-            {% if current_user.role == "admin"%}
-            <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> {{ _('Event')}}</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i>
-                  {{ _('Download')}}</a>
-            </li>
-            {% endif %}
             {% if openEvents == 0%}
             <li class="nav-item">
-               <a class="btn btn-secondary navbar-btn" href="#"><i class='fa fa-cog'></i>
-                  No open event</a>
+               <a class="btn btn-secondary navbar-btn" href="#"><i class='fa fa-cog'></i>{{ _('No open event')}}</a>
             </li>
             {% else %}
             <li class="nav-item">
                <a class="btn btn-danger navbar-btn" href="{{url_for('event_all_stop_page')}}"><i class='fa fa-hand-paper-o'></i><i class='fa fa-cog fa-spin'></i>
-                  {{ _('Force STOP')}} {{openEvents}} {{ _('event')}}</a>
+                  {{ _('Force STOP')}}: {{openEvents}} {{ _('event')}}</a>
             </li>
             {% endif %}
             {% if current_user.is_authenticated %}

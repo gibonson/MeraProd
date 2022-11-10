@@ -15,7 +15,7 @@ def status_page():
     form = StatusForm()
     if form.validate_on_submit():
         status_to_create = Status(
-            form.statusCode.data, form.statusName.data, form.production.data)
+            form.statusCode.data, form.statusName.data, form.production.data, form.displayOrder.data)
         db.session.add(status_to_create)
         db.session.commit()
         flash(
