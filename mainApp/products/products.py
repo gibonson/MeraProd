@@ -92,7 +92,7 @@ def product_table_page():
 @app.route('/productFinishedTable', methods=['GET', 'POST'])
 @login_required
 def product_finished_table_page():
-    products = Product.query.filter(Product.orderStatus == 'Finished')
+    products = Product.query.filter(Product.orderStatus == 'Finished').order_by(Product.id.desc())
     for product in products:
         if product.startDate:
             product.startDate = datetime.fromtimestamp(product.startDate)
