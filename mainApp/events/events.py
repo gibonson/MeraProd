@@ -106,7 +106,7 @@ def event_start_stop_page():
     print(now)
     openProductList = Product.query.filter(or_(Product.orderStatus == "Open", and_(
         Product.orderStatus == "Auto", Product.startDate <= now, Product.executionDate >= now)))
-    statusList = Status.query.all()
+    statusList = Status.query.filter(Status.displayOrder != 0).order_by(Status.displayOrder.asc())
     openEventList = Event.query.filter(Event.endDate == None)
     openEvents = openEventsCounter()
 
