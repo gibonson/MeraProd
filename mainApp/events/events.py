@@ -59,7 +59,28 @@ def event_start_stop_page():
     eventStartForm = EventStartForm()
     eventCloseForm = EventCloseForm()
     if request.method == 'POST':
-        if request.form['idEvent'] != "None":
+        if request.form['idStatus'] == "1":
+            print("totototototot")
+            idProd = request.form['idProd']
+            print(idProd)
+            idStatus = request.form['idStatus']
+            print(idStatus)
+            idUser = request.form['idUser']
+            print(idUser)
+            today = datetime.today()
+            today = today.timestamp()
+            today = int(today)
+            print(today)
+            event_to_create = Event(idProd=idProd, idStatus=idStatus, startDate=today, endDate=today, nokCounter=None,
+                                    okCounter=None,  userID=idUser)
+            db.session.add(event_to_create)
+            idProd = request.form['idProd']
+            product_to_close = Product.query.get(idProd)
+            product_to_close.orderStatus = "Finished"
+            db.session.commit()
+            flash(
+                f'Success! Product closed : {idProd}', category='success')
+        elif request.form['idEvent'] != "None":
             okCounter = request.form['okCounter']
             nokCounter = request.form['nokCounter']
             eventID = request.form['idEvent']
