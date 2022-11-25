@@ -14,6 +14,7 @@ from mainApp.auth.forms import RegisterForm, LoginForm
 from mainApp.products.products import product_page, product_table_page, product_finished_table_page, active_product_page, product_summary_page
 from mainApp.events.events import openEventsCounter
 from mainApp.statuses.statuses import status_page
+from mainApp.notification.emailSender import emailSender
 
 
 @app.route('/')
@@ -36,6 +37,13 @@ def download_report_page():
         flash(f'File download error!', category='danger')
         return render_template('404.html')
 
+
+@app.route('/emailSend')
+@login_required
+@admin_check
+def email():
+    emailSender()
+    return "ok"
 
 @ app.route('/help')
 def help():
