@@ -1,2 +1,4 @@
 /config/config_email.ini
 /mainApp/db.sqlite
+output/raport.xls
+mainApp/db.sqlite
