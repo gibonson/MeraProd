@@ -6,6 +6,8 @@ from mainApp.models.event import Event
 from mainApp.routes import render_template, flash, request, datetime, redirect,url_for
 from mainApp.auth.auth import admin_check, login_required
 from mainApp.products.forms import ProductForm, ProductCloseStatusForm, ProductAutoStatusForm, ProductOpenStatusForm, ProductEditForm
+from mainApp.notification.forms import EmailForm
+from mainApp.notification.emailSender import emailSender
 from mainApp.events.events import openEventsCounter
 from sqlalchemy import or_, and_, func
 import matplotlib.pyplot as plt
@@ -92,6 +94,14 @@ def product_table_page():
 @app.route('/productFinishedTable', methods=['GET', 'POST'])
 @login_required
 def product_finished_table_page():
+    form = EmailForm()
+
+    if form.validate_on_submit():
+            subject = form.contactReason.data + ": " + form.id.data
+            message = form.message.data
+            emailSender(subject = subject , message = message)
+
+
     products = Product.query.filter(Product.orderStatus == 'Finished').order_by(Product.id.desc())
     for product in products:
         if product.startDate:
@@ -100,7 +110,7 @@ def product_finished_table_page():
                 product.executionDate)
 
     openEvents = openEventsCounter()
-    return render_template('productFinishedTable.html', products=products, openEvents=openEvents)
+    return render_template('productFinishedTable.html', products=products, openEvents=openEvents, form = form)
 
 
 @app.route('/activeProduct', methods=['GET', 'POST'])
@@ -112,7 +122,7 @@ def active_product_page():
         print(modelCode)
         products = Product.query.all()
         for product in products:
-            if product.orderStatus != "Finished":
+            if product.orderStatus != "Finished" or product.orderStatus != "Auto":
                 product.orderStatus = "Close"
             if product.modelCode == modelCode:
                 product.orderStatus = "Open"

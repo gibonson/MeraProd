@@ -221,6 +221,13 @@
       ],
       "value": ""
     }, {
+      "id": "bb54b061-5ae7-43a2-85a3-c9ab159fc88f",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "fe6c1689-671b-4a48-9075-bf3c277fbfcf",
       "comment": "",
       "command": "click",

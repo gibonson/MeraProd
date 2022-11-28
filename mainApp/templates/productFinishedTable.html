@@ -19,9 +19,10 @@
                     <th>startDate</th>
                     <th>executionDate</th>
                     <th>Action</th>
+                    <th>Action</th>
                 </tr>
                 {% for product in products %}
-                
+                {% include 'includes/problemReportModals.html'%} 
                 <tr>
                     <td>{{product.id}}</td>
                     <td>{{product.modelCode}}</td>
@@ -31,9 +32,13 @@
                     <td>{{product.executionDate}}</td>
                     <td>
                         <form method="post" action="/productSummary">
-                        <input id="productID" name="productID" type="hidden" value="{{product.id}}">
-                        <input type="submit" class="btn btn-success" value="Product Summary">
+                            <input id="productID" name="productID" type="hidden" value="{{product.id}}">
+                            <input type="submit" class="btn btn-success" value="Product Summary">
                         </form>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline btn-info" data-toggle="modal"
+                            data-target="#Modal-sendEmail-{{product.id}}">Send information </button>
                     </td>
                 </tr>
                 {% endfor %}
