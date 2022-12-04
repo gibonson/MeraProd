@@ -123,7 +123,7 @@ def active_product_page():
         products = Product.query.all()
         for product in products:
             if product.orderStatus != "Finished" or product.orderStatus != "Auto":
-                product.orderStatus = "Close"
+                product.orderStatus = ""
             if product.modelCode == modelCode:
                 product.orderStatus = "Open"
                 productExist = True
