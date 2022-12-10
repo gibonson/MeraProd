@@ -2,5 +2,5 @@
 /mainApp/db.sqlite
 /output/raport.xls
 mainApp/db.sqlite
-**/__pycache
-.vscode
+/**/__pycache
+/.vscode
