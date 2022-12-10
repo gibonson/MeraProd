@@ -3,3 +3,4 @@
 /output/raport.xls
 mainApp/db.sqlite
 **/__pycache
+.vscode
