@@ -2,5 +2,6 @@
 /mainApp/db.sqlite
 /output/raport.xls
 mainApp/db.sqlite
-/**/__pycache__
+__pycache__
 /.vscode
+/venv
