@@ -15,6 +15,7 @@
       {% endblock %}
    </title>
 </head>
+
 <body>
    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <a class="navbar-brand" href="{{url_for('home_page')}}"><img src="/static/LogoBIG.png" alt="..." height="60"
@@ -25,45 +26,57 @@
       <div class="collapse navbar-collapse" id="navbarNav">
          <ul class="navbar-nav mr-auto">
             {% if current_user.role == "admin"%}
-            <li class="dropdown "><a class="nav-link active" data-toggle="dropdown" href="#"><i class='fa fa-user-md'></i> {{ _('Admin tool')}}</a>
+            <li class="dropdown "><a class="nav-link active" data-toggle="dropdown" href="#"><i
+                     class='fa fa-user-md'></i> {{ _('Admin tool')}}</a>
                <span class="caret"></span></a>
                <ul class="dropdown-menu" style="background-color: #000000">
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('register_page')}}"><i class='fa fa-user-plus'></i> {{ _('register_page')}}</a>
+                     <a class="nav-link" href="{{url_for('register_page')}}"><i class='fa fa-user-plus'></i> {{
+                        _('register_page')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('user_table_page')}}"><i class='fa fa-users'></i> {{ _('User table')}}</a>
+                     <a class="nav-link" href="{{url_for('user_table_page')}}"><i class='fa fa-users'></i> {{ _('User
+                        table')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('product_page')}}"><i class='fa fa-product-hunt'></i> {{ _('Add product')}}</a>
+                     <a class="nav-link" href="{{url_for('product_page')}}"><i class='fa fa-product-hunt'></i> {{ _('Add
+                        product')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('product_table_page')}}"><i class='fa fa-table'></i> {{ _('Product table')}}</a>
+                     <a class="nav-link" href="{{url_for('product_table_page')}}"><i class='fa fa-table'></i> {{
+                        _('Product table')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('status_page')}}"><i class='fa fa-question'></i> {{ _('Add status')}}</a>
+                     <a class="nav-link" href="{{url_for('status_page')}}"><i class='fa fa-question'></i> {{ _('Add
+                        status')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('event_page')}}"><i class='fa fa-clock-o'></i> {{ _('Add event')}}</a>
+                     <a class="nav-link" href="{{url_for('event_page')}}"><i class='fa fa-clock-o'></i> {{ _('Add
+                        event')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> {{ _('Event table')}}</a>
+                     <a class="nav-link" href="{{url_for('event_table_page')}}"><i class='fa fa-table'></i> {{ _('Event
+                        table')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i> {{ _('Download')}}</a>
+                     <a class="nav-link" href="{{url_for('download_report_page')}}"><i class="fa fa-download"></i> {{
+                        _('Download')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{url_for('email_send')}}"><i class="fa fa-download"></i> {{ _('Send test message')}}</a>
+                     <a class="nav-link" href="{{url_for('email_send')}}"><i class="fa fa-download"></i> {{ _('Send test
+                        message')}}</a>
                   </li>
                </ul>
-             </li>
+            </li>
             {% endif %}
             {% if current_user.is_authenticated %}
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('product_finished_table_page')}}"><i class='fa fa-table'></i> {{ _('Finished Product')}}</a>
+               <a class="nav-link" href="{{url_for('product_finished_table_page')}}"><i class='fa fa-table'></i> {{
+                  _('Finished Product')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url_for('event_start_stop_page')}}"><i class='fa fa-cog'></i> {{ _('Event')}}</a>
+               <a class="nav-link" href="{{url_for('event_start_stop_page')}}"><i class='fa fa-cog'></i> {{
+                  _('Event')}}</a>
             </li>
             {% if openEvents == 0%}
             <li class="nav-item">
@@ -71,13 +84,15 @@
             </li>
             {% else %}
             <li class="nav-item">
-               <a class="btn btn-danger navbar-btn" href="{{url_for('event_all_stop_page')}}"><i class='fa fa-hand-paper-o'></i><i class='fa fa-cog fa-spin'></i>
+               <a class="btn btn-danger navbar-btn" href="{{url_for('event_all_stop_page')}}"><i
+                     class='fa fa-hand-paper-o'></i><i class='fa fa-cog fa-spin'></i>
                   {{ _('Force STOP')}}: {{openEvents}} {{ _('event')}}</a>
             </li>
             {% endif %}
             <form method="POST" class="navbar-form navbar-left" action="{{url_for('active_product_page')}}">
                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Model Code" name="modelCode" autofocus="autofocus">
+                  <input type="text" class="form-control" placeholder="Model Code" name="modelCode"
+                     autofocus="autofocus">
                   <div class="input-group-btn">
                      <button class="btn btn-default bg-white" type="submit">
                         <i class="fa fa-play"></i>
@@ -88,10 +103,11 @@
             {% endif %}
          </ul>
          {% if current_user.is_authenticated %}
+         <div id="demo" class="fs-1" style="color: rgb(252, 0, 0); font-weight: bold; font-size: 45px;">    </div>
          <ul class="navbar-nav">
             <li class="nav-item">
                <a class="nav-link" style="color: lawngreen; font-weight: bold" href="#">{{current_user.username}}
-                   - {{ current_user.role }} <i class='fa fa-user'></i></a>
+                  - {{ current_user.role }} <i class='fa fa-user'></i></a>
             </li>
             <li class="nav-item">
                <a class="btn btn-danger navbar-btn" href="{{url_for('logout_page')}}">{{ _('logout_page')}} <i
@@ -132,7 +148,9 @@
 
 
    </div>
-
+   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+      © 2022 Copyright: Jakub Palica
+   </div>
    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -144,6 +162,14 @@
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"></script>
+   <script>
+      setInterval(myTimer, 1000);
+      function myTimer() {
+         const d = new Date();
+         document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+      }
+   </script>
+
    <script>
       function showclock() {
          let today = new Date();
