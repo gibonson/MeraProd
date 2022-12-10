@@ -6,7 +6,7 @@ from mainApp.models.status import Status
 from mainApp.models.event import Event
 from mainApp.routes import admin_check, login_required
 from mainApp.events.forms import EventForm, EventStartForm, EventCloseForm, SetdateRange
-from mainApp.routes import render_template, flash, request, redirect,url_for
+from mainApp.routes import render_template, flash, request, redirect, url_for
 from sqlalchemy import or_, and_
 from datetime import datetime, timedelta
 from openpyxl import Workbook
