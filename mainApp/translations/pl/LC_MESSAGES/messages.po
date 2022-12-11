@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-10 22:21+0100\n"
+"POT-Creation-Date: 2022-12-11 23:18+0100\n"
 "PO-Revision-Date: 2022-11-10 22:22+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pl\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
+
+#: routes.py:24
+msgid "Przykladowy teskt startowy"
+msgstr ""
 
 #: auth/forms.py:17
 msgid "User already exist! please try a different username"
@@ -31,63 +35,83 @@ msgstr "Utwórz nowe konto"
 msgid "Submit"
 msgstr "Zatwierdz"
 
-#: templates/base.html:28
+#: templates/base.html:30
 msgid "Admin tool"
 msgstr "Narzędzia administracyjne"
 
-#: templates/base.html:32
-msgid "User table"
-msgstr "Tabela użytkowników"
-
 #: templates/base.html:35
-msgid "Add product"
-msgstr "Dodaj zlecenie"
-
-#: templates/base.html:38
-msgid "Product table"
-msgstr "Tabela zleceń"
-
-#: templates/base.html:41
-msgid "Add status"
-msgstr "Dodaj status"
-
-#: templates/base.html:44
-msgid "Add event"
-msgstr "Dodaj Zdarzenie"
-
-#: templates/base.html:47
-msgid "Event table"
-msgstr "Tabela czynności"
-
-#: templates/base.html:50
-msgid "Download"
-msgstr "Pobierz raport"
-
-#: templates/base.html:56
-msgid "Finished Product"
-msgstr "Zakończone zlecenia"
-
-#: templates/base.html:59
-msgid "Event"
-msgstr "Start/Stop czynnośći"
-
-#: templates/base.html:70
-msgid "Force STOP"
-msgstr "STOP Wszystko"
-
-#: templates/base.html:70
-msgid "event"
-msgstr "Czynności"
-
-#: templates/base.html:93
-msgid "logout_page"
-msgstr "Wyloguj"
-
-#: templates/base.html:100
 msgid "register_page"
 msgstr "Zarejestruj się"
 
-#: templates/base.html:103
+#: templates/base.html:38
+msgid ""
+"User\n"
+"                        table"
+msgstr ""
+
+#: templates/base.html:42
+msgid ""
+"Add\n"
+"                        product"
+msgstr ""
+
+#: templates/base.html:47
+msgid "Product table"
+msgstr "Tabela zleceń"
+
+#: templates/base.html:50
+msgid ""
+"Add\n"
+"                        status"
+msgstr ""
+
+#: templates/base.html:54
+msgid ""
+"Add\n"
+"                        event"
+msgstr ""
+
+#: templates/base.html:58
+msgid ""
+"Event\n"
+"                        table"
+msgstr ""
+
+#: templates/base.html:63
+msgid "Download"
+msgstr "Pobierz raport"
+
+#: templates/base.html:66
+msgid ""
+"Send test\n"
+"                        message"
+msgstr ""
+
+#: templates/base.html:75
+msgid "Finished Product"
+msgstr "Zakończone zlecenia"
+
+#: templates/base.html:79
+msgid "Event"
+msgstr "Start/Stop czynnośći"
+
+#: templates/base.html:83
+msgid "No open event"
+msgstr "Brak otawrych czynnośći"
+
+#: templates/base.html:89
+msgid "Force STOP"
+msgstr "STOP Wszystko"
+
+#: templates/base.html:89
+msgid "event"
+msgstr "Czynności"
+
+#: templates/base.html:113
+msgid "logout_page"
+msgstr "Wyloguj"
+
+#: templates/base.html:120
 msgid "login_page"
 msgstr "Logowanie"
 
@@ -111,35 +135,36 @@ msgstr "Tabela czynnośći"
 msgid "Please Set the range:"
 msgstr "Podaj zakres:"
 
-#: templates/eventTable.html:35
+#: templates/eventTable.html:35 templates/productFinishedTable.html:15
+#: templates/userTable.html:15
 msgid "id"
 msgstr "lp."
 
-#: templates/eventTable.html:36
+#: templates/eventTable.html:36 templates/productFinishedTable.html:16
 msgid "modelCode"
 msgstr "Numer zlecenia"
 
-#: templates/eventTable.html:37
+#: templates/eventTable.html:37 templates/productFinishedTable.html:17
 msgid "modelName"
 msgstr "Model"
 
-#: templates/eventTable.html:38
+#: templates/eventTable.html:38 templates/userTable.html:16
 msgid "username"
 msgstr "Operator"
 
-#: templates/eventTable.html:39
+#: templates/eventTable.html:39 templates/productSummaryTable.html:16
 msgid "statusName"
 msgstr "Nazwa statusu"
 
-#: templates/eventTable.html:40
+#: templates/eventTable.html:40 templates/productSummaryTable.html:18
 msgid "okCounter"
 msgstr "Sztuki OK"
 
-#: templates/eventTable.html:41
+#: templates/eventTable.html:41 templates/productSummaryTable.html:19
 msgid "nokCounter"
 msgstr "Sztuki NOK"
 
-#: templates/eventTable.html:42
+#: templates/eventTable.html:42 templates/productFinishedTable.html:19
 msgid "startDate"
 msgstr "Data START"
 
@@ -154,10 +179,6 @@ msgstr "Róźnica"
 #: templates/home.html:4
 msgid "Home Page"
 msgstr "Strona startowa"
-
-#: templates/home.html:13
-msgid "produkcja"
-msgstr "produkcja"
 
 #: templates/loginForm.html:4
 msgid "Login Page"
@@ -179,6 +200,26 @@ msgstr "Rejestracja"
 msgid "Product Finished Table Page"
 msgstr "Zakończone zlecenia"
 
+#: templates/productFinishedTable.html:18
+msgid "orderStatus"
+msgstr "Dodaj status"
+
+#: templates/productFinishedTable.html:20
+msgid "executionDate"
+msgstr "Data KONIEC"
+
+#: templates/productFinishedTable.html:21
+msgid "Action"
+msgstr "Akcja"
+
+#: templates/productFinishedTable.html:37
+msgid "Product Summary"
+msgstr "Podsumowanie zlecenia"
+
+#: templates/productFinishedTable.html:40
+msgid "Send email"
+msgstr "Wyślij wiadomość"
+
 #: templates/productForm.html:4
 msgid "Product Page"
 msgstr "Dodaj nowe zlecenie"
@@ -186,6 +227,21 @@ msgstr "Dodaj nowe zlecenie"
 #: templates/productSummaryTable.html:4 templates/productSummaryTable.html:10
 msgid "Product Summary Table Page"
 msgstr "Podsumowanie zlecenia"
+
+#: templates/productSummaryTable.html:15
+#, fuzzy
+msgid "idStatus"
+msgstr "Nazwa statusu"
+
+#: templates/productSummaryTable.html:17
+#, fuzzy
+msgid "production"
+msgstr "Akcja"
+
+#: templates/productSummaryTable.html:20
+#, fuzzy
+msgid "delta [h]"
+msgstr "Róźnica"
 
 #: templates/productTable.html:4 templates/productTable.html:10
 msgid "Product Table Page"
@@ -206,4 +262,43 @@ msgstr "Dodaj nowy status"
 #: templates/userTable.html:4 templates/userTable.html:10
 msgid "User Table Page"
 msgstr "Tabela użytkowników"
+
+#: templates/userTable.html:17
+msgid "email_address"
+msgstr "Adres email"
+
+#: templates/userTable.html:18
+msgid "role"
+msgstr "Rola"
+
+#: templates/userTable.html:19
+msgid "action"
+msgstr "Akcja"
+
+#: templates/includes/problemReportModals.html:14
+msgid "Contact form"
+msgstr "Formularz Kontaktowy"
+
+#: templates/includes/problemReportModals.html:24
+msgid "Do you want to send email to admin?"
+msgstr "Czy chcesz wysłać e-mail do administratora?"
+
+#: templates/includes/problemReportModals.html:43
+msgid "Close"
+msgstr "Zamknij"
+
+#~ msgid "User table"
+#~ msgstr "Tabela użytkowników"
+
+#~ msgid "Add product"
+#~ msgstr "Dodaj zlecenie"
+
+#~ msgid "Add event"
+#~ msgstr "Dodaj Zdarzenie"
+
+#~ msgid "Event table"
+#~ msgstr "Tabela czynności"
+
+#~ msgid "produkcja"
+#~ msgstr "produkcja"
 

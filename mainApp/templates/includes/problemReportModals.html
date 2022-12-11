@@ -11,7 +11,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">
                     <!-- -->
-                    Send information to admin:
+                    {{ _('Contact form')}}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -21,7 +21,7 @@
                 <form method="post">
                     <div class="text-center">
                         <h4>
-                            Do you want to send email to admin?
+                            {{ _('Do you want to send email to admin?')}}
                         </h4>
                         <br>
                         {{ form.id.label() }}
@@ -40,7 +40,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close')}}</button>
             </div>
         </div>
     </div>

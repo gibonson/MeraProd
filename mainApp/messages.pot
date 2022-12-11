@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-10 22:21+0100\n"
+"POT-Creation-Date: 2022-12-11 23:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
+
+#: routes.py:24
+msgid "Przykladowy teskt startowy"
+msgstr ""
 
 #: auth/forms.py:17
 msgid "User already exist! please try a different username"
@@ -29,63 +33,83 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: templates/base.html:28
+#: templates/base.html:30
 msgid "Admin tool"
 msgstr ""
 
-#: templates/base.html:32
-msgid "User table"
-msgstr ""
-
 #: templates/base.html:35
-msgid "Add product"
-msgstr ""
-
-#: templates/base.html:38
-msgid "Product table"
-msgstr ""
-
-#: templates/base.html:41
-msgid "Add status"
-msgstr ""
-
-#: templates/base.html:44
-msgid "Add event"
-msgstr ""
-
-#: templates/base.html:47
-msgid "Event table"
-msgstr ""
-
-#: templates/base.html:50
-msgid "Download"
-msgstr ""
-
-#: templates/base.html:56
-msgid "Finished Product"
-msgstr ""
-
-#: templates/base.html:59
-msgid "Event"
-msgstr ""
-
-#: templates/base.html:70
-msgid "Force STOP"
-msgstr ""
-
-#: templates/base.html:70
-msgid "event"
-msgstr ""
-
-#: templates/base.html:93
-msgid "logout_page"
-msgstr ""
-
-#: templates/base.html:100
 msgid "register_page"
 msgstr ""
 
-#: templates/base.html:103
+#: templates/base.html:38
+msgid ""
+"User\n"
+"                        table"
+msgstr ""
+
+#: templates/base.html:42
+msgid ""
+"Add\n"
+"                        product"
+msgstr ""
+
+#: templates/base.html:47
+msgid "Product table"
+msgstr ""
+
+#: templates/base.html:50
+msgid ""
+"Add\n"
+"                        status"
+msgstr ""
+
+#: templates/base.html:54
+msgid ""
+"Add\n"
+"                        event"
+msgstr ""
+
+#: templates/base.html:58
+msgid ""
+"Event\n"
+"                        table"
+msgstr ""
+
+#: templates/base.html:63
+msgid "Download"
+msgstr ""
+
+#: templates/base.html:66
+msgid ""
+"Send test\n"
+"                        message"
+msgstr ""
+
+#: templates/base.html:75
+msgid "Finished Product"
+msgstr ""
+
+#: templates/base.html:79
+msgid "Event"
+msgstr ""
+
+#: templates/base.html:83
+msgid "No open event"
+msgstr ""
+
+#: templates/base.html:89
+msgid "Force STOP"
+msgstr ""
+
+#: templates/base.html:89
+msgid "event"
+msgstr ""
+
+#: templates/base.html:113
+msgid "logout_page"
+msgstr ""
+
+#: templates/base.html:120
 msgid "login_page"
 msgstr ""
 
@@ -109,35 +133,36 @@ msgstr ""
 msgid "Please Set the range:"
 msgstr ""
 
-#: templates/eventTable.html:35
+#: templates/eventTable.html:35 templates/productFinishedTable.html:15
+#: templates/userTable.html:15
 msgid "id"
 msgstr ""
 
-#: templates/eventTable.html:36
+#: templates/eventTable.html:36 templates/productFinishedTable.html:16
 msgid "modelCode"
 msgstr ""
 
-#: templates/eventTable.html:37
+#: templates/eventTable.html:37 templates/productFinishedTable.html:17
 msgid "modelName"
 msgstr ""
 
-#: templates/eventTable.html:38
+#: templates/eventTable.html:38 templates/userTable.html:16
 msgid "username"
 msgstr ""
 
-#: templates/eventTable.html:39
+#: templates/eventTable.html:39 templates/productSummaryTable.html:16
 msgid "statusName"
 msgstr ""
 
-#: templates/eventTable.html:40
+#: templates/eventTable.html:40 templates/productSummaryTable.html:18
 msgid "okCounter"
 msgstr ""
 
-#: templates/eventTable.html:41
+#: templates/eventTable.html:41 templates/productSummaryTable.html:19
 msgid "nokCounter"
 msgstr ""
 
-#: templates/eventTable.html:42
+#: templates/eventTable.html:42 templates/productFinishedTable.html:19
 msgid "startDate"
 msgstr ""
 
@@ -151,10 +176,6 @@ msgstr ""
 
 #: templates/home.html:4
 msgid "Home Page"
-msgstr ""
-
-#: templates/home.html:13
-msgid "produkcja"
 msgstr ""
 
 #: templates/loginForm.html:4
@@ -177,12 +198,44 @@ msgstr ""
 msgid "Product Finished Table Page"
 msgstr ""
 
+#: templates/productFinishedTable.html:18
+msgid "orderStatus"
+msgstr ""
+
+#: templates/productFinishedTable.html:20
+msgid "executionDate"
+msgstr ""
+
+#: templates/productFinishedTable.html:21
+msgid "Action"
+msgstr ""
+
+#: templates/productFinishedTable.html:37
+msgid "Product Summary"
+msgstr ""
+
+#: templates/productFinishedTable.html:40
+msgid "Send email"
+msgstr ""
+
 #: templates/productForm.html:4
 msgid "Product Page"
 msgstr ""
 
 #: templates/productSummaryTable.html:4 templates/productSummaryTable.html:10
 msgid "Product Summary Table Page"
+msgstr ""
+
+#: templates/productSummaryTable.html:15
+msgid "idStatus"
+msgstr ""
+
+#: templates/productSummaryTable.html:17
+msgid "production"
+msgstr ""
+
+#: templates/productSummaryTable.html:20
+msgid "delta [h]"
 msgstr ""
 
 #: templates/productTable.html:4 templates/productTable.html:10
@@ -203,5 +256,29 @@ msgstr ""
 
 #: templates/userTable.html:4 templates/userTable.html:10
 msgid "User Table Page"
+msgstr ""
+
+#: templates/userTable.html:17
+msgid "email_address"
+msgstr ""
+
+#: templates/userTable.html:18
+msgid "role"
+msgstr ""
+
+#: templates/userTable.html:19
+msgid "action"
+msgstr ""
+
+#: templates/includes/problemReportModals.html:14
+msgid "Contact form"
+msgstr ""
+
+#: templates/includes/problemReportModals.html:24
+msgid "Do you want to send email to admin?"
+msgstr ""
+
+#: templates/includes/problemReportModals.html:43
+msgid "Close"
 msgstr ""
 

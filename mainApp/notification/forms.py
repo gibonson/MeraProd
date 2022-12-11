@@ -14,7 +14,7 @@ class EmailForm(FlaskForm):
     id = StringField(label="Model Code:")
 
     contactReason = SelectField(
-        label='contactReason:', choices=contactReasonList)
+        label='Contact Reason:', choices=contactReasonList)
 
-    message = TextAreaField(label='your message')
-    submit = SubmitField(label='send message')
+    message = TextAreaField(label='Your message')
+    submit = SubmitField(label='Send message')
