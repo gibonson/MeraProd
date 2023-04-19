@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2022 ORGANIZATION
+# Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-11 23:18+0100\n"
+"POT-Creation-Date: 2023-04-18 00:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,11 +117,11 @@ msgstr ""
 msgid "Event Page"
 msgstr ""
 
-#: templates/eventStartForm.html:4 templates/eventStartForm.html:14
+#: templates/eventStartForm.html:4
 msgid "Event Start Form"
 msgstr ""
 
-#: templates/eventStartForm.html:18
+#: templates/eventStartForm.html:15
 msgid "create a new evet for"
 msgstr ""
 
@@ -184,14 +184,6 @@ msgstr ""
 
 #: templates/loginForm.html:14
 msgid "Please Login"
-msgstr ""
-
-#: templates/loginForm.html:27
-msgid "Do not have an account?"
-msgstr ""
-
-#: templates/loginForm.html:28
-msgid "Register"
 msgstr ""
 
 #: templates/productFinishedTable.html:4 templates/productFinishedTable.html:10
@@ -268,6 +260,27 @@ msgstr ""
 
 #: templates/userTable.html:19
 msgid "action"
+msgstr ""
+
+#: templates/includes/eventCloseModals.html:15
+msgid "Stop event:"
+msgstr ""
+
+#: templates/includes/eventCloseModals.html:25
+msgid "Do you want to close event:"
+msgstr ""
+
+#: templates/includes/eventCloseModals.html:25
+#: templates/includes/eventStartModals.html:25
+msgid "for detail"
+msgstr ""
+
+#: templates/includes/eventStartModals.html:15
+msgid "Start event:"
+msgstr ""
+
+#: templates/includes/eventStartModals.html:25
+msgid "Do you want to start new event:"
 msgstr ""
 
 #: templates/includes/problemReportModals.html:14

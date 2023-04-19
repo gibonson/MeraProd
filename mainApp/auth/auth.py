@@ -22,6 +22,8 @@ def admin_check(func):
 
 
 @app.route('/register', methods=['GET', 'POST'])
+@login_required
+@admin_check
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():

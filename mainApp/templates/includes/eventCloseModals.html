@@ -11,8 +11,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">
-                    {{ openProduct.id}} - {{ status.statusName }} - {{ openProduct.modelName}}
-                    <!-- -->
+                    <!-- {{ openProduct.id}} - {{ status.statusName }} - {{ openProduct.modelName}} -->
+                    {{ _('Stop event:')}}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -22,12 +22,8 @@
                 <form method="post">
                     <div class="text-center">
                         <h4>
-                            Do you want to close event {{ openEvent.id }}: <strong>{{ status.statusName }}</strong> for detail  <strong>{{ openProduct.modelName}}</strong>?
+                            {{ _('Do you want to close event:')}} {{ openEvent.id }} <strong>{{ status.statusName }}</strong> {{ _('for detail')}}  <strong>{{ openProduct.modelName}}</strong>?
                         </h4>
-                        <br>
-                        <h6 class="text-center">
-                            By clicking Close Event, you will create close event.
-                        </h6>
                         <br>
                         {{ eventCloseForm.hidden_tag() }}
                         <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
@@ -53,7 +49,7 @@
                         </h3>
                         {% endif %}
 
-                        {{ eventCloseForm.submit(class = "btn btn-outline-danger btn-block")}}
+                        {{ eventCloseForm.submit(class = "btn btn-outline-danger btn-block autofocus")}}
                     </div>
                 </form>
             </div>

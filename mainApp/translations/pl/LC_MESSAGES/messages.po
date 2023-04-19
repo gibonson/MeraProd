@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-11 23:18+0100\n"
+"POT-Creation-Date: 2023-04-18 00:01+0200\n"
 "PO-Revision-Date: 2022-11-10 22:22+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pl\n"
@@ -97,7 +97,7 @@ msgstr "Start/Stop czynnośći"
 
 #: templates/base.html:83
 msgid "No open event"
-msgstr "Brak otawrych czynnośći"
+msgstr "Brak otawrych czynności"
 
 #: templates/base.html:89
 msgid "Force STOP"
@@ -119,11 +119,11 @@ msgstr "Logowanie"
 msgid "Event Page"
 msgstr "Dodaj nową czynność"
 
-#: templates/eventStartForm.html:4 templates/eventStartForm.html:14
+#: templates/eventStartForm.html:4
 msgid "Event Start Form"
 msgstr "Start/Stop czynnośći"
 
-#: templates/eventStartForm.html:18
+#: templates/eventStartForm.html:15
 msgid "create a new evet for"
 msgstr "Start/Stop czynnośći dla"
 
@@ -187,14 +187,6 @@ msgstr "Zaloguj"
 #: templates/loginForm.html:14
 msgid "Please Login"
 msgstr "Zaloguj się"
-
-#: templates/loginForm.html:27
-msgid "Do not have an account?"
-msgstr "Nie masz konta?"
-
-#: templates/loginForm.html:28
-msgid "Register"
-msgstr "Rejestracja"
 
 #: templates/productFinishedTable.html:4 templates/productFinishedTable.html:10
 msgid "Product Finished Table Page"
@@ -275,6 +267,27 @@ msgstr "Rola"
 msgid "action"
 msgstr "Akcja"
 
+#: templates/includes/eventCloseModals.html:15
+msgid "Stop event:"
+msgstr "Stop"
+
+#: templates/includes/eventCloseModals.html:25
+msgid "Do you want to close event:"
+msgstr "Zakończ czynność:"
+
+#: templates/includes/eventCloseModals.html:25
+#: templates/includes/eventStartModals.html:25
+msgid "for detail"
+msgstr "dla zlecenia"
+
+#: templates/includes/eventStartModals.html:15
+msgid "Start event:"
+msgstr "Start"
+
+#: templates/includes/eventStartModals.html:25
+msgid "Do you want to start new event:"
+msgstr "Rozpocznij czynność:"
+
 #: templates/includes/problemReportModals.html:14
 msgid "Contact form"
 msgstr "Formularz Kontaktowy"
@@ -301,4 +314,10 @@ msgstr "Zamknij"
 
 #~ msgid "produkcja"
 #~ msgstr "produkcja"
+
+#~ msgid "Do not have an account?"
+#~ msgstr "Nie masz konta?"
+
+#~ msgid "Register"
+#~ msgstr "Rejestracja"
 

@@ -6,7 +6,7 @@ from mainApp.routes import flash
 
 def emailTestSender():
     config = ConfigParser()
-    config.read("config/config_email.ini")
+    config.read("userFiles/config_email.ini")
     print(config.sections())
     print(list(config['EMAIL']))
 
@@ -34,7 +34,7 @@ def emailSender(subject, message):
     print(subject)
     print(message)
     config = ConfigParser()
-    config.read("config/config_email.ini")
+    config.read("userFiles/config_email.ini")
     print(config.sections())
     print(list(config['EMAIL']))
 

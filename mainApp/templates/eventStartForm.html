@@ -10,13 +10,10 @@
 
 <div class="text-center">
     <div class="container">
-        <h1 class="h2 mb-3 font-weight-normal">
-            {{ _('Event Start Form')}}
-        </h1>
         {% for openProduct in openProductList %}
-        <h3 class="h2 mb-3 font-weight-normal">
+        <h1 class="h2 mb-3 font-weight-normal">
             {{ _('create a new evet for')}} {{openProduct.modelName}} - {{ openProduct.modelCode}}
-        </h3>
+        </h1>
         <div class="row">
             {% for status in statusList %}
             {% for openEvent in openEventList %}

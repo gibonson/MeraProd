@@ -1,7 +1,5 @@
-/config/config_email.ini
-/mainApp/db.sqlite
-/output/raport.xls
-/__pycache__
+__pycache__
 /.vscode
 /venv
-/1.1
+/output
+/userFiles
