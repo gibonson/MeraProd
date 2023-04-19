@@ -188,7 +188,7 @@ def product_summary_page():
 
         plt.pie(values, labels=labels, autopct='%.2f %%')
         plt.title('Summary Chart')
-        plt.savefig('mainApp/static/new_plot.png')
+        plt.savefig('static/new_plot.png')
         openEvents = openEventsCounter()
 
     return render_template('productSummaryTable.html', finalResultsTable=finalResultsTable, openEvents=openEvents)
