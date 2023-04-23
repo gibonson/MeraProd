@@ -19,18 +19,18 @@ class EventForm(FlaskForm):
     nokCounter = IntegerField(label="Nok Counter:")
     userID = IntegerField(label="- ID:", validators=[
         DataRequired(message='*Required')])
-    submit = SubmitField(label='Start Event')
+    submit = SubmitField(label='Start')
 
 
 class EventStartForm(FlaskForm):
-    submit = SubmitField(label="Start Event")
+    submit = SubmitField(label="Start")
 
 
 class EventCloseForm(FlaskForm):
     okCounter = IntegerField(label="Ok Counter:", validators=[DataRequired()])
     nokCounter = IntegerField(label="Nok Counter:",
                               validators=[DataRequired()])
-    submit = SubmitField(label="Close Event")
+    submit = SubmitField(label="Close")
 
 
 class SetdateRange(FlaskForm):

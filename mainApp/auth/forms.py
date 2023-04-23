@@ -36,7 +36,17 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField(label="User Name:", validators=[DataRequired()])
+
+    userNameList = []
+
+    # user = User.query.filter(User.active == 'Y')
+    # print(user)
+    # for row in user:
+    #     print(row.username)
+    #     userNameList.append([row.username, row.username])
+
+    # username = StringField(label="User Name:", validators=[DataRequired()])
+    username = SelectField(label="User Name:", validators=[DataRequired()], choices=userNameList)
     password = PasswordField(label="Password:", validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
 

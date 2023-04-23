@@ -7,6 +7,7 @@ from functools import wraps
 from flask_login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 def admin_check(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -46,7 +47,17 @@ def register_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
+
+    LoginForm.userNameList.clear()
+    user = User.query.filter(User.active == 'Y')
+    print(user)
+    for row in user:
+        print(row.username)
+        LoginForm.userNameList.append([row.username, row.username])
+
     form = LoginForm()
+
+
     if form.validate_on_submit():
         attempted_user = User.query.filter(
             User.username == form.username.data).first()

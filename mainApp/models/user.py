@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(100), unique=True)
     password_hash = db.Column(db.String())
     email_address = db.Column(db.String())
+    active = db.Column(db.String())
     role = db.Column(db.Integer)
 
     def set_password(self, password):
