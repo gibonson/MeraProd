@@ -41,28 +41,58 @@
 
             {% if status.production == "Prod" and not activeTask.activeTask %}
             {% include 'includes/eventStartModals.html'%}
-            <div class="col text-center">
+            <!-- <div class="col text-center">
                 <button class="btn btn-outline btn-success buttonFull" data-toggle="modal"
                     data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">{{
                     status.statusName }}</button>
+            </div> -->
+            <div class="col text-center">
+                <form method="post">
+                    {{ eventStartForm.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <input type="hidden" class="form-control" name="idEvent" value="None">
+                    {{ eventStartForm.submit(class = "btn btn-outline btn-success buttonFull", value = status.statusName )}}
+                </form>
             </div>
             {% endif %}
 
             {% if status.production == "Error" and not activeTask.activeTask %}
             {% include 'includes/eventStartModals.html'%}
-            <div class="col text-center">
+            <!-- <div class="col text-center">
                 <button class="btn btn-outline btn-warning buttonFull" data-toggle="modal"
                     data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">{{
                     status.statusName }}</button>
+            </div> -->
+            <div class="col text-center">
+                <form method="post">
+                    {{ eventStartForm.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <input type="hidden" class="form-control" name="idEvent" value="None">
+                    {{ eventStartForm.submit(class = "btn btn-outline btn-warning buttonFull", value = status.statusName )}}
+                </form>
             </div>
             {% endif %}
 
             {% if status.production == "TPZ" and not activeTask.activeTask %}
             {% include 'includes/eventStartModals.html'%}
-            <div class="col text-center">
+            <!-- <div class="col text-center">
                 <button class="btn btn-outline btn-info buttonFull" data-toggle="modal"
                     data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">{{
                     status.statusName }}</button>
+            </div> -->
+            <div class="col text-center">
+                <form method="post">
+                    {{ eventStartForm.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <input type="hidden" class="form-control" name="idEvent" value="None">
+                    {{ eventStartForm.submit(class = "btn btn-outline btn-info buttonFull", value = status.statusName )}}
+                </form>
             </div>
             {% endif %}
 
@@ -73,16 +103,25 @@
                     data-target="#Modal-Start-{{openProduct.id}}-{{status.id}}-{{current_user.id}}">{{
                     status.statusName }}</button>
             </div>
+            <!-- <div class="col text-center">
+                <form method="post">
+                    {{ eventStartForm.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <input type="hidden" class="form-control" name="idEvent" value="None">
+                    {{ eventStartForm.submit(class = "btn btn-outline-danger buttonFull", value = status.statusName )}}
+                </form>
+            </div> -->
             {% endif %}
 
             {% if activeTask.activeTask and not activeTask.activeStatus %}
             <div class="col text-center">
-                <button class="btn btn-outline btn-secondary buttonFull" data-toggle="modal"
-                    data-target="">Unactive: {{
+                <button class="btn btn-outline btn-secondary buttonFull" data-toggle="modal" data-target="">{{
                     status.statusName }}</button>
             </div>
             {% endif %}
-            
+
             {% set activeTask.activeStatus = False %}
 
             {% endfor %}

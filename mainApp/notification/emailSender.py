@@ -23,7 +23,7 @@ def emailTestSender():
     msg['From'] = sender
     msg['To'] = receiver
 
-    with smtplib.SMTP_SSL("s5.cyber-folks.pl", 465, context=context) as server:
+    with smtplib.SMTP("host157641.hostido.net.pl", 587) as server:
 
         server.login(user, password)
         server.sendmail(sender, receiver, msg.as_string())
@@ -51,7 +51,7 @@ def emailSender(subject, message):
     msg['From'] = sender
     msg['To'] = receiver
 
-    with smtplib.SMTP_SSL("s5.cyber-folks.pl", 465, context=context) as server:
+    with smtplib.SMTP("host157641.hostido.net.pl", 587) as server:
 
         server.login(user, password)
         server.sendmail(sender, receiver, msg.as_string())
