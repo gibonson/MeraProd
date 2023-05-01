@@ -23,12 +23,14 @@
             {% endfor %}
             {% endfor %}
 
-
             {% for status in statusList %}
             {% for openEvent in openEventList %}
             {% if openEvent.idProd == openProduct.id and openEvent.idStatus == status.id%}
             {% set activeTask.activeTask = True %}
             {% set activeTask.activeStatus = True %}
+
+            <!-- modal dla zamknięcia PRODUKCJI -->
+            {% if status.production == "Prod"%}
             {% include 'includes/eventCloseModals.html'%}
             <div class="col text-center">
                 <button class="btn btn-outline btn-danger buttonFull" data-toggle="modal" autofocus="autofocus"
@@ -37,8 +39,65 @@
                     {{openEvent.id}}, {{openEvent.username}}</button>
             </div>
             {% endif %}
+
+            <!-- formularz dla zamknięcia błędu -->
+            {% if status.production == "Error" %}
+            <div class="col text-center">
+                <form method="post">
+                    {{ eventCloseForm.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <input type="hidden" class="form-control" name="idEvent" value="{{ openEvent.id }}">
+                    <input type="hidden" class="form-control" name="production" value="{{ status.production }}">
+                    <input type="hidden" class="form-control" name="okCounter" value=0>
+                    <input type="hidden" class="form-control" name="nokCounter" value=0>
+                    {{ eventCloseForm.submit(class = "btn btn-outline btn-danger buttonFull", value = status.statusName
+                    )}}
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- formularz dla zamknięcia TPZ -->
+            {% if status.production == "TPZ"%}
+            <div class="col text-center">
+                <form method="post">
+                    {{ eventCloseForm.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <input type="hidden" class="form-control" name="idEvent" value="{{ openEvent.id }}">
+                    <input type="hidden" class="form-control" name="production" value="{{ status.production }}">
+                    <input type="hidden" class="form-control" name="okCounter" value=0>
+                    <input type="hidden" class="form-control" name="nokCounter" value=0>
+                    {{ eventCloseForm.submit(class = "btn btn-outline btn-danger buttonFull", value = status.statusName
+                    )}}
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- formularz dla zamkniecia, nie da sie wywołać -->
+            {% if status.production == "Finish"%}
+            <div class="col text-center">
+                <form method="post">
+                    {{ eventCloseForm.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="idStatus" value="{{ status.id  }}">
+                    <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
+                    <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
+                    <input type="hidden" class="form-control" name="idEvent" value="{{ openEvent.id }}">
+                    <input type="hidden" class="form-control" name="production" value="{{ status.production }}">
+                    <input type="hidden" class="form-control" name="okCounter" value=0>
+                    <input type="hidden" class="form-control" name="nokCounter" value=0>
+                    {{ eventCloseForm.submit(class = "btn btn-outline btn-danger buttonFull", value = status.statusName
+                    )}}
+                </form>
+            </div>
+            {% endif %}
+
+            {% endif %}
             {% endfor %}
 
+            <!-- formularz startu produkcji, modal wyłączony -->
             {% if status.production == "Prod" and not activeTask.activeTask %}
             {% include 'includes/eventStartModals.html'%}
             <!-- <div class="col text-center">
@@ -53,11 +112,13 @@
                     <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
                     <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
                     <input type="hidden" class="form-control" name="idEvent" value="None">
-                    {{ eventStartForm.submit(class = "btn btn-outline btn-success buttonFull", value = status.statusName )}}
+                    {{ eventStartForm.submit(class = "btn btn-outline btn-success buttonFull", value = status.statusName
+                    )}}
                 </form>
             </div>
             {% endif %}
 
+            <!-- formularz startu błedu, modal wyłączony -->
             {% if status.production == "Error" and not activeTask.activeTask %}
             {% include 'includes/eventStartModals.html'%}
             <!-- <div class="col text-center">
@@ -72,11 +133,13 @@
                     <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
                     <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
                     <input type="hidden" class="form-control" name="idEvent" value="None">
-                    {{ eventStartForm.submit(class = "btn btn-outline btn-warning buttonFull", value = status.statusName )}}
+                    {{ eventStartForm.submit(class = "btn btn-outline btn-warning buttonFull", value = status.statusName
+                    )}}
                 </form>
             </div>
             {% endif %}
 
+            <!-- formularz startu TPZ, modal wyłączony -->
             {% if status.production == "TPZ" and not activeTask.activeTask %}
             {% include 'includes/eventStartModals.html'%}
             <!-- <div class="col text-center">
@@ -91,11 +154,13 @@
                     <input type="hidden" class="form-control" name="idProd" value="{{ openProduct.id }}">
                     <input type="hidden" class="form-control" name="idUser" value="{{ current_user.id }}">
                     <input type="hidden" class="form-control" name="idEvent" value="None">
-                    {{ eventStartForm.submit(class = "btn btn-outline btn-info buttonFull", value = status.statusName )}}
+                    {{ eventStartForm.submit(class = "btn btn-outline btn-info buttonFull", value = status.statusName
+                    )}}
                 </form>
             </div>
             {% endif %}
 
+            <!-- modal startu zamknięcia zlecenia, event od razu jest zamykany  -->
             {% if status.production == "Finish" and not activeTask.activeTask %}
             {% include 'includes/eventStartModals.html'%}
             <div class="col text-center">
@@ -121,14 +186,11 @@
                     status.statusName }}</button>
             </div>
             {% endif %}
-
             {% set activeTask.activeStatus = False %}
-
             {% endfor %}
         </div>
         {% set activeTask.activeTask = False %}
         {% endfor %}
-
     </div>
 </div>
 {% endblock %}

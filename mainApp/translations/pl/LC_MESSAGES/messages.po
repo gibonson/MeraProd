@@ -97,7 +97,7 @@ msgstr "Start/Stop czynnośći"
 
 #: templates/base.html:83
 msgid "No open event"
-msgstr "Brak otawrych czynności"
+msgstr "Brak otawrtych czynności"
 
 #: templates/base.html:89
 msgid "Force STOP"
