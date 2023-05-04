@@ -2,10 +2,12 @@ from mainApp import db
 from mainApp import app
 from mainApp.routes import redirect, url_for, render_template, flash
 from mainApp.models.user import User
-from mainApp.auth.forms import LoginForm, RegisterForm, ChangePassword
+from mainApp.auth.forms import LoginForm, RegisterForm, ChangePassword, ChangeActiveStatus
 from functools import wraps
 from flask_login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from mainApp.universal import openEventsCounter, openProductsCounter
+
 
 
 def admin_check(func):
@@ -29,7 +31,7 @@ def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(
-            username=form.username.data, email_address=form.email_address.data, role=form.role.data, active = "Y")
+            username=form.username.data, email_address=form.email_address.data, role=form.role.data, active="Y")
         user_to_create.set_password(form.password1.data)
         db.session.add(user_to_create)
         db.session.commit()
@@ -41,8 +43,8 @@ def register_page():
         for err_msg in form.errors.values():
             flash(
                 f'There was an error with creating a user: {err_msg}', category='danger')
-
-    return render_template('registerForm.html', form=form)
+    openEvents = openEventsCounter()
+    return render_template('registerForm.html', form=form, openEvents = openEvents)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -56,7 +58,6 @@ def login_page():
         LoginForm.userNameList.append([row.username, row.username])
 
     form = LoginForm()
-
 
     if form.validate_on_submit():
         attempted_user = User.query.filter(
@@ -84,19 +85,32 @@ def logout_page():
 @login_required
 @admin_check
 def user_table_page():
-    form = ChangePassword()
-    if form.validate_on_submit():
+    formPass = ChangePassword()
+    changeActiveStatus = ChangeActiveStatus()
+    if formPass.validate_on_submit():
         print("walidacja ok")
-        print(form.userID.data)
-        print(form.password1.data)
-        user = User.query.get(form.userID.data)
-        user.set_password(form.password1.data)
+        print(formPass.userID.data)
+        print(formPass.password1.data)
+        user = User.query.get(formPass.userID.data)
+        user.set_password(formPass.password1.data)
         db.session.commit()
 
-    if form.errors != {}:  # validation errors
-        for err_msg in form.errors.values():
-            flash(
-                f'There was an error with creating a user: {err_msg}', category='danger')
+    if changeActiveStatus.validate_on_submit():
+        print("walidacja ok")
+        print(changeActiveStatus.userID.data)
+        print(changeActiveStatus.active.data)
+        user = User.query.get(formPass.userID.data)
 
+        user.active = changeActiveStatus.active.data
+
+        db.session.commit()
+
+    # if formPass.errors != {} or changeActiveStatus.errors != {}:  # validation errors
+    #     for err_msg in formPass.errors.values():
+    #         flash(
+    #             f'There was an error with creating a user: {err_msg}', category='danger')
+
+    
     users = User.query.all()
-    return render_template('userTable.html', users=users, form=form)
+    openEvents = openEventsCounter()
+    return render_template('userTable.html', users=users, formPass=formPass, changeActiveStatus=changeActiveStatus, openEvents=openEvents)

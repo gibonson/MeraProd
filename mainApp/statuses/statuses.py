@@ -3,7 +3,8 @@ from mainApp import db
 from mainApp.models.status import Status
 from mainApp.routes import render_template, flash, redirect, url_for
 from mainApp.auth.auth import admin_check, login_required
-from mainApp.events.events import openEventsCounter
+# from mainApp.events.events import openEventsCounter
+from mainApp.universal import openEventsCounter, openProductsCounter
 from mainApp.statuses.forms import StatusForm
 
 

@@ -16,6 +16,7 @@
                     <th>{{ _('username')}}</th>
                     <th>{{ _('email_address')}}</th>
                     <th>{{ _('role')}}</th>
+                    <th>{{ _('active')}}</th>
                     <th>{{ _('action')}}</th>
                 </tr>
                 {% for user in users %}
@@ -25,10 +26,13 @@
                     <td>{{user.username}}</td>
                     <td>{{user.email_address}}</td>
                     <td>{{user.role}}</td>
+                    <td>{{user.active}}</td>
                     <td>
                         <div class="btn-group">
-                        <button class="btn btn-outline btn-warning" data-toggle="modal"
-                            data-target="#Modal-changePassword-{{user.id}}">changePassword </button>
+                            <button class="btn btn-outline btn-secondary" data-toggle="modal"
+                                data-target="#Modal-changeActiveStatus-{{user.id}}">changeActiveStatus </button>
+                            <button class="btn btn-outline btn-warning" data-toggle="modal"
+                                data-target="#Modal-changePassword-{{user.id}}">changePassword </button>
                         </div>
                     </td>
                 </tr>

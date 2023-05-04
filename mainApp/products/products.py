@@ -8,7 +8,8 @@ from mainApp.auth.auth import admin_check, login_required
 from mainApp.products.forms import ProductForm, ProductCloseStatusForm, ProductAutoStatusForm, ProductOpenStatusForm, ProductEditForm
 from mainApp.notification.forms import EmailForm
 from mainApp.notification.emailSender import emailSender
-from mainApp.events.events import openEventsCounter
+from mainApp.events.events import event_start_stop_page
+from mainApp.universal import openEventsCounter, openProductsCounter
 from sqlalchemy import or_, and_, func
 import matplotlib.pyplot as plt
 import re

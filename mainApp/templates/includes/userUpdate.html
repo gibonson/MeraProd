@@ -21,20 +21,60 @@
                 <form method="post">
                     <div class="text-center">
                         <h4>
-                            Do you want to password to <strong>{{ user.username}}</strong>?
+                            Do you want to change password to <strong>{{ user.username}}</strong>?
                         </h4>
                         <br>
-                        {{ form.userID.label() }}
-                        {{ form.userID(class="form-control" , value=user.id) }}
+                        {{ formPass.userID.label() }}
+                        {{ formPass.userID(class="form-control" , value=user.id) }}
 
-                        {{ form.password1.label() }}
-                        {{ form.password1(class="form-control" , placeholder = 'Password') }}
+                        {{ formPass.password1.label() }}
+                        {{ formPass.password1(class="form-control" , placeholder = 'Password') }}
 
-                        {{ form.password2.label() }}
-                        {{ form.password2(class="form-control" , placeholder = 'Confirm Password:') }}
+                        {{ formPass.password2.label() }}
+                        {{ formPass.password2(class="form-control" , placeholder = 'Confirm Password:') }}
 
-                        {{ form.hidden_tag() }}
-                        {{ form.submit(class = "btn btn-outline-info btn-block")}}
+                        {{ formPass.hidden_tag() }}
+                        {{ formPass.submit(class = "btn btn-outline-info btn-block")}}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Modal-changeActiveStatus-{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">
+                    {{user.username}}
+                    <!-- -->
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left">
+                <form method="post">
+                    <div class="text-center">
+                        <h4>
+                            Do you want to change account status to <strong>{{ user.username}}</strong>?
+                        </h4>
+                        <br>
+                        {{ changeActiveStatus.userID.label() }}
+                        {{ changeActiveStatus.userID(class="form-control" , value=user.id) }}
+
+                        {{ changeActiveStatus.active.label() }}
+                        {{ changeActiveStatus.active(class="form-control") }}
+                        <br>
+                        {{ changeActiveStatus.hidden_tag() }}
+                        {{ changeActiveStatus.submit(class = "btn btn-outline-info btn-block")}}
                     </div>
                 </form>
             </div>

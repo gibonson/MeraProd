@@ -4,6 +4,7 @@ from mainApp.models.user import User
 from mainApp.models.product import Product
 from mainApp.models.event import Event
 from mainApp.models.status import Status
+from mainApp.universal import openEventsCounter , openProductsCounter
 from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from sqlalchemy import or_, and_
@@ -12,9 +13,13 @@ import string
 from mainApp.auth.auth import admin_check, login_required, user_table_page
 from mainApp.auth.forms import RegisterForm, LoginForm
 from mainApp.products.products import product_page, product_table_page, product_finished_table_page, active_product_page, product_summary_page
-from mainApp.events.events import openEventsCounter
 from mainApp.statuses.statuses import status_page
 from mainApp.notification.emailSender import emailTestSender
+
+
+
+# print(openProductsCounter())
+# print(openEventsCounter())
 
 
 @app.route('/')
@@ -44,6 +49,7 @@ def download_report_page():
 def email_send():
     emailTestSender()
     return redirect((url_for('home_page')))
+
 
 @ app.route('/help')
 def help():

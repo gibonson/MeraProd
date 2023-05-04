@@ -58,3 +58,12 @@ class ChangePassword(FlaskForm):
     password2 = PasswordField(label='Confirm Password:', validators=[
                               EqualTo('password1'), DataRequired()])
     submit = SubmitField(label=gettext('Submit'))
+
+class ChangeActiveStatus(FlaskForm):
+    activeStatus = [("Y", "Active User"),
+            ("N", "Inactive user")]
+        
+    userID = HiddenField(label='userID:')
+    active = SelectField(label='User role:', choices=activeStatus)
+    submit = SubmitField(label=gettext('Submit'))
+

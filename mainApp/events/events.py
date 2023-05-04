@@ -10,14 +10,14 @@ from mainApp.routes import render_template, flash, request, redirect, url_for
 from sqlalchemy import or_, and_
 from datetime import datetime, timedelta
 from openpyxl import Workbook
+from mainApp.universal import openEventsCounter, openProductsCounter
 
-
-def openEventsCounter():
-    openEventCounter = 0
-    activEventsList = Event.query.filter(Event.endDate == None)
-    for activEventList in activEventsList:
-        openEventCounter += 1
-    return openEventCounter
+# def openEventsCounter():
+#     openEventCounter = 0
+#     activEventsList = Event.query.filter(Event.endDate == None)
+#     for activEventList in activEventsList:
+#         openEventCounter += 1
+#     return openEventCounter
 
 
 @app.route('/event', methods=['GET', 'POST'])
