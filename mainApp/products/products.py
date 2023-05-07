@@ -3,9 +3,9 @@ from mainApp import db
 from mainApp.models.product import Product
 from mainApp.models.status import Status
 from mainApp.models.event import Event
-from mainApp.routes import render_template, flash, request, datetime, redirect,url_for
+from mainApp.routes import render_template, flash, request, datetime, redirect, url_for
 from mainApp.auth.auth import admin_check, login_required
-from mainApp.products.forms import ProductForm, ProductCloseStatusForm, ProductAutoStatusForm, ProductOpenStatusForm, ProductEditForm
+from mainApp.products.forms import ProductForm, ProductCloseStatusForm, ProductAutoStatusForm, ProductOpenStatusForm, ProductEditForm, ActiveProduct
 from mainApp.notification.forms import EmailForm
 from mainApp.notification.emailSender import emailSender
 from mainApp.events.events import event_start_stop_page
@@ -13,7 +13,6 @@ from mainApp.universal import openEventsCounter, openProductsCounter
 from sqlalchemy import or_, and_, func
 import matplotlib.pyplot as plt
 import re
-
 
 
 @app.route('/product', methods=['GET', 'POST'])
@@ -98,12 +97,12 @@ def product_finished_table_page():
     form = EmailForm()
 
     if form.validate_on_submit():
-            subject = form.contactReason.data + ": " + form.id.data
-            message = form.message.data
-            emailSender(subject = subject , message = message)
+        subject = form.contactReason.data + ": " + form.id.data
+        message = form.message.data
+        emailSender(subject=subject, message=message)
 
-
-    products = Product.query.filter(Product.orderStatus == 'Finished').order_by(Product.id.desc())
+    products = Product.query.filter(
+        Product.orderStatus == 'Finished').order_by(Product.id.desc())
     for product in products:
         if product.startDate:
             product.startDate = datetime.fromtimestamp(product.startDate)
@@ -111,27 +110,37 @@ def product_finished_table_page():
                 product.executionDate)
 
     openEvents = openEventsCounter()
-    return render_template('productFinishedTable.html', products=products, openEvents=openEvents, form = form)
+    return render_template('productFinishedTable.html', products=products, openEvents=openEvents, form=form)
 
 
 @app.route('/activeProduct', methods=['GET', 'POST'])
 @login_required
 def active_product_page():
-    productExist = False
+    form = ActiveProduct()
     if request.method == 'POST':
-        modelCode = request.form.get('modelCode')
-        print(modelCode)
-        products = Product.query.all()
-        for product in products:
-            # if product.orderStatus != "Finished" or product.orderStatus != "Auto":
-            if product.orderStatus != "Finished":
-                product.orderStatus = "Close"
-            if product.modelCode == modelCode:
-                product.orderStatus = "Open"
-                productExist = True
-        db.session.commit()
+        modelCode = request.form.get('modelCode').strip()
+        text = "Product " + modelCode
+        text2 = ""
+        productExist = Product.query.filter(Product.modelCode == modelCode)
 
-        if not productExist:
+        if productExist.count() > 0:
+            text = text + " exist on DB "
+            productIsOpen = Product.query.filter(
+                and_(Product.orderStatus == "Open", Product.modelCode == modelCode))
+            if productIsOpen.count() > 0:
+                text = text + "in open status."
+            else:
+                print("in closed/finished status")
+                text = text + "in closed/finished status."
+
+        else:
+            if request.form.get('activation') == "activation":
+                product_to_create = Product(modelCode, "added by operator",
+                                            "Open", None, None)
+                db.session.add(product_to_create)
+                db.session.commit()
+                flash(
+                    f'Success! product added by operator: {product_to_create.modelCode}', category='success')
 
             modelCodeRegexp = re.search(
                 "[0-9]{4}\/[0-9]{2}\/[0-9]{2}\/ZP\/[0-9]+", modelCode)
@@ -139,15 +148,32 @@ def active_product_page():
                 flash(
                     f'nameCode validation error: {modelCode}', category='danger')
                 return redirect((url_for('event_start_stop_page')))
+            text = text + " does not exist on DB."
 
-            product_to_create = Product(modelCode, "added by operator",
-                                        "Open", None, None)
-            db.session.add(product_to_create)
-            db.session.commit()
-            flash(
-                f'Success! product added by operator: {product_to_create.modelCode}', category='success')
+        if request.form.get('activation') == "activation":
+                products = Product.query.all()
+                for product in products:
+                    # if product.orderStatus != "Finished" or product.orderStatus != "Auto":
+                    if product.orderStatus != "Finished":
+                        product.orderStatus = "Close"
+                    if product.modelCode == modelCode:
+                        product.orderStatus = "Open"
+                        productExist = True
+                db.session.commit()
+                flash(
+                    f'Success! product added by operator: {modelCode}', category='success')
+                return redirect((url_for('event_start_stop_page')))
 
-    return redirect((url_for('event_start_stop_page')))
+        productLlist = Product.query.filter(Product.orderStatus == "Open")
+        text2 = text2 + "You have " + \
+            str(productLlist.count()) + " open products. "
+
+        activEventsList = Event.query.filter(Event.endDate == None)
+        text2 = text2 + "You have " + \
+            str(activEventsList.count()) + " open events "
+
+        openEvents = openEventsCounter()
+    return render_template('activationProductForm.html', modelCode=modelCode, text=text, text2=text2, form=form, openEvents= openEvents)
 
 
 @app.route('/productSummary', methods=['GET', 'POST'])

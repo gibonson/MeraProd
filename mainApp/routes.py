@@ -8,7 +8,7 @@ from mainApp.universal import openEventsCounter , openProductsCounter
 from flask import render_template, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta
 from sqlalchemy import or_, and_
-from flask_babel import gettext
+from flask_babel import gettext, lazy_gettext
 import string
 from mainApp.auth.auth import admin_check, login_required, user_table_page
 from mainApp.auth.forms import RegisterForm, LoginForm

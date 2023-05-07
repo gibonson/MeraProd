@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ _('Activation Product Page')}}
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <div class="container">
+
+
+
+        <h1 class="h2 mb-3 font-weight-normal">{{ text }}</h1>
+        <br>
+        <p>{{ text2 }}</p>
+
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-secondary buttonFull" href="{{url_for('event_start_stop_page')}} ">
+                    <div style="padding-top: 15px;">
+                        {{ _('Cancel')}}
+                    </div>
+                </a>
+            </div>
+
+            <div class="col text-center">
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <input type="hidden" class="form-control" name="modelCode" value="{{ modelCode }}">
+                    <input type="hidden" class="form-control" name="activation" value="activation">
+                    {{ form.submit(class = "btn btn-outline btn-primary buttonFull")}}
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

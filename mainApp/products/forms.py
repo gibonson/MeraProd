@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, DateTimeLocalField, SubmitField
 from wtforms.validators import ValidationError, DataRequired
 from mainApp.models.product import Product
+from flask_babel import lazy_gettext
 
 class ProductForm(FlaskForm):
     orderStatList = [("Open", "Open"),
@@ -59,4 +60,4 @@ class ProductEditForm(FlaskForm):
 class ActiveProduct(FlaskForm):
     modelCode = StringField(label="Model Code:", validators=[
                             DataRequired(message='*Required')])
-    submit = SubmitField(label='Active')
+    submit = SubmitField(label= lazy_gettext('Open the product'))
