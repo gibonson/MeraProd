@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-18 00:01+0200\n"
+"POT-Creation-Date: 2023-05-08 23:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: routes.py:24
+#: routes.py:29
 msgid "Przykladowy teskt startowy"
 msgstr ""
 
@@ -29,87 +29,95 @@ msgstr ""
 msgid "Create Account"
 msgstr ""
 
-#: auth/forms.py:50
+#: auth/forms.py:60 auth/forms.py:68
 msgid "Submit"
 msgstr ""
 
-#: templates/base.html:30
-msgid "Admin tool"
+#: products/forms.py:63
+msgid "Open the product"
 msgstr ""
 
-#: templates/base.html:35
-msgid "register_page"
+#: templates/activationProductForm.html:4
+msgid "Activation Product Page"
 msgstr ""
 
-#: templates/base.html:38
-msgid ""
-"User\n"
-"                        table"
+#: templates/activationProductForm.html:22
+msgid "Cancel"
 msgstr ""
 
-#: templates/base.html:42
-msgid ""
-"Add\n"
-"                        product"
-msgstr ""
-
-#: templates/base.html:47
-msgid "Product table"
-msgstr ""
-
-#: templates/base.html:50
-msgid ""
-"Add\n"
-"                        status"
-msgstr ""
-
-#: templates/base.html:54
-msgid ""
-"Add\n"
-"                        event"
-msgstr ""
-
-#: templates/base.html:58
-msgid ""
-"Event\n"
-"                        table"
-msgstr ""
-
-#: templates/base.html:63
-msgid "Download"
-msgstr ""
-
-#: templates/base.html:66
-msgid ""
-"Send test\n"
-"                        message"
-msgstr ""
-
-#: templates/base.html:75
+#: templates/base.html:31
 msgid "Finished Product"
 msgstr ""
 
-#: templates/base.html:79
+#: templates/base.html:35
 msgid "Event"
 msgstr ""
 
-#: templates/base.html:83
+#: templates/base.html:39
 msgid "No open event"
 msgstr ""
 
-#: templates/base.html:89
+#: templates/base.html:45
 msgid "Force STOP"
 msgstr ""
 
-#: templates/base.html:89
+#: templates/base.html:45
 msgid "event"
 msgstr ""
 
-#: templates/base.html:113
+#: templates/base.html:72
+msgid "register_page"
+msgstr ""
+
+#: templates/base.html:75
+msgid ""
+"User\n"
+"                              table"
+msgstr ""
+
+#: templates/base.html:79
+msgid ""
+"Add\n"
+"                              product"
+msgstr ""
+
+#: templates/base.html:84
+msgid "Product table"
+msgstr ""
+
+#: templates/base.html:87
+msgid ""
+"Add\n"
+"                              status"
+msgstr ""
+
+#: templates/base.html:91
+msgid ""
+"Add\n"
+"                              event"
+msgstr ""
+
+#: templates/base.html:95
+msgid ""
+"Event\n"
+"                              table"
+msgstr ""
+
+#: templates/base.html:100
+msgid "Download"
+msgstr ""
+
+#: templates/base.html:103
+msgid ""
+"Send test\n"
+"                              message"
+msgstr ""
+
+#: templates/base.html:111
 msgid "logout_page"
 msgstr ""
 
-#: templates/base.html:120
+#: templates/base.html:118
 msgid "login_page"
 msgstr ""
 
@@ -259,6 +267,10 @@ msgid "role"
 msgstr ""
 
 #: templates/userTable.html:19
+msgid "active"
+msgstr ""
+
+#: templates/userTable.html:20
 msgid "action"
 msgstr ""
 
@@ -275,6 +287,12 @@ msgstr ""
 msgid "for detail"
 msgstr ""
 
+#: templates/includes/eventCloseModals.html:57
+#: templates/includes/eventStartModals.html:39
+#: templates/includes/problemReportModals.html:43
+msgid "Close"
+msgstr ""
+
 #: templates/includes/eventStartModals.html:15
 msgid "Start event:"
 msgstr ""
@@ -289,9 +307,5 @@ msgstr ""
 
 #: templates/includes/problemReportModals.html:24
 msgid "Do you want to send email to admin?"
-msgstr ""
-
-#: templates/includes/problemReportModals.html:43
-msgid "Close"
 msgstr ""
 

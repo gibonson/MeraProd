@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-18 00:01+0200\n"
+"POT-Creation-Date: 2023-05-08 23:32+0200\n"
 "PO-Revision-Date: 2022-11-10 22:22+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: routes.py:24
+#: routes.py:29
 msgid "Przykladowy teskt startowy"
 msgstr ""
 
@@ -31,87 +31,55 @@ msgstr "Operator już istnieje. Prosze wybrac inna nazwe"
 msgid "Create Account"
 msgstr "Utwórz nowe konto"
 
-#: auth/forms.py:50
+#: auth/forms.py:60 auth/forms.py:68
 msgid "Submit"
 msgstr "Zatwierdz"
 
-#: templates/base.html:30
-msgid "Admin tool"
-msgstr "Narzędzia administracyjne"
+#: products/forms.py:63
+msgid "Open the product"
+msgstr "Rozpocznij zlecenie"
 
-#: templates/base.html:35
-msgid "register_page"
-msgstr "Zarejestruj się"
+#: templates/activationProductForm.html:4
+msgid "Activation Product Page"
+msgstr "Aktywacja zlecenia"
 
-#: templates/base.html:38
-msgid ""
-"User\n"
-"                        table"
-msgstr ""
+#: templates/activationProductForm.html:22
+msgid "Cancel"
+msgstr "Anuluj"
 
-#: templates/base.html:42
-msgid ""
-"Add\n"
-"                        product"
-msgstr ""
-
-#: templates/base.html:47
-msgid "Product table"
-msgstr "Tabela zleceń"
-
-#: templates/base.html:50
-msgid ""
-"Add\n"
-"                        status"
-msgstr ""
-
-#: templates/base.html:54
-msgid ""
-"Add\n"
-"                        event"
-msgstr ""
-
-#: templates/base.html:58
-msgid ""
-"Event\n"
-"                        table"
-msgstr ""
-
-#: templates/base.html:63
-msgid "Download"
-msgstr "Pobierz raport"
-
-#: templates/base.html:66
-msgid ""
-"Send test\n"
-"                        message"
-msgstr ""
-
-#: templates/base.html:75
+#: templates/base.html:31
 msgid "Finished Product"
 msgstr "Zakończone zlecenia"
 
-#: templates/base.html:79
+#: templates/base.html:35
 msgid "Event"
 msgstr "Start/Stop czynnośći"
 
-#: templates/base.html:83
+#: templates/base.html:39
 msgid "No open event"
 msgstr "Brak otawrtych czynności"
 
-#: templates/base.html:89
+#: templates/base.html:45
 msgid "Force STOP"
 msgstr "STOP Wszystko"
 
-#: templates/base.html:89
+#: templates/base.html:45
 msgid "event"
 msgstr "Czynności"
 
-#: templates/base.html:113
+#: templates/base.html:72
+msgid "register_page"
+msgstr "Zarejestruj się"
+
+#: templates/base.html:84
+msgid "Product table"
+msgstr "Tabela zleceń"
+
+#: templates/base.html:111
 msgid "logout_page"
 msgstr "Wyloguj"
 
-#: templates/base.html:120
+#: templates/base.html:118
 msgid "login_page"
 msgstr "Logowanie"
 
@@ -264,6 +232,11 @@ msgid "role"
 msgstr "Rola"
 
 #: templates/userTable.html:19
+#, fuzzy
+msgid "active"
+msgstr "Akcja"
+
+#: templates/userTable.html:20
 msgid "action"
 msgstr "Akcja"
 
@@ -280,6 +253,12 @@ msgstr "Zakończ czynność:"
 msgid "for detail"
 msgstr "dla zlecenia"
 
+#: templates/includes/eventCloseModals.html:57
+#: templates/includes/eventStartModals.html:39
+#: templates/includes/problemReportModals.html:43
+msgid "Close"
+msgstr "Zamknij"
+
 #: templates/includes/eventStartModals.html:15
 msgid "Start event:"
 msgstr "Start"
@@ -295,10 +274,6 @@ msgstr "Formularz Kontaktowy"
 #: templates/includes/problemReportModals.html:24
 msgid "Do you want to send email to admin?"
 msgstr "Czy chcesz wysłać e-mail do administratora?"
-
-#: templates/includes/problemReportModals.html:43
-msgid "Close"
-msgstr "Zamknij"
 
 #~ msgid "User table"
 #~ msgstr "Tabela użytkowników"
@@ -321,3 +296,5 @@ msgstr "Zamknij"
 #~ msgid "Register"
 #~ msgstr "Rejestracja"
 
+#~ msgid "Admin tool"
+#~ msgstr "Narzędzia administracyjne"
