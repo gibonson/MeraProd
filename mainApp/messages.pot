@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-09 23:03+0200\n"
+"POT-Creation-Date: 2023-05-09 23:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,6 +31,34 @@ msgstr ""
 
 #: auth/forms.py:60 auth/forms.py:68
 msgid "Submit"
+msgstr ""
+
+#: products/forms.py:63
+msgid "Open the product"
+msgstr ""
+
+#: products/products.py:131
+msgid "is in the DB with open status."
+msgstr ""
+
+#: products/products.py:134
+msgid "is in the DB with closed/finished status."
+msgstr ""
+
+#: products/products.py:151
+msgid "does not exist on DB."
+msgstr ""
+
+#: products/products.py:168
+msgid "You have "
+msgstr ""
+
+#: products/products.py:168
+msgid " open products and "
+msgstr ""
+
+#: products/products.py:171
+msgid " open events "
 msgstr ""
 
 #: templates/activationProductForm.html:4

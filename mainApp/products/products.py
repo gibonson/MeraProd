@@ -11,7 +11,7 @@ from mainApp.notification.emailSender import emailSender
 from mainApp.events.events import event_start_stop_page
 from mainApp.universal import openEventsCounter, openProductsCounter
 from sqlalchemy import or_, and_, func
-from flask_babel import lazy_gettext
+from flask_babel import gettext
 import matplotlib.pyplot as plt
 import re
 
@@ -128,10 +128,10 @@ def active_product_page():
             productIsOpen = Product.query.filter(
                 and_(Product.orderStatus == "Open", Product.modelCode == modelCode))
             if productIsOpen.count() > 0:
-                text = lazy_gettext("is in the DB with open status.")
+                text = gettext("is in the DB with open status.")
             else:
                 print("in closed/finished status")
-                text = lazy_gettext("is in the DB with closed/finished status.")
+                text = gettext("is in the DB with closed/finished status.")
 
         else:
             if request.form.get('activation') == "activation":
@@ -148,7 +148,7 @@ def active_product_page():
                 flash(
                     f'nameCode validation error: {modelCode}', category='danger')
                 return redirect((url_for('event_start_stop_page')))
-            text = "does not exist on DB."
+            text = gettext("does not exist on DB.")
 
         if request.form.get('activation') == "activation":
                 products = Product.query.all()
@@ -165,10 +165,10 @@ def active_product_page():
                 return redirect((url_for('event_start_stop_page')))
 
         productLlist = Product.query.filter(Product.orderStatus == "Open")
-        text2 = text2 + lazy_gettext("You have ") + str(productLlist.count()) + lazy_gettext(" open products and ")
+        text2 = text2 + gettext("You have ") + str(productLlist.count()) + gettext(" open products and ")
 
         activEventsList = Event.query.filter(Event.endDate == None)
-        text2 = text2 + str(activEventsList.count()) + lazy_gettext(" open events ")
+        text2 = text2 + str(activEventsList.count()) + gettext(" open events ")
 
         openEvents = openEventsCounter()
     return render_template('activationProductForm.html', modelCode=modelCode, text=text, text2=text2, form=form, openEvents= openEvents)
