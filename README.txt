@@ -15,10 +15,11 @@ pip freeze -l > requirements.txt
 pip install -r requirements.txt
 
 -- BABEL
-in mainAPP: pybabel extract -F babel.cfg -o messages.pot .  
-pybabel init -i messages.pot -d translations -l pl 
-pybabel update -i messages.pot -d translations -l pl 
-pybabel compile -d translations  
+in mainAPP: 
+pybabel extract -F babel.cfg -o messages.pot .
+pybabel init -i messages.pot -d translations -l pl
+pybabel update -i messages.pot -d translations -l pl
+pybabel compile -d translations
 
 
 --SQL 
