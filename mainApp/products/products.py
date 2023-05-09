@@ -11,6 +11,7 @@ from mainApp.notification.emailSender import emailSender
 from mainApp.events.events import event_start_stop_page
 from mainApp.universal import openEventsCounter, openProductsCounter
 from sqlalchemy import or_, and_, func
+from flask_babel import lazy_gettext
 import matplotlib.pyplot as plt
 import re
 
@@ -119,23 +120,22 @@ def active_product_page():
     form = ActiveProduct()
     if request.method == 'POST':
         modelCode = request.form.get('modelCode').strip()
-        text = "Product " + modelCode
+        text = modelCode
         text2 = ""
         productExist = Product.query.filter(Product.modelCode == modelCode)
 
         if productExist.count() > 0:
-            text = text + " exist on DB "
             productIsOpen = Product.query.filter(
                 and_(Product.orderStatus == "Open", Product.modelCode == modelCode))
             if productIsOpen.count() > 0:
-                text = text + "in open status."
+                text = lazy_gettext("is in the DB with open status.")
             else:
                 print("in closed/finished status")
-                text = text + "in closed/finished status."
+                text = lazy_gettext("is in the DB with closed/finished status.")
 
         else:
             if request.form.get('activation') == "activation":
-                product_to_create = Product(modelCode, "added by operator",
+                product_to_create = Product(modelCode, "-",
                                             "Open", None, None)
                 db.session.add(product_to_create)
                 db.session.commit()
@@ -148,7 +148,7 @@ def active_product_page():
                 flash(
                     f'nameCode validation error: {modelCode}', category='danger')
                 return redirect((url_for('event_start_stop_page')))
-            text = text + " does not exist on DB."
+            text = "does not exist on DB."
 
         if request.form.get('activation') == "activation":
                 products = Product.query.all()
@@ -165,12 +165,10 @@ def active_product_page():
                 return redirect((url_for('event_start_stop_page')))
 
         productLlist = Product.query.filter(Product.orderStatus == "Open")
-        text2 = text2 + "You have " + \
-            str(productLlist.count()) + " open products. "
+        text2 = text2 + lazy_gettext("You have ") + str(productLlist.count()) + lazy_gettext(" open products and ")
 
         activEventsList = Event.query.filter(Event.endDate == None)
-        text2 = text2 + "You have " + \
-            str(activEventsList.count()) + " open events "
+        text2 = text2 + str(activEventsList.count()) + lazy_gettext(" open events ")
 
         openEvents = openEventsCounter()
     return render_template('activationProductForm.html', modelCode=modelCode, text=text, text2=text2, form=form, openEvents= openEvents)

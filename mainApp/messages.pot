@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-08 23:32+0200\n"
+"POT-Creation-Date: 2023-05-09 23:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,10 +31,6 @@ msgstr ""
 
 #: auth/forms.py:60 auth/forms.py:68
 msgid "Submit"
-msgstr ""
-
-#: products/forms.py:63
-msgid "Open the product"
 msgstr ""
 
 #: templates/activationProductForm.html:4
@@ -70,54 +66,42 @@ msgid "register_page"
 msgstr ""
 
 #: templates/base.html:75
-msgid ""
-"User\n"
-"                              table"
+msgid "User table"
 msgstr ""
 
-#: templates/base.html:79
-msgid ""
-"Add\n"
-"                              product"
+#: templates/base.html:78
+msgid "Add product"
 msgstr ""
 
-#: templates/base.html:84
+#: templates/base.html:81
 msgid "Product table"
 msgstr ""
 
+#: templates/base.html:84
+msgid "Add status"
+msgstr ""
+
 #: templates/base.html:87
-msgid ""
-"Add\n"
-"                              status"
+msgid "Add event"
 msgstr ""
 
-#: templates/base.html:91
-msgid ""
-"Add\n"
-"                              event"
+#: templates/base.html:90
+msgid "Event table"
 msgstr ""
 
-#: templates/base.html:95
-msgid ""
-"Event\n"
-"                              table"
-msgstr ""
-
-#: templates/base.html:100
+#: templates/base.html:93
 msgid "Download"
 msgstr ""
 
-#: templates/base.html:103
-msgid ""
-"Send test\n"
-"                              message"
+#: templates/base.html:96
+msgid "Send test message"
 msgstr ""
 
-#: templates/base.html:111
+#: templates/base.html:103
 msgid "logout_page"
 msgstr ""
 
-#: templates/base.html:118
+#: templates/base.html:110
 msgid "login_page"
 msgstr ""
 

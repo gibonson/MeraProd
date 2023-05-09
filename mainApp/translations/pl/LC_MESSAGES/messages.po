@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-08 23:32+0200\n"
+"POT-Creation-Date: 2023-05-09 23:01+0200\n"
 "PO-Revision-Date: 2022-11-10 22:22+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pl\n"
@@ -35,10 +35,6 @@ msgstr "Utwórz nowe konto"
 msgid "Submit"
 msgstr "Zatwierdz"
 
-#: products/forms.py:63
-msgid "Open the product"
-msgstr "Rozpocznij zlecenie"
-
 #: templates/activationProductForm.html:4
 msgid "Activation Product Page"
 msgstr "Aktywacja zlecenia"
@@ -53,7 +49,7 @@ msgstr "Zakończone zlecenia"
 
 #: templates/base.html:35
 msgid "Event"
-msgstr "Start/Stop czynnośći"
+msgstr "Start/Stop"
 
 #: templates/base.html:39
 msgid "No open event"
@@ -61,7 +57,7 @@ msgstr "Brak otawrtych czynności"
 
 #: templates/base.html:45
 msgid "Force STOP"
-msgstr "STOP Wszystko"
+msgstr "STOP"
 
 #: templates/base.html:45
 msgid "event"
@@ -71,15 +67,48 @@ msgstr "Czynności"
 msgid "register_page"
 msgstr "Zarejestruj się"
 
-#: templates/base.html:84
+#: templates/base.html:75
+#, fuzzy
+msgid "User table"
+msgstr "Operator"
+
+#: templates/base.html:78
+#, fuzzy
+msgid "Add product"
+msgstr "Akcja"
+
+#: templates/base.html:81
 msgid "Product table"
 msgstr "Tabela zleceń"
 
-#: templates/base.html:111
+#: templates/base.html:84
+#, fuzzy
+msgid "Add status"
+msgstr "Nazwa statusu"
+
+#: templates/base.html:87
+#, fuzzy
+msgid "Add event"
+msgstr "Czynności"
+
+#: templates/base.html:90
+#, fuzzy
+msgid "Event table"
+msgstr "Tabela czynnośći"
+
+#: templates/base.html:93
+msgid "Download"
+msgstr "Pobierz raport"
+
+#: templates/base.html:96
+msgid "Send test message"
+msgstr "Wyślij wiadmość testową"
+
+#: templates/base.html:103
 msgid "logout_page"
 msgstr "Wyloguj"
 
-#: templates/base.html:118
+#: templates/base.html:110
 msgid "login_page"
 msgstr "Logowanie"
 
@@ -298,3 +327,7 @@ msgstr "Czy chcesz wysłać e-mail do administratora?"
 
 #~ msgid "Admin tool"
 #~ msgstr "Narzędzia administracyjne"
+
+#~ msgid "Open the product"
+#~ msgstr "Rozpocznij zlecenie"
+
